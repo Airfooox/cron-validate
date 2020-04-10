@@ -1,0 +1,10 @@
+
+.idea/
+
+.env
+
+node_modules/
+
+coverage/
+
+lib/
