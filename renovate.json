@@ -1,0 +1,25 @@
+{
+  "extends": [
+    ":enableRenovate",
+    ":pinVersions",
+    ":separateMultipleMajorReleases",
+    ":combinePatchMinorReleases",
+    ":ignoreUnstable",
+    ":semanticCommits",
+    ":semanticPrefixFixDepsChoreOthers",
+    ":updateNotScheduled",
+    ":automergeDisabled",
+    ":ignoreModulesAndTests",
+    ":prImmediately",
+    ":prHourlyLimitNone",
+    ":prConcurrentLimit20",
+    ":label(dependencies)",
+    ":enableVulnerabilityAlertsWithLabel(security)",
+    ":npm",
+    ":docker",
+    "group:monorepos",
+    "group:recommended",
+    "helpers:disableTypesNodeMajor"
+  ],
+  "baseBranches": ["next"]
+}
