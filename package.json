@@ -2,29 +2,50 @@
   "name": "cron-validate",
   "version": "0.0.0-development",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "build": "cross-env NODE_ENV=production tsc",
+    "dev": "nodemon",
+    "build": "tsc",
     "lint": "eslint src/**/*.ts",
     "lint-fix": "eslint src/**/*.ts --fix",
     "prettier": "prettier --write src/**/*.ts",
     "tsc-check": "tsc --project ./tsconfig.json --noEmit",
-    "release": "env-cmd npx semantic-release --no-ci",
-    "release-next": "env-cmd npx semantic-release --branches next --no-ci",
-    "release-next-major": "env-cmd npx semantic-release --branches next-major --no-ci"
+    "release": "npm run build && env-cmd npx semantic-release --branches master --no-ci",
+    "release-next": "npm run build && env-cmd npx semantic-release --branches next --no-ci",
+    "release-next-major": "npm run build && env-cmd npx semantic-release --branches next-major --no-ci",
+    "test": "jest --coverage",
+    "test:watch": "jest --coverage --watchAll"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/Airfooox/cron-validate.git"
   },
-  "author": "",
+  "author": "Konstantin L. 'Airfox Zisiadis",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Airfooox/cron-validate/issues"
   },
   "homepage": "https://github.com/Airfooox/cron-validate#readme",
+  "keywords": [
+    "cron-validator",
+    "cron-validation",
+    "validation",
+    "cron",
+    "typescript"
+  ],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
   "release": {
     "ci": false,
+    "branches": [
+      "master",
+      {
+        "name": "next",
+        "prerelease": true
+      }
+    ],
     "plugins": [
       "@semantic-release/commit-analyzer",
       "@semantic-release/release-notes-generator",
@@ -38,7 +59,7 @@
         "@semantic-release/npm",
         {
           "npmPublish": true,
-          "pkgRoot": "./lib"
+          "pkgRoot": "."
         }
       ],
       "@semantic-release/github",
@@ -67,6 +88,7 @@
     "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-import": "^2.20.2",
     "jest": "^25.3.0",
+    "nodemon": "^2.0.3",
     "prettier": "^2.0.4",
     "semantic-release": "^17.0.4",
     "ts-jest": "^25.3.1",
