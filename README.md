@@ -81,10 +81,7 @@ The options available are:
 - `daysOfWeek: object`
   - `lowerLimit: number` (`default: 0`, lower limit of daysOfWeek field (can't be lower than 0))
   - `upperLimit: number` (`default: 7`, upper limit of daysOfWeek field (can't be higher than 7))
-- `years: object`
-  - `lowerLimit: number` (`default: 1970`, lower limit of seconds field (can't be lower than 1970))
-  - `upperLimit: number` (`default: 2099`, upper limit of seconds field (can't be higher than 2199))
-  
+
 Examples:
 
 ```typescript
