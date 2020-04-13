@@ -1,6 +1,7 @@
-import { CronData, Options } from '../index'
+import { CronData } from '../index'
 import { err, valid } from '../result'
 import checkField from '../helper'
+import { Options } from '../option'
 
 const checkDaysOfWeek = (cronData: CronData, options: Options) => {
   if (!cronData.daysOfWeek) {
