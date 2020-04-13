@@ -21,9 +21,16 @@ const checkSingleElement = (
     return err(`Element '${element} of ${cronFieldType} field is invalid.`)
   }
 
-  const lowerLimit = options[cronFieldType]?.lowerLimit
-  const upperLimit = options[cronFieldType]?.upperLimit
-  if (number < lowerLimit) {
+  if (!options[cronFieldType]?.noLimits) {
+    const lowerLimit = options[cronFieldType]?.lowerLimit
+    const upperLimit = options[cronFieldType]?.upperLimit
+    if (lowerLimit && number < lowerLimit) {
+      return err(`Number ${number} of ${cronFieldType} field is smaller than lower limit '${lowerLimit}'`)
+    }
+
+    if (upperLimit && number > upperLimit) {
+      return err(`Number ${number} of ${cronFieldType} field is bigger than upper limit '${upperLimit}'`)
+    }
   }
 
   return valid(true)
@@ -45,6 +52,18 @@ const checkRangeElement = (
   const number = Number(element)
   if (isNaN(number)) {
     return err(`Element '${element} of ${cronFieldType} field is invalid.`)
+  }
+
+  if (!options[cronFieldType]?.noLimits) {
+    const lowerLimit = options[cronFieldType]?.lowerLimit
+    const upperLimit = options[cronFieldType]?.upperLimit
+    if (lowerLimit && number < lowerLimit) {
+      return err(`Number ${number} of ${cronFieldType} field is smaller than lower limit '${lowerLimit}'`)
+    }
+
+    if (upperLimit && number > upperLimit) {
+      return err(`Number ${number} of ${cronFieldType} field is bigger than upper limit '${upperLimit}'`)
+    }
   }
 
   return valid(true)
