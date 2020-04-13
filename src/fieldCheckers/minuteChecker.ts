@@ -1,7 +1,7 @@
-import { CronData } from '../index'
+import type { CronData } from '../index'
 import { err, valid } from '../result'
 import checkField from '../helper'
-import { Options } from '../option'
+import type { Options } from '../option'
 
 const checkMinutes = (cronData: CronData, options: Options) => {
   if (!cronData.minutes) {

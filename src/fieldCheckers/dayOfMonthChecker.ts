@@ -1,8 +1,8 @@
-import { CronData } from '../index'
+import type { CronData } from '../index'
 import { err, valid } from '../result'
 import checkField from '../helper'
 import { doc } from 'prettier'
-import { Options } from '../option'
+import type { Options } from '../option'
 
 const checkDaysOfMonth = (cronData: CronData, options: Options) => {
   if (!cronData.daysOfMonth) {

@@ -1,7 +1,7 @@
-import { CronData, CronFieldType } from './index'
+import type { CronData, CronFieldType } from './index'
 import { Err, err, Valid, valid } from './result'
 import checkSeconds from './fieldCheckers/secondChecker'
-import { Options } from './option'
+import type { Options } from './option'
 
 const checkSingleElement = (
   element: string,

@@ -14,7 +14,8 @@
     "strict": true,
     "noFallthroughCasesInSwitch": true,
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "importsNotUsedAsValues": "error"
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules", "lib/**/*", "src/**/*.test.ts"]
