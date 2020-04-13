@@ -21,9 +21,9 @@ const checkSingleElement = (
     return err(`Element '${element} of ${cronFieldType} field is invalid.`)
   }
 
-  if (!options[cronFieldType]?.noLimits) {
-    const lowerLimit = options[cronFieldType]?.lowerLimit
-    const upperLimit = options[cronFieldType]?.upperLimit
+  if (!options[cronFieldType].noLimits) {
+    const lowerLimit = options[cronFieldType].lowerLimit
+    const upperLimit = options[cronFieldType].upperLimit
     if (lowerLimit && number < lowerLimit) {
       return err(`Number ${number} of ${cronFieldType} field is smaller than lower limit '${lowerLimit}'`)
     }
@@ -54,9 +54,9 @@ const checkRangeElement = (
     return err(`Element '${element} of ${cronFieldType} field is invalid.`)
   }
 
-  if (!options[cronFieldType]?.noLimits) {
-    const lowerLimit = options[cronFieldType]?.lowerLimit
-    const upperLimit = options[cronFieldType]?.upperLimit
+  if (!options[cronFieldType].noLimits) {
+    const lowerLimit = options[cronFieldType].lowerLimit
+    const upperLimit = options[cronFieldType].upperLimit
     if (lowerLimit && number < lowerLimit) {
       return err(`Number ${number} of ${cronFieldType} field is smaller than lower limit '${lowerLimit}'`)
     }

@@ -6,7 +6,12 @@ import checkDaysOfMonth from './fieldCheckers/dayOfMonthChecker'
 import checkMonths from './fieldCheckers/monthChecker'
 import checkDaysOfWeek from './fieldCheckers/dayOfWeekChecker'
 import checkYears from './fieldCheckers/yearChecker'
-import { defaultOptions, InputOptions, Options, validateOptions } from './option'
+import {
+  defaultOptions,
+  InputOptions,
+  Options,
+  validateOptions,
+} from './option'
 
 export interface CronData {
   seconds?: string
@@ -27,9 +32,7 @@ export type CronFieldType =
   | 'daysOfWeek'
   | 'years'
 
-const splitCronString = (cronString: string, inputOptions: InputOptions) => {
-  const options: Options = validateOptions(inputOptions)
-
+const splitCronString = (cronString: string, options: Options) => {
   const splittedCronString = cronString.trim().split(' ')
 
   if (
@@ -67,7 +70,14 @@ const splitCronString = (cronString: string, inputOptions: InputOptions) => {
   return valid(cronData)
 }
 
-const isCronValid = (cronString: string, options: Options = defaultOptions) => {
+const isCronValid = (cronString: string, inputOptions: InputOptions = {}) => {
+  // Validate option
+  const optionsResult = validateOptions(inputOptions)
+  if (optionsResult.isError()) {
+    return optionsResult
+  }
+  const options = optionsResult.getValue()
+
   const cronDataResult = splitCronString(cronString, options)
   if (cronDataResult.isError()) {
     return err([`${cronDataResult.getError()} (Input cron: '${cronString}')`])
