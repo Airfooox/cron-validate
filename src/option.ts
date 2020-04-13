@@ -1,11 +1,10 @@
 import * as yup from 'yup'
-import type {  ValidationError } from 'yup'
+import type { ValidationError } from 'yup'
 import { err, valid } from './result'
 
 interface FieldOption {
   lowerLimit?: number
   upperLimit?: number
-  noLimits?: boolean
 }
 
 export interface Options {
@@ -97,7 +96,8 @@ export const defaultOptions: Options = {
     upperLimit: 7,
   },
   years: {
-    noLimits: true,
+    lowerLimit: 1970,
+    upperLimit: 2099,
   },
 }
 
@@ -113,7 +113,6 @@ const optionsSchema = yup.object({
       .number()
       .min(fieldLimits.seconds.lowerLimit)
       .max(fieldLimits.seconds.upperLimit),
-    noLimits: yup.boolean(),
   }),
   minutes: yup.object({
     lowerLimit: yup
@@ -124,7 +123,6 @@ const optionsSchema = yup.object({
       .number()
       .min(fieldLimits.minutes.lowerLimit)
       .max(fieldLimits.minutes.upperLimit),
-    noLimits: yup.boolean(),
   }),
   hours: yup.object({
     lowerLimit: yup
@@ -193,6 +191,6 @@ export const validateOptions = (inputOptions: InputOptions) => {
 
     return valid(validatedConfig)
   } catch (validationError) {
-    return err(validationError as ValidationError)
+    return err((validationError as ValidationError).errors)
   }
 }
