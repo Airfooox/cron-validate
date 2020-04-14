@@ -1,114 +1,102 @@
 {
-  "author": "Airfox",
-  "name": "egm-software-dev-api",
-  "description": "GraphQL API with session cookie based auth.",
-  "homepage": "egm-development.com",
-  "version": "1.0.0",
-  "private": true,
-  "license": "UNLICENSED",
+  "name": "cron-validate",
+  "version": "0.0.0-development",
+  "description": "",
+  "scripts": {
+    "dev": "nodemon",
+    "build": "tsc",
+    "lint": "eslint src/**/*.ts",
+    "lint-fix": "eslint src/**/*.ts --fix",
+    "prettier": "prettier --write src/**/*.ts",
+    "tsc-check": "tsc --project ./tsconfig.json --noEmit",
+    "release": "npm run build && env-cmd npx semantic-release --branches master --no-ci",
+    "release-next": "npm run build && env-cmd npx semantic-release --branches next --no-ci",
+    "release-next-major": "npm run build && env-cmd npx semantic-release --branches next-major --no-ci",
+    "test": "jest --coverage",
+    "test:watch": "jest --coverage --watchAll"
+  },
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/einfach-gaming/web/egm-dev-api.git"
+    "url": "https://github.com/Airfooox/cron-validate.git"
   },
-  "scripts": {
-    "build": "cross-env NODE_ENV=production tsc --build ./tsconfig.json",
-    "dev": "nodemon",
-    "start": "cross-env NODE_ENV=production node --require dotenv/config build/index.js",
-    "lint": "eslint ./**/*.ts",
-    "lint-fix": "eslint ./**/*.ts --fix",
-    "prettier": "prettier --write ./**/*.ts",
-    "tsc-check": "tsc --project ./tsconfig.json --noEmit",
-    "test": "cross-env NODE_ENV=test jest --coverage --runInBand",
-    "test:watch": "cross-env NODE_ENV=test jest --coverage --watchAll --runInBand"
+  "author": "Konstantin L. 'Airfox' Zisiadis",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Airfooox/cron-validate/issues"
+  },
+  "homepage": "https://github.com/Airfooox/cron-validate#readme",
+  "keywords": [
+    "cron-validator",
+    "cron-validation",
+    "validation",
+    "cron",
+    "typescript"
+  ],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "release": {
+    "ci": false,
+    "branches": [
+      "master",
+      {
+        "name": "next",
+        "prerelease": true
+      }
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/changelog",
+        {
+          "changelogFile": "CHANGELOG.md"
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "npmPublish": true,
+          "pkgRoot": "."
+        }
+      ],
+      "@semantic-release/github",
+      [
+        "@semantic-release/git",
+        {
+          "assets": [
+            "CHANGELOG.md",
+            "package.json"
+          ],
+          "message": "chore(${branch.name}): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+        }
+      ]
+    ]
   },
   "devDependencies": {
-    "@babel/register": "7.8.6",
-    "@types/aes-js": "3.1.0",
-    "@types/atob": "2.1.2",
-    "@types/blob-stream": "0.1.29",
-    "@types/braintree": "2.22.0",
-    "@types/cron": "1.7.2",
-    "@types/dotenv": "6.1.1",
-    "@types/formidable": "1.0.31",
-    "@types/graphql": "14.5.0",
-    "@types/graphql-iso-date": "3.3.3",
-    "@types/ioredis": "4.14.9",
-    "@types/jest": "25.1.4",
-    "@types/koa": "2.11.2",
-    "@types/koa-compose": "3.2.5",
-    "@types/koa-router": "7.4.0",
-    "@types/lodash": "4.14.149",
-    "@types/luxon": "1.21.0",
-    "@types/node": "12.12.30",
-    "@types/nodemailer": "6.4.0",
-    "@types/pdfkit": "0.10.5",
-    "@types/sanitize-html": "1.20.2",
-    "@types/simple-oauth2": "2.5.2",
-    "@types/supertest": "2.0.8",
-    "@types/useragent": "2.1.1",
-    "@types/uuid": "3.4.8",
-    "@types/yup": "0.26.32",
-    "@typescript-eslint/eslint-plugin": "2.24.0",
-    "@typescript-eslint/parser": "2.24.0",
-    "apollo": "2.25.0",
-    "apollo-boost": "0.4.7",
-    "cross-fetch": "3.0.4",
-    "eslint": "6.8.0",
-    "eslint-config-airbnb-base": "14.0.0",
-    "eslint-config-prettier": "6.10.0",
-    "eslint-plugin-import": "2.20.1",
-    "jest": "25.1.0",
-    "nodemon": "2.0.2",
-    "prettier": "1.19.1",
-    "supertest": "4.0.2",
-    "ts-jest": "25.2.1",
-    "ts-node": "8.6.2",
-    "typescript": "3.7.5"
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/git": "^9.0.0",
+    "@types/jest": "^25.2.1",
+    "@types/node": "^13.11.1",
+    "@types/yup": "^0.26.35",
+    "@typescript-eslint/eslint-plugin": "^2.27.0",
+    "@typescript-eslint/parser": "^2.27.0",
+    "env-cmd": "^10.1.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-import": "^2.20.2",
+    "jest": "^25.3.0",
+    "nodemon": "^2.0.3",
+    "prettier": "^2.0.4",
+    "semantic-release": "^17.0.4",
+    "ts-jest": "^25.3.1",
+    "ts-node": "^8.8.2",
+    "typescript": "^3.8.3"
   },
   "dependencies": {
-    "@axelspringer/graphql-google-pubsub": "2.1.0",
-    "@google-cloud/storage": "4.6.0",
-    "@sentry/node": "5.14.2",
-    "aes-js": "3.1.2",
-    "apollo-server-koa": "2.11.0",
-    "atob": "2.1.2",
-    "axios": "0.19.2",
-    "blob-stream": "0.1.3",
-    "braintree": "2.22.0",
-    "colors": "1.4.0",
-    "cookies": "0.8.0",
-    "cron": "1.8.2",
-    "cross-env": "7.0.2",
-    "dotenv": "8.2.0",
-    "graphql": "14.6.0",
-    "graphql-iso-date": "3.6.1",
-    "graphql-middleware": "4.0.2",
-    "graphql-redis-subscriptions": "2.1.2",
-    "graphql-shield": "7.2.0",
-    "graphql-upload": "10.0.0",
-    "i18n-iso-countries": "4.3.1",
-    "ioredis": "4.16.0",
-    "koa": "2.11.0",
-    "koa-bodyparser": "4.2.1",
-    "koa-compose": "4.1.0",
-    "koa-router": "8.0.8",
-    "lodash": "4.17.15",
-    "luxon": "1.22.0",
-    "mysql2": "2.1.0",
-    "nexus": "0.12.0-rc.13",
-    "nodemailer": "6.4.2",
-    "nodemailer-express-handlebars": "3.1.0",
-    "openid": "2.0.6",
-    "pdfkit": "0.11.0",
-    "reflect-metadata": "0.1.13",
-    "sanitize-html": "1.21.1",
-    "short-uuid": "3.1.1",
-    "subscriptions-transport-ws": "0.9.16",
-    "typeorm": "0.2.22",
-    "useragent": "2.3.0",
-    "uuid": "3.4.0",
-    "winston": "3.2.1",
-    "winston-daily-rotate-file": "4.4.2",
-    "yup": "0.28.3"
+    "yup": "^0.28.3"
   }
 }
