@@ -3,12 +3,30 @@ import { Err, err, Valid, valid } from './result'
 import checkSeconds from './fieldCheckers/secondChecker'
 import type { Options } from './option'
 
+const checkWildcardLimit = (cronFieldType: CronFieldType, options: Options) => {
+  return (
+    options[cronFieldType].lowerLimit ===
+      options.preset[cronFieldType].lowerLimit &&
+    options[cronFieldType].upperLimit ===
+      options.preset[cronFieldType].upperLimit
+  )
+}
+
 const checkSingleElement = (
   element: string,
   cronFieldType: CronFieldType,
   options: Options
 ) => {
   if (element === '*') {
+    if (!checkWildcardLimit(cronFieldType, options)) {
+      console.log(
+        `Field ${cronFieldType} uses wildcard '*', but is limited to ${options[cronFieldType].lowerLimit}-${options[cronFieldType].upperLimit}`
+      )
+      return err(
+        `Field ${cronFieldType} uses wildcard '*', but is limited to ${options[cronFieldType].lowerLimit}-${options[cronFieldType].upperLimit}`
+      )
+    }
+
     return valid(true)
   }
 
@@ -21,16 +39,18 @@ const checkSingleElement = (
     return err(`Element '${element} of ${cronFieldType} field is invalid.`)
   }
 
-  if (!options[cronFieldType].noLimits) {
-    const lowerLimit = options[cronFieldType].lowerLimit
-    const upperLimit = options[cronFieldType].upperLimit
-    if (lowerLimit && number < lowerLimit) {
-      return err(`Number ${number} of ${cronFieldType} field is smaller than lower limit '${lowerLimit}'`)
-    }
+  const lowerLimit = options[cronFieldType].lowerLimit
+  const upperLimit = options[cronFieldType].upperLimit
+  if (lowerLimit && number < lowerLimit) {
+    return err(
+      `Number ${number} of ${cronFieldType} field is smaller than lower limit '${lowerLimit}'`
+    )
+  }
 
-    if (upperLimit && number > upperLimit) {
-      return err(`Number ${number} of ${cronFieldType} field is bigger than upper limit '${upperLimit}'`)
-    }
+  if (upperLimit && number > upperLimit) {
+    return err(
+      `Number ${number} of ${cronFieldType} field is bigger than upper limit '${upperLimit}'`
+    )
   }
 
   return valid(true)
@@ -54,16 +74,18 @@ const checkRangeElement = (
     return err(`Element '${element} of ${cronFieldType} field is invalid.`)
   }
 
-  if (!options[cronFieldType].noLimits) {
-    const lowerLimit = options[cronFieldType].lowerLimit
-    const upperLimit = options[cronFieldType].upperLimit
-    if (lowerLimit && number < lowerLimit) {
-      return err(`Number ${number} of ${cronFieldType} field is smaller than lower limit '${lowerLimit}'`)
-    }
+  const lowerLimit = options[cronFieldType].lowerLimit
+  const upperLimit = options[cronFieldType].upperLimit
+  if (lowerLimit && number < lowerLimit) {
+    return err(
+      `Number ${number} of ${cronFieldType} field is smaller than lower limit '${lowerLimit}'`
+    )
+  }
 
-    if (upperLimit && number > upperLimit) {
-      return err(`Number ${number} of ${cronFieldType} field is bigger than upper limit '${upperLimit}'`)
-    }
+  if (upperLimit && number > upperLimit) {
+    return err(
+      `Number ${number} of ${cronFieldType} field is bigger than upper limit '${upperLimit}'`
+    )
   }
 
   return valid(true)
