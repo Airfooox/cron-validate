@@ -28,51 +28,74 @@ describe('Test cron validation', () => {
   })
 
   it('Test cron length with seconds option (6 chars allowed)', () => {
-    const fiveCharStringCron = isCronValid('* * * * *', { useSeconds: true })
+    const fiveCharStringCron = isCronValid('* * * * *', {
+      override: { useSeconds: true },
+    })
     expect(fiveCharStringCron.isValid()).toBeFalsy()
 
-    const sixCharStringCron = isCronValid('* * * * * *', { useSeconds: true })
+    const sixCharStringCron = isCronValid('* * * * * *', {
+      override: { useSeconds: true },
+    })
     expect(sixCharStringCron.isValid()).toBeTruthy()
 
     const sevenCharStringCron = isCronValid('* * * * * * *', {
-      useSeconds: true,
+      override: {
+        useSeconds: true,
+      },
     })
     expect(sevenCharStringCron.isValid()).toBeFalsy()
   })
 
   it('Test cron length with years option (6 chars allowed)', () => {
-    const fiveCharStringCron = isCronValid('* * * * *', { useYears: true })
+    const fiveCharStringCron = isCronValid('* * * * *', {
+      override: { useYears: true },
+    })
     expect(fiveCharStringCron.isValid()).toBeFalsy()
 
-    const sixCharStringCron = isCronValid('* * * * * *', { useYears: true })
+    const sixCharStringCron = isCronValid('* * * * * *', {
+      override: { useYears: true },
+    })
     expect(sixCharStringCron.isValid()).toBeTruthy()
 
-    const sevenCharStringCron = isCronValid('* * * * * * *', { useYears: true })
+    const sevenCharStringCron = isCronValid('* * * * * * *', {
+      override: { useYears: true },
+    })
     expect(sevenCharStringCron.isValid()).toBeFalsy()
   })
 
   it('Test cron length with seconds and years option (7 chars allowed)', () => {
     const fiveCharStringCron = isCronValid('* * * * *', {
-      useSeconds: true,
-      useYears: true,
+      override: {
+        useSeconds: true,
+        useYears: true,
+      },
     })
     expect(fiveCharStringCron.isValid()).toBeFalsy()
 
     const sixCharStringCron = isCronValid('* * * * * *', {
-      useSeconds: true,
-      useYears: true,
+      override: {
+        useSeconds: true,
+        useYears: true,
+        seconds: {
+          upperLimit: 60,
+        },
+      },
     })
     expect(sixCharStringCron.isValid()).toBeFalsy()
 
     const sevenCharStringCron = isCronValid('* * * * * * *', {
-      useSeconds: true,
-      useYears: true,
+      override: {
+        useSeconds: true,
+        useYears: true,
+      },
     })
     expect(sevenCharStringCron.isValid()).toBeTruthy()
 
     const eightCharStringCron = isCronValid('* * * * * * * *', {
-      useSeconds: true,
-      useYears: true,
+      override: {
+        useSeconds: true,
+        useYears: true,
+      },
     })
     expect(eightCharStringCron.isValid()).toBeFalsy()
   })
@@ -94,7 +117,9 @@ describe('Test cron validation', () => {
   })
 
   it('Test cron field assignment with useSeconds option', () => {
-    const cronResult = isCronValid('2 0 */4 * 1 6', { useSeconds: true })
+    const cronResult = isCronValid('2 0 */4 * 1 6', {
+      override: { useSeconds: true },
+    })
     expect(cronResult.isValid()).toBeTruthy()
 
     if (cronResult.isValid()) {
@@ -110,7 +135,9 @@ describe('Test cron validation', () => {
   })
 
   it('Test cron field assignment with useYears option', () => {
-    const cronResult = isCronValid('0 */4 * 1 6 2', { useYears: true })
+    const cronResult = isCronValid('0 */4 * 1 6 2020', {
+      override: { useYears: true },
+    })
     expect(cronResult.isValid()).toBeTruthy()
 
     if (cronResult.isValid()) {
@@ -121,14 +148,16 @@ describe('Test cron validation', () => {
       expect(cronData.daysOfMonth).toBe('*')
       expect(cronData.months).toBe('1')
       expect(cronData.daysOfWeek).toBe('6')
-      expect(cronData.years).toBe('2')
+      expect(cronData.years).toBe('2020')
     }
   })
 
   it('Test cron field assignment with useSeconds and useYears option', () => {
-    const cronResult = isCronValid('2 0 */4 * 1 6 3', {
-      useSeconds: true,
-      useYears: true,
+    const cronResult = isCronValid('2 0 */4 * 1 6 2020', {
+      override: {
+        useSeconds: true,
+        useYears: true,
+      },
     })
     expect(cronResult.isValid()).toBeTruthy()
 
@@ -140,7 +169,93 @@ describe('Test cron validation', () => {
       expect(cronData.daysOfMonth).toBe('*')
       expect(cronData.months).toBe('1')
       expect(cronData.daysOfWeek).toBe('6')
-      expect(cronData.years).toBe('3')
+      expect(cronData.years).toBe('2020')
     }
+  })
+
+  it('Test list, range and steps', () => {
+    expect(
+      isCronValid('5-7 2-4/2 1,2-4,5-8,10-20/3,20-30/4 * *').isValid()
+    ).toBeTruthy()
+  })
+
+  it('Test range limits', () => {
+    expect(isCronValid('* * * * *').isValid()).toBeTruthy()
+
+    expect(
+      isCronValid('* * * * *', {
+        override: {
+          minutes: { lowerLimit: 10, upperLimit: 20 },
+        },
+      }).isValid()
+    ).toBeFalsy()
+
+    expect(
+      isCronValid('10 * * * *', {
+        override: {
+          minutes: { lowerLimit: 10, upperLimit: 20 },
+        },
+      }).isValid()
+    ).toBeTruthy()
+
+    expect(
+      isCronValid('15 * * * *', {
+        override: {
+          minutes: { lowerLimit: 10, upperLimit: 20 },
+        },
+      }).isValid()
+    ).toBeTruthy()
+
+    expect(
+      isCronValid('20 * * * *', {
+        override: {
+          minutes: { lowerLimit: 10, upperLimit: 20 },
+        },
+      }).isValid()
+    ).toBeTruthy()
+
+    expect(
+      isCronValid('10-20 * * * *', {
+        override: {
+          minutes: { lowerLimit: 10, upperLimit: 20 },
+        },
+      }).isValid()
+    ).toBeTruthy()
+
+    expect(
+      isCronValid('10-20/2 * * * *', {
+        override: {
+          minutes: { lowerLimit: 10, upperLimit: 20 },
+        },
+      }).isValid()
+    ).toBeTruthy()
+
+    expect(
+      isCronValid('10-21/2 * * * *', {
+        override: {
+          minutes: { lowerLimit: 10, upperLimit: 20 },
+        },
+      }).isValid()
+    ).toBeFalsy()
+
+    expect(
+      isCronValid('*/2 * * * *', {
+        override: {
+          minutes: { lowerLimit: 10, upperLimit: 20 },
+        },
+      }).isValid()
+    ).toBeFalsy()
+
+    expect(
+      isCronValid('10,12,21 * * * *', {
+        override: {
+          minutes: { lowerLimit: 10, upperLimit: 20 },
+        },
+      }).isValid()
+    ).toBeFalsy()
+  })
+
+  it("Test preset system", () => {
+
   })
 })
