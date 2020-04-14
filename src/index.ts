@@ -6,12 +6,7 @@ import checkDaysOfMonth from './fieldCheckers/dayOfMonthChecker'
 import checkMonths from './fieldCheckers/monthChecker'
 import checkDaysOfWeek from './fieldCheckers/dayOfWeekChecker'
 import checkYears from './fieldCheckers/yearChecker'
-import {
-  defaultOptions,
-  InputOptions,
-  Options,
-  validateOptions,
-} from './option'
+import { InputOptions, Options, validateOptions } from './option'
 
 export interface CronData {
   seconds?: string
