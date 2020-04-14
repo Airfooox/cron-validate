@@ -22,9 +22,9 @@ The validation options are customizable and cron fields like seconds and years a
 import isCronValid from 'cron-validate'
 
 const cronResult = isCronValid('* * * * *')
-if (cronResult.isValid()) {
+if (cronResult.isValid()) { // !cronResult.isError()
   // valid code
-} else if (cronResult.isError()) {
+} else {
   // error code
 }
 ```
