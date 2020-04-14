@@ -79,7 +79,7 @@ The options available are:
   - `lowerLimit: number` (`default: 1`, lower limit of months field (can't be lower than 0))
   - `upperLimit: number` (`default: 12`, upper limit of months field (can't be higher than 12))
 - `daysOfWeek: object`
-  - `lowerLimit: number` (`default: 0`, lower limit of daysOfWeek field (can't be lower than 0))
+  - `lowerLimit: number` (`default: 1`, lower limit of daysOfWeek field (can't be lower than 0))
   - `upperLimit: number` (`default: 7`, upper limit of daysOfWeek field (can't be higher than 7))
 
 Examples:
