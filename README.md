@@ -186,7 +186,7 @@ console.log(isCronValid('* 10-20 * * * *', {
 }))
 ```
 
-Examples:
+## Examples
 
 ```typescript
 import isCronValid from 'cron-validate'
