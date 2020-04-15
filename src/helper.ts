@@ -162,7 +162,25 @@ const checkListElement = (
   }
 
   if (stepArray.length === 2) {
-    // check second element (x) of */x
+    const secondStepElement = stepArray[1]
+
+    if (!secondStepElement) {
+      return err(
+        `Second step element '${secondStepElement}' of '${listElement}' is not valid (doesnt exist).`
+      )
+    }
+
+    if (isNaN(Number(secondStepElement))) {
+      return err(
+        `Second step element '${secondStepElement}' of '${listElement}' is not valid (not a number).`
+      )
+    }
+
+    if (Number(secondStepElement) === 0) {
+      return err(
+        `Second step element '${secondStepElement}' of '${listElement}' is cannot be zero.`
+      )
+    }
   }
 
   return valid(true)
