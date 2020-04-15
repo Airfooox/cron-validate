@@ -36,13 +36,15 @@ const splitCronString = (cronString: string, options: Options) => {
     splittedCronString.length !== 7
   ) {
     return err(`Expected 7 values, but got ${splittedCronString.length}.`)
-  } if (
+  }
+  if (
     ((options.useSeconds && !options.useYears) ||
       (options.useYears && !options.useSeconds)) &&
     splittedCronString.length !== 6
   ) {
     return err(`Expected 6 values, but got ${splittedCronString.length}.`)
-  } if (
+  }
+  if (
     !options.useSeconds &&
     !options.useYears &&
     splittedCronString.length !== 5
@@ -65,7 +67,7 @@ const splitCronString = (cronString: string, options: Options) => {
   return valid(cronData)
 }
 
-const isCronValid = (cronString: string, inputOptions: InputOptions = {}) => {
+const cron = (cronString: string, inputOptions: InputOptions = {}) => {
   // Validate option
   const optionsResult = validateOptions(inputOptions)
   if (optionsResult.isError()) {
@@ -116,4 +118,4 @@ const isCronValid = (cronString: string, inputOptions: InputOptions = {}) => {
   return err(errorArray)
 }
 
-export default isCronValid
+export default cron
