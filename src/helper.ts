@@ -19,9 +19,9 @@ const checkSingleElement = (
 ) => {
   if (element === '*') {
     if (!checkWildcardLimit(cronFieldType, options)) {
-      console.log(
-        `Field ${cronFieldType} uses wildcard '*', but is limited to ${options[cronFieldType].lowerLimit}-${options[cronFieldType].upperLimit}`
-      )
+      // console.log(
+      //   `Field ${cronFieldType} uses wildcard '*', but is limited to ${options[cronFieldType].lowerLimit}-${options[cronFieldType].upperLimit}`
+      // )
       return err(
         `Field ${cronFieldType} uses wildcard '*', but is limited to ${options[cronFieldType].lowerLimit}-${options[cronFieldType].upperLimit}`
       )
@@ -97,7 +97,7 @@ const checkFirstStepElement = (
   options: Options
 ) => {
   const rangeArray = firstStepElement.split('-')
-  if (rangeArray.length > 3) {
+  if (rangeArray.length > 2) {
     return err(
       `List element '${firstStepElement}' is not valid. (More than one '-')`
     )
@@ -125,7 +125,7 @@ const checkFirstStepElement = (
       return secondRangeElementResult
     }
 
-    if (rangeArray[0] > rangeArray[1]) {
+    if (Number(rangeArray[0]) > Number(rangeArray[1])) {
       return err(
         `Lower range end '${rangeArray[0]}' is bigger than upper range end '${rangeArray[1]}' of ${cronFieldType} field.`
       )
@@ -145,7 +145,8 @@ const checkListElement = (
   options: Options
 ) => {
   const stepArray = listElement.split('/')
-  if (stepArray.length > 3) {
+
+  if (stepArray.length > 2) {
     return err(
       `List element '${listElement}' is not valid. (More than one '/')`
     )
