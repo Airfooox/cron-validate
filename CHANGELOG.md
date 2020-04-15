@@ -1,3 +1,10 @@
+## [1.0.4](https://github.com/Airfooox/cron-validate/compare/v1.0.3...v1.0.4) (2020-04-15)
+
+
+### Bug Fixes
+
+* err not containing string array but string ([4d5a972](https://github.com/Airfooox/cron-validate/commit/4d5a9725ef0d2c2222f75d2c6b6412c16ef17037))
+
 ## [1.0.3](https://github.com/Airfooox/cron-validate/compare/v1.0.2...v1.0.3) (2020-04-15)
 
 
