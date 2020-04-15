@@ -36,9 +36,9 @@ export default () => {
     },
   })
 
-  registerOptionPreset('aws', {
+  registerOptionPreset('aws-cloud-watch', {
     // https://docs.aws.amazon.com/de_de/AmazonCloudWatch/latest/events/ScheduledEvents.html
-    presetId: 'aws',
+    presetId: 'aws-cloud-watch',
     useSeconds: false,
     useYears: true,
     seconds: {
