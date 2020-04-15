@@ -69,7 +69,8 @@
         {
           "assets": [
             "CHANGELOG.md",
-            "package.json"
+            "package.json",
+            "package-lock.json"
           ],
           "message": "chore(${branch.name}): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
         }
