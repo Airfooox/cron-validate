@@ -10,6 +10,8 @@ The validation options are customizable and cron fields like seconds and years a
 
 ## Installation
 
+Pacakge is available on npm:
+
 // not yet released on npm
 
 `npm install cron-validate`
@@ -19,9 +21,9 @@ The validation options are customizable and cron fields like seconds and years a
 ### Basic usage
 
 ```typescript
-import isCronValid from 'cron-validate'
+import cron from 'cron-validate'
 
-const cronResult = isCronValid('* * * * *')
+const cronResult = cron('* * * * *')
 if (cronResult.isValid()) { // !cronResult.isError()
   // valid code
 } else {
@@ -38,16 +40,18 @@ For checking the returned result, just use `result.isValid()` or `result.isError
 Both result types contain values: 
 
 ```typescript
-import isCronValid from 'cron-validate'
+import cron from 'cron-validate'
 
-const cronResult = isCronValid('* * * * *')
+const cronResult = cron('* * * * *')
 if (cronResult.isValid()) {
   const validValue = cronResult.getValue()
   
-  // The valid value is always a boolean and always is true.
-  console.log(validValue) // true
+  // The valid value is a object containing all cron fields
+  console.log(validValue)
+  // In this case, it would be: 
+  // { seconds: undefined, minutes: '*', hours: '*', daysOfMonth: '*', months: '*', daysOfWeek: '*', years: undefiend }
   
-} else if (cronResult.isError()) {
+} else {
   const errorValue = cronResult.getError()
   
   // The error value contains an array of strings, which represent the cron validation errors.
@@ -68,19 +72,19 @@ To configure the validator, cron-validate uses a preset system. There are alread
 The following presets are already defined by cron-validate:
 - default (see: http://crontab.org/)
 - npm-node-cron (see: https://github.com/kelektiv/node-cron)
-- aws (see: https://docs.aws.amazon.com/de_de/AmazonCloudWatch/latest/events/ScheduledEvents.html)
+- aws-cloud-watch (see: https://docs.aws.amazon.com/de_de/AmazonCloudWatch/latest/events/ScheduledEvents.html)
 
 To select a preset for your validation, you can simply do this:
 
 ```typescript
-isCronValid('* * * * *', {
+cron('* * * * *', {
   preset: 'npm-node-cron'
 })
 ```
 or 
 ```typescript
-isCronValid('* * * * *', {
-  preset: 'aws'
+cron('* * * * *', {
+  preset: 'aws-cloud-watch'
 })
 ```
 
@@ -168,14 +172,14 @@ The preset properties explained:
 If you want to override a option for single cron validations, you can use the `override` property:
 
 ```typescript
-console.log(isCronValid('* * * * * *', {
+console.log(cron('* * * * * *', {
   preset: 'default' // second field not supported in default preset
   override: {
     useSeconds: true // override preset option
   }
 }))
 
-console.log(isCronValid('* 10-20 * * * *', {
+console.log(cron('* 10-20 * * * *', {
   preset: 'default'
   override: {
     minutes: {
@@ -189,21 +193,21 @@ console.log(isCronValid('* 10-20 * * * *', {
 ## Examples
 
 ```typescript
-import isCronValid from 'cron-validate'
+import cron from 'cron-validate'
 
-console.log(isCronValid('* * * * *').isValid()) // true
+console.log(cron('* * * * *').isValid()) // true
 
-console.log(isCronValid('* * * * *').isError()) // false
+console.log(cron('* * * * *').isError()) // false
 
-console.log(isCronValid('* 2,3,4 * * *').isValid()) // true
+console.log(cron('* 2,3,4 * * *').isValid()) // true
 
-console.log(isCronValid('0 */2 */5 * *').isValid()) // true
+console.log(cron('0 */2 */5 * *').isValid()) // true
 
-console.log(isCronValid('* * * * * *', { override: { useSeconds: true } }).isValid()) // true
+console.log(cron('* * * * * *', { override: { useSeconds: true } }).isValid()) // true
 
-console.log(isCronValid('* * * * * *', { override: { useYears: true } }).isValid()) // true
+console.log(cron('* * * * * *', { override: { useYears: true } }).isValid()) // true
 
-console.log(isCronValid('30 * * * * *', { 
+console.log(cron('30 * * * * *', { 
   override: {
     useSeconds: true,
     seconds: {
@@ -213,7 +217,7 @@ console.log(isCronValid('30 * * * * *', {
   }
 }).isValid()) // true
 
-console.log(isCronValid('* 3 * * *', {
+console.log(cron('* 3 * * *', {
   override: {
     hours: {
       lowerLimit: 0,
