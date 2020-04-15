@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/Airfooox/cron-validate/compare/v1.0.1...v1.0.2) (2020-04-15)
+
+
+### Bug Fixes
+
+* update README.md (trigger release) ([3880d42](https://github.com/Airfooox/cron-validate/commit/3880d4260520da41317d9de64763b4c98f71e4e7))
+
 ## [1.0.1](https://github.com/Airfooox/cron-validate/compare/v1.0.0...v1.0.1) (2020-04-15)
 
 
