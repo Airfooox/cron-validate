@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/Airfooox/cron-validate/compare/v1.0.2...v1.0.3) (2020-04-15)
+
+
+### Bug Fixes
+
+* update package.json for npm description ([72132c5](https://github.com/Airfooox/cron-validate/commit/72132c54b712dee1abd1fb0d42d9bd5d3395658d))
+
 ## [1.0.2](https://github.com/Airfooox/cron-validate/compare/v1.0.1...v1.0.2) (2020-04-15)
 
 
