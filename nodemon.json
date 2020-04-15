@@ -1,0 +1,6 @@
+{
+    "watch": ["src"],
+    "ext": "ts",
+    "exec": "ts-node --project ./tsconfig.json --transpile-only ./src/index.ts"
+  }
+  
