@@ -191,15 +191,17 @@ console.log(isCronValid('* 10-20 * * * *', {
 ```typescript
 import isCronValid from 'cron-validate'
 
-console.log(isCronValid('* * * * *')) // true
+console.log(isCronValid('* * * * *').isValid()) // true
 
-console.log(isCronValid('* 2,3,4 * * *')) // true
+console.log(isCronValid('* * * * *').isError()) // false
 
-console.log(isCronValid('0 */2 */5 * *')) // true
+console.log(isCronValid('* 2,3,4 * * *').isValid()) // true
 
-console.log(isCronValid('* * * * * *', { override: { useSeconds: true } })) // true
+console.log(isCronValid('0 */2 */5 * *').isValid()) // true
 
-console.log(isCronValid('* * * * * *', { override: { useYears: true } })) // true
+console.log(isCronValid('* * * * * *', { override: { useSeconds: true } }).isValid()) // true
+
+console.log(isCronValid('* * * * * *', { override: { useYears: true } }).isValid()) // true
 
 console.log(isCronValid('30 * * * * *', { 
   override: {
@@ -209,7 +211,7 @@ console.log(isCronValid('30 * * * * *', {
       upperLimit: 40
     }
   }
-})) // true
+}).isValid()) // true
 
 console.log(isCronValid('* 3 * * *', {
   override: {
@@ -218,7 +220,7 @@ console.log(isCronValid('* 3 * * *', {
       upperLimit: 2
     }
   }
-})) // false
+}).isValid()) // false
 
 ```
 
