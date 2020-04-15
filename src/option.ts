@@ -63,7 +63,22 @@ const optionPresets: { [presetId: string]: OptionPreset } = {
   },
 }
 
-export const registerOptionPreset = (presetName: string, preset: OptionPreset) => {
+export const getOptionPreset = (presetId: string) => {
+  if (optionPresets[presetId]) {
+    return valid(optionPresets[presetId])
+  }
+
+  return err(`Option preset '${presetId}' not found.`)
+}
+
+export const getOptionPresets = () => {
+  return optionPresets
+}
+
+export const registerOptionPreset = (
+  presetName: string,
+  preset: OptionPreset
+) => {
   optionPresets[presetName] = optionPresetSchema.validateSync(preset, {
     strict: false,
     abortEarly: false,
