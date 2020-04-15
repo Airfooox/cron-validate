@@ -12,8 +12,6 @@ The validation options are customizable and cron fields like seconds and years a
 
 Pacakge is available on npm:
 
-// not yet released on npm
-
 `npm install cron-validate`
 
 ## Usage
