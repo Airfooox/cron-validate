@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/Airfooox/cron-validate/compare/v1.0.0...v1.0.1) (2020-04-15)
+
+
+### Bug Fixes
+
+* add package-lock.json to git release (trigger a new version) ([9f85bd4](https://github.com/Airfooox/cron-validate/commit/9f85bd488a0cefc8347d52a17c4e3b4e448fb4b4))
+
 # 1.0.0 (2020-04-15)
 
 
