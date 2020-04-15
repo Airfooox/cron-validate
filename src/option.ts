@@ -1,6 +1,7 @@
 import * as yup from 'yup'
 import type { ValidationError } from 'yup'
 import { err, valid } from './result'
+import presets from './presets'
 
 interface OptionPreset {
   presetId: string
@@ -203,6 +204,9 @@ export interface InputOptions {
 
 export const validateOptions = (inputOptions: InputOptions) => {
   try {
+    // load default presets
+    presets()
+
     let preset: OptionPreset
     if (inputOptions.preset) {
       if (typeof inputOptions.preset === 'string') {
