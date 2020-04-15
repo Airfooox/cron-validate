@@ -1,6 +1,6 @@
 {
   "name": "cron-validate",
-  "version": "0.0.0-development",
+  "version": "1.0.0",
   "description": "",
   "scripts": {
     "dev": "nodemon",
