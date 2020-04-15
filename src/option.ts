@@ -224,7 +224,7 @@ export const validateOptions = (inputOptions: InputOptions) => {
 
     const unvalidatedConfig = {
       presetId: preset.presetId,
-      preset: preset,
+      preset,
       ...{
         useSeconds: preset.useSeconds,
         useYears: preset.useYears,

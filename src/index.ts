@@ -1,4 +1,4 @@
-import { Err, err, Result, Valid, valid } from './result'
+import { Err, err, Valid, valid } from './result'
 import checkSeconds from './fieldCheckers/secondChecker'
 import checkMinutes from './fieldCheckers/minuteChecker'
 import checkHours from './fieldCheckers/hourChecker'
@@ -36,13 +36,13 @@ const splitCronString = (cronString: string, options: Options) => {
     splittedCronString.length !== 7
   ) {
     return err(`Expected 7 values, but got ${splittedCronString.length}.`)
-  } else if (
+  } if (
     ((options.useSeconds && !options.useYears) ||
       (options.useYears && !options.useSeconds)) &&
     splittedCronString.length !== 6
   ) {
     return err(`Expected 6 values, but got ${splittedCronString.length}.`)
-  } else if (
+  } if (
     !options.useSeconds &&
     !options.useYears &&
     splittedCronString.length !== 5

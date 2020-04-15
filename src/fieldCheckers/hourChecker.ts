@@ -1,5 +1,5 @@
 import type { CronData } from '../index'
-import { err, valid } from '../result'
+import { err } from '../result'
 import checkField from '../helper'
 import type { Options } from '../option'
 

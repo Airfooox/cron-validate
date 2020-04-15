@@ -1,6 +1,5 @@
-import type { CronData, CronFieldType } from './index'
+import type { CronFieldType } from './index'
 import { Err, err, Valid, valid } from './result'
-import checkSeconds from './fieldCheckers/secondChecker'
 import type { Options } from './option'
 
 const checkWildcardLimit = (cronFieldType: CronFieldType, options: Options) => {
@@ -39,8 +38,8 @@ const checkSingleElement = (
     return err(`Element '${element} of ${cronFieldType} field is invalid.`)
   }
 
-  const lowerLimit = options[cronFieldType].lowerLimit
-  const upperLimit = options[cronFieldType].upperLimit
+  const { lowerLimit } = options[cronFieldType]
+  const { upperLimit } = options[cronFieldType]
   if (lowerLimit && number < lowerLimit) {
     return err(
       `Number ${number} of ${cronFieldType} field is smaller than lower limit '${lowerLimit}'`
@@ -74,8 +73,8 @@ const checkRangeElement = (
     return err(`Element '${element} of ${cronFieldType} field is invalid.`)
   }
 
-  const lowerLimit = options[cronFieldType].lowerLimit
-  const upperLimit = options[cronFieldType].upperLimit
+  const { lowerLimit } = options[cronFieldType]
+  const { upperLimit } = options[cronFieldType]
   if (lowerLimit && number < lowerLimit) {
     return err(
       `Number ${number} of ${cronFieldType} field is smaller than lower limit '${lowerLimit}'`
@@ -105,7 +104,8 @@ const checkFirstStepElement = (
 
   if (rangeArray.length === 1) {
     return checkSingleElement(rangeArray[0], cronFieldType, options)
-  } else if (rangeArray.length === 2) {
+  }
+  if (rangeArray.length === 2) {
     const firstRangeElementResult = checkRangeElement(
       rangeArray[0],
       cronFieldType,
