@@ -222,7 +222,7 @@ export const validateOptions = (inputOptions: InputOptions) => {
       presetId: preset.presetId,
       preset: preset,
       ...{
-        useSeconds: preset.useYears,
+        useSeconds: preset.useSeconds,
         useYears: preset.useYears,
         seconds: {
           lowerLimit: preset.seconds.lowerLimit,
