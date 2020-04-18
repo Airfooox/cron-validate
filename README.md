@@ -31,7 +31,7 @@ if (cronResult.isValid()) { // !cronResult.isError()
 
 ### Result system
 
-The `isCronValid` function returns a Result-type, which is either `Valid<T, E>` or `Err<T, E>`.
+The `cron` function returns a Result-type, which is either `Valid<T, E>` or `Err<T, E>`.
 
 For checking the returned result, just use `result.isValid()` or `result.isError()`
 
@@ -59,7 +59,8 @@ if (cronResult.isValid()) {
 ```
 Make sure to test the result type beforehand, because `getValue()` only works on `Valid` and `getError()` only works on `Err`. If you don't check, it will throw an error.
 
-For further information, you can check out https://github.com/gDelgado14/neverthrow, because I used his result system for this package.
+For further information, you can check out https://github.com/gDelgado14/neverthrow, because I used and modified his code for this package.
+(Therefor not every documented function on his package is available on this package.)
 
 ## Options / Configuration
 
