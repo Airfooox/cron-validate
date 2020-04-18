@@ -144,8 +144,8 @@ const checkListElement = (
   cronFieldType: CronFieldType,
   options: Options
 ) => {
+  // Checks list element for steps like */2, 10-20/2
   const stepArray = listElement.split('/')
-
   if (stepArray.length > 2) {
     return err(
       `List element '${listElement}' is not valid. (More than one '/')`
@@ -204,6 +204,21 @@ const checkField = (
     ].includes(cronFieldType)
   ) {
     return err([`Cron field type '${cronFieldType}' does not exist.`])
+  }
+
+  // Check for blank day
+  if (cronField === '?') {
+    if (cronFieldType === 'daysOfMonth' || cronFieldType === 'daysOfWeek') {
+      if (options.useBlankDay) {
+        return valid(true)
+      }
+
+      return err(
+        [`useBlankDay is not enabled, but is used in ${cronFieldType} field`]
+      )
+    }
+
+    return err([`blank notation is not allowed in ${cronFieldType} field`])
   }
 
   // Check for lists e.g. 4,5,6,8-18,20-40/2

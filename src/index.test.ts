@@ -281,6 +281,8 @@ describe('Test cron validation', () => {
       presetId: 'testPreset',
       useSeconds: true,
       useYears: false,
+      useBlankDay: false,
+      allowOnlyOneBlankDayField: false,
       seconds: {
         minValue: 0,
         maxValue: 59,
@@ -417,5 +419,122 @@ describe('Test cron validation', () => {
         }
       ).isValid()
     ).toBeTruthy()
+  })
+
+  it('Test blank day option', () => {
+    // No useBlankDays
+    expect(cron('* * ? * *').isValid()).toBeFalsy()
+
+    expect(cron('* * * * ?').isValid()).toBeFalsy()
+
+    expect(
+      cron('* * * ? * *', { override: { useSeconds: true } }).isValid()
+    ).toBeFalsy()
+
+    expect(
+      cron('* * * * * ?', { override: { useSeconds: true } }).isValid()
+    ).toBeFalsy()
+
+    expect(
+      cron('* * ? * * *', { override: { useYears: true } }).isValid()
+    ).toBeFalsy()
+
+    expect(
+      cron('* * * * * ? *', { override: { useYears: true } }).isValid()
+    ).toBeFalsy()
+
+    // useBlankDays true
+    expect(
+      cron('* * ? * *', { override: { useBlankDay: true } }).isValid()
+    ).toBeTruthy()
+
+    expect(
+      cron('* * * * ?', { override: { useBlankDay: true } }).isValid()
+    ).toBeTruthy()
+
+    expect(
+      cron('* * * ? * *', {
+        override: { useSeconds: true, useBlankDay: true },
+      }).isValid()
+    ).toBeTruthy()
+
+    expect(
+      cron('* * * * * ?', {
+        override: { useSeconds: true, useBlankDay: true },
+      }).isValid()
+    ).toBeTruthy()
+
+    expect(
+      cron('* * ? * * *', {
+        override: { useYears: true, useBlankDay: true },
+      }).isValid()
+    ).toBeTruthy()
+
+    expect(
+      cron('* * * * ? *', {
+        override: { useYears: true, useBlankDay: true },
+      }).isValid()
+    ).toBeTruthy()
+
+    // both fields blank allowed
+    expect(
+      cron('* * ? * ?', { override: { useBlankDay: true } }).isValid()
+    ).toBeTruthy()
+
+    expect(
+      cron('* * * ? * ?', {
+        override: { useSeconds: true, useBlankDay: true },
+      }).isValid()
+    ).toBeTruthy()
+
+    expect(
+      cron('* * ? * ? *', {
+        override: { useYears: true, useBlankDay: true },
+      }).isValid()
+    ).toBeTruthy()
+
+    expect(
+      cron('* * * ? * ? *', {
+        override: { useSeconds: true, useYears: true, useBlankDay: true },
+      }).isValid()
+    ).toBeTruthy()
+
+    // both fields blank not allowed
+    expect(
+      cron('* * ? * ?', {
+        override: { useBlankDay: true, allowOnlyOneBlankDayField: true },
+      }).isValid()
+    ).toBeFalsy()
+
+    expect(
+      cron('* * * ? * ?', {
+        override: {
+          useSeconds: true,
+          useBlankDay: true,
+          allowOnlyOneBlankDayField: true,
+        },
+      }).isValid()
+    ).toBeFalsy()
+
+    expect(
+      cron('* * ? * ? *', {
+        override: {
+          useYears: true,
+          useBlankDay: true,
+          allowOnlyOneBlankDayField: true,
+        },
+      }).isValid()
+    ).toBeFalsy()
+
+    expect(
+      cron('* * * ? * ? *', {
+        override: {
+          useSeconds: true,
+          useYears: true,
+          useBlankDay: true,
+          allowOnlyOneBlankDayField: true,
+        },
+      }).isValid()
+    ).toBeFalsy()
   })
 })

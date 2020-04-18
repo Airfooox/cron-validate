@@ -5,7 +5,7 @@
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
-Cron-validate is a cron-expression validator written in TypeScript. 
+Cron-validate is a cron-expression validator written in TypeScript.
 The validation options are customizable and cron fields like seconds and years are supported.
 
 ## Installation
@@ -22,7 +22,8 @@ Pacakge is available on npm:
 import cron from 'cron-validate'
 
 const cronResult = cron('* * * * *')
-if (cronResult.isValid()) { // !cronResult.isError()
+if (cronResult.isValid()) {
+  // !cronResult.isError()
   // valid code
 } else {
   // error code
@@ -35,7 +36,7 @@ The `cron` function returns a Result-type, which is either `Valid<T, E>` or `Err
 
 For checking the returned result, just use `result.isValid()` or `result.isError()`
 
-Both result types contain values: 
+Both result types contain values:
 
 ```typescript
 import cron from 'cron-validate'
@@ -43,20 +44,19 @@ import cron from 'cron-validate'
 const cronResult = cron('* * * * *')
 if (cronResult.isValid()) {
   const validValue = cronResult.getValue()
-  
+
   // The valid value is a object containing all cron fields
   console.log(validValue)
-  // In this case, it would be: 
+  // In this case, it would be:
   // { seconds: undefined, minutes: '*', hours: '*', daysOfMonth: '*', months: '*', daysOfWeek: '*', years: undefiend }
-  
 } else {
   const errorValue = cronResult.getError()
-  
+
   // The error value contains an array of strings, which represent the cron validation errors.
   console.log(errorValue) // string[] of error messages
-  
 }
 ```
+
 Make sure to test the result type beforehand, because `getValue()` only works on `Valid` and `getError()` only works on `Err`. If you don't check, it will throw an error.
 
 For further information, you can check out https://github.com/gDelgado14/neverthrow, because I used and modified his code for this package.
@@ -69,6 +69,7 @@ To configure the validator, cron-validate uses a preset system. There are alread
 ### Presets
 
 The following presets are already defined by cron-validate:
+
 - default (see: http://crontab.org/)
 - npm-node-cron (see: https://github.com/kelektiv/node-cron)
 - aws-cloud-watch (see: https://docs.aws.amazon.com/de_de/AmazonCloudWatch/latest/events/ScheduledEvents.html)
@@ -77,13 +78,15 @@ To select a preset for your validation, you can simply do this:
 
 ```typescript
 cron('* * * * *', {
-  preset: 'npm-node-cron'
+  preset: 'npm-node-cron',
 })
 ```
-or 
+
+or
+
 ```typescript
 cron('* * * * *', {
-  preset: 'aws-cloud-watch'
+  preset: 'aws-cloud-watch',
 })
 ```
 
@@ -96,47 +99,49 @@ registerOptionPreset('YOUR-PRESET-ID', {
   presetId: 'YOUR-PRESET-ID',
   useSeconds: false,
   useYears: false,
+  useBlankDay: false,
+  allowOnlyOneBlankDayField: false,
   seconds: {
     minValue: 0,
     maxValue: 59,
     lowerLimit: 0, // optional, default to minValue
-    upperLimit: 59 // optional, default to maxValue
+    upperLimit: 59, // optional, default to maxValue
   },
   minutes: {
     minValue: 0,
     maxValue: 59,
     lowerLimit: 0, // optional, default to minValue
-    upperLimit: 59 // optional, default to maxValue
+    upperLimit: 59, // optional, default to maxValue
   },
   hours: {
     minValue: 0,
     maxValue: 23,
     lowerLimit: 0, // optional, default to minValue
-    upperLimit: 23 // optional, default to maxValue
+    upperLimit: 23, // optional, default to maxValue
   },
   daysOfMonth: {
     minValue: 1,
     maxValue: 31,
     lowerLimit: 1, // optional, default to minValue
-    upperLimit: 31 // optional, default to maxValue
+    upperLimit: 31, // optional, default to maxValue
   },
   months: {
     minValue: 0,
     maxValue: 12,
     lowerLimit: 0, // optional, default to minValue
-    upperLimit: 12 // optional, default to maxValue
+    upperLimit: 12, // optional, default to maxValue
   },
   daysOfWeek: {
     minValue: 1,
     maxValue: 7,
     lowerLimit: 1, // optional, default to minValue
-    upperLimit: 7 // optional, default to maxValue
+    upperLimit: 7, // optional, default to maxValue
   },
   years: {
     minValue: 1970,
     maxValue: 2099,
     lowerLimit: 1970, // optional, default to minValue
-    upperLimit: 2099 // optional, default to maxValue
+    upperLimit: 2099, // optional, default to maxValue
   },
 })
 ```
@@ -145,24 +150,28 @@ The preset properties explained:
 
 - `presetId: string`
   - same id as in first function parameter
-- `useSeconds: boolean` 
+- `useSeconds: boolean`
   - enables seconds field in cron expression
-- `useYears: boolean` 
+- `useYears: boolean`
   - enables years field in cron expression
+- `useBlankDay: boolean`
+  - enables blank day notation '?' in daysOfMonth and daysOfWeek field
+- `allowOnlyOneBlankDayField: boolean`
+  - required at least day field to not be blank (so not both day fields can be blank)
 
-- in cron fields (like seconds):
-  - `minValue: number` 
+* in cron fields (like seconds, minutes etc.):
+  - `minValue: number`
     - minimum value of your cron interpreter (like npm-node-cron only supports 0-6 for weekdays)
     - can't be set as override
-  - `maxValue: number` 
+  - `maxValue: number`
     - minimum value of your cron interpreter (like npm-node-cron only supports 0-6 for weekdays)
     - can't be set as override
-  - `lowerLimit?: number` 
+  - `lowerLimit?: number`
     - lower limit for validation
     - equal or greater than minValue
     - if not set, default to minValue
-  - `upperLimit?: number` 
-    - upper limit for validation 
+  - `upperLimit?: number`
+    - upper limit for validation
     - equal or lower than maxValue
     - if not set, defaults to maxValue
 
@@ -206,25 +215,45 @@ console.log(cron('* * * * * *', { override: { useSeconds: true } }).isValid()) /
 
 console.log(cron('* * * * * *', { override: { useYears: true } }).isValid()) // true
 
-console.log(cron('30 * * * * *', { 
-  override: {
-    useSeconds: true,
-    seconds: {
-      lowerLimit: 20,
-      upperLimit: 40
-    }
-  }
-}).isValid()) // true
+console.log(
+  cron('30 * * * * *', {
+    override: {
+      useSeconds: true,
+      seconds: {
+        lowerLimit: 20,
+        upperLimit: 40,
+      },
+    },
+  }).isValid()
+) // true
 
-console.log(cron('* 3 * * *', {
-  override: {
-    hours: {
-      lowerLimit: 0,
-      upperLimit: 2
-    }
-  }
-}).isValid()) // false
+console.log(
+  cron('* 3 * * *', {
+    override: {
+      hours: {
+        lowerLimit: 0,
+        upperLimit: 2,
+      },
+    },
+  }).isValid()
+) // false
 
+console.log(
+  cron('* * ? * *', {
+    override: {
+      useBlankDay: true,
+    },
+  }).isValid()
+) // true
+
+console.log(
+  cron('* * ? * ?', {
+    override: {
+      useBlankDay: true,
+      allowOnlyOneBlankDayField: true,
+    },
+  }).isValid()
+) // false
 ```
 
 ## (Planned) Features
@@ -234,6 +263,5 @@ console.log(cron('* 3 * * *', {
 - [x] Seconds field support.
 - [x] Years field support.
 - [x] Option presets (classic cron, node-cron, etc.)
+- [x] Blank '?' daysOfMonth/daysOfWeek support
 - [ ] Cron alias support.
-- [ ] Blank '?' daysOfMonth/daysOfWeek support
-
