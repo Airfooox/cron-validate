@@ -10,6 +10,10 @@ const checkDaysOfWeek = (cronData: CronData, options: Options) => {
 
   const { daysOfWeek } = cronData
 
+  if (options.allowOnlyOneBlankDayField && cronData.daysOfMonth === '?' && cronData.daysOfWeek === '?') {
+    return err([`Cannot use blank value in daysOfMonth and daysOfWeek field when allowOnlyOneBlankDayField option is enabled.`])
+  }
+
   return checkField(daysOfWeek, 'daysOfWeek', options)
 }
 

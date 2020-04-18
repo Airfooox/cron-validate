@@ -6,6 +6,8 @@ export default () => {
     presetId: 'npm-node-cron',
     useSeconds: true,
     useYears: false,
+    useBlankDay: false,
+    allowOnlyOneBlankDayField: false,
     seconds: {
       minValue: 0,
       maxValue: 59,
@@ -41,6 +43,8 @@ export default () => {
     presetId: 'aws-cloud-watch',
     useSeconds: false,
     useYears: true,
+    useBlankDay: true,
+    allowOnlyOneBlankDayField: true,
     seconds: {
       minValue: 0,
       maxValue: 59,

@@ -8,6 +8,8 @@ interface OptionPreset {
 
   useSeconds: boolean
   useYears: boolean
+  useBlankDay: boolean
+  allowOnlyOneBlankDayField: boolean
   // useAliases: boolean
   // useNonStandardCharacters: boolean
 
@@ -33,6 +35,8 @@ const optionPresets: { [presetId: string]: OptionPreset } = {
     presetId: 'default',
     useSeconds: false,
     useYears: false,
+    useBlankDay: false,
+    allowOnlyOneBlankDayField: false,
     seconds: {
       minValue: 0,
       maxValue: 59,
@@ -92,6 +96,8 @@ const optionPresetSchema = yup.object({
   presetId: yup.string().required(),
   useSeconds: yup.boolean().required(),
   useYears: yup.boolean().required(),
+  useBlankDay: yup.boolean().required(),
+  allowOnlyOneBlankDayField: yup.boolean().required(),
   seconds: yup
     .object({
       minValue: yup.number().min(0).required(),
@@ -156,6 +162,8 @@ export interface Options {
 
   useSeconds: boolean
   useYears: boolean
+  useBlankDay: boolean
+  allowOnlyOneBlankDayField: boolean
   // useAliases: boolean
   // useNonStandardCharacters: boolean
 
@@ -178,6 +186,8 @@ export interface InputOptions {
   override?: {
     useSeconds?: boolean
     useYears?: boolean
+    useBlankDay?: boolean
+    allowOnlyOneBlankDayField?: boolean
     // useAliases?: boolean
     // useNonStandardCharacters?: boolean
 
@@ -228,6 +238,8 @@ export const validateOptions = (inputOptions: InputOptions) => {
       ...{
         useSeconds: preset.useSeconds,
         useYears: preset.useYears,
+        useBlankDay: preset.useBlankDay,
+        allowOnlyOneBlankDayField: preset.allowOnlyOneBlankDayField,
         seconds: {
           lowerLimit: preset.seconds.lowerLimit,
           upperLimit: preset.seconds.upperLimit,
@@ -265,6 +277,8 @@ export const validateOptions = (inputOptions: InputOptions) => {
       preset: optionPresetSchema.required(),
       useSeconds: yup.boolean(),
       useYears: yup.boolean(),
+      useBlankDay: yup.boolean(),
+      allowOnlyOneBlankDayField: yup.boolean(),
       seconds: yup.object({
         lowerLimit: yup
           .number()
