@@ -1,7 +1,7 @@
 {
   "name": "cron-validate",
-  "version": "0.0.0-development",
-  "description": "",
+  "version": "1.0.4",
+  "description": "cron-validate is a cron-expression validator written in TypeScript.",
   "scripts": {
     "dev": "nodemon",
     "build": "tsc",
@@ -69,7 +69,8 @@
         {
           "assets": [
             "CHANGELOG.md",
-            "package.json"
+            "package.json",
+            "package-lock.json"
           ],
           "message": "chore(${branch.name}): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
         }

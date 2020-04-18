@@ -211,7 +211,7 @@ export const validateOptions = (inputOptions: InputOptions) => {
     if (inputOptions.preset) {
       if (typeof inputOptions.preset === 'string') {
         if (!optionPresets[inputOptions.preset]) {
-          return err(`Option preset ${inputOptions.preset} does not exist.`)
+          return err([`Option preset ${inputOptions.preset} does not exist.`])
         }
 
         preset = optionPresets[inputOptions.preset as string]

@@ -4,7 +4,7 @@
     "rootDir": "src",
     "outDir": "lib",
     "lib": ["ESNext"],
-    "target": "ESNext", // ES2017 is 100% supported in node.js 8.10.0.
+    "target": "es2017", // ES2017 is 100% supported in node.js 8.10.0.
     "module": "commonjs", // Node.js does not yet support es-modules.
     "moduleResolution": "node",
 
@@ -13,10 +13,8 @@
     "esModuleInterop": true,
     "strict": true,
     "noFallthroughCasesInSwitch": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
     "importsNotUsedAsValues": "error"
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "lib/**/*", "src/**/*.test.ts"]
+  "exclude": ["src/**/*.test.ts"]
 }
