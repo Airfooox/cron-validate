@@ -99,6 +99,6 @@
     "typescript": "3.8.3"
   },
   "dependencies": {
-    "yup": "0.28.4"
+    "yup": "0.28.5"
   }
 }
