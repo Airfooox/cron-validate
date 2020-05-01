@@ -83,14 +83,14 @@
     "@types/jest": "25.2.1",
     "@types/node": "13.13.4",
     "@types/yup": "0.28.0",
-    "@typescript-eslint/eslint-plugin": "2.29.0",
-    "@typescript-eslint/parser": "2.29.0",
+    "@typescript-eslint/eslint-plugin": "2.30.0",
+    "@typescript-eslint/parser": "2.30.0",
     "env-cmd": "10.1.0",
     "eslint": "6.8.0",
     "eslint-config-airbnb-base": "14.1.0",
     "eslint-config-prettier": "6.11.0",
     "eslint-plugin-import": "2.20.2",
-    "jest": "25.4.0",
+    "jest": "25.5.3",
     "nodemon": "2.0.3",
     "prettier": "2.0.5",
     "semantic-release": "17.0.7",
@@ -99,6 +99,6 @@
     "typescript": "3.8.3"
   },
   "dependencies": {
-    "yup": "0.28.4"
+    "yup": "0.28.5"
   }
 }
