@@ -1,3 +1,24 @@
+## [1.1.2](https://github.com/Airfooox/cron-validate/compare/v1.1.1...v1.1.2) (2020-05-01)
+
+
+### Bug Fixes
+
+* **deps:** update dependency yup to v0.28.5 ([27c6068](https://github.com/Airfooox/cron-validate/commit/27c60680cebe7b75d3bfb0c238dc59083f9d198b))
+
+## [1.1.1](https://github.com/Airfooox/cron-validate/compare/v1.1.0...v1.1.1) (2020-04-27)
+
+
+### Bug Fixes
+
+* **deps:** update dependency yup to v0.28.4 ([de60998](https://github.com/Airfooox/cron-validate/commit/de60998ed1577b70c1e42621546a500df1ebd61e))
+
+# [1.1.0](https://github.com/Airfooox/cron-validate/compare/v1.0.4...v1.1.0) (2020-04-18)
+
+
+### Features
+
+* add blank day '?' support ([ca71a28](https://github.com/Airfooox/cron-validate/commit/ca71a289307d2e171f32f2298b793b60fbf33be7))
+
 ## [1.0.4](https://github.com/Airfooox/cron-validate/compare/v1.0.3...v1.0.4) (2020-04-15)
 
 
