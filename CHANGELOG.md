@@ -1,3 +1,11 @@
+## [1.1.3](https://github.com/Airfooox/cron-validate/compare/v1.1.2...v1.1.3) (2020-05-20)
+
+
+### Bug Fixes
+
+* fixed missing required fields in yup schema ([6ba1270](https://github.com/Airfooox/cron-validate/commit/6ba1270a6c9bd40936f6886df82757bf098ae004))
+* **deps:** update dependency yup to v0.29.0 ([1bfcbc6](https://github.com/Airfooox/cron-validate/commit/1bfcbc692c193b0cd614dae3eb165f510fff6aab))
+
 ## [1.1.2](https://github.com/Airfooox/cron-validate/compare/v1.1.1...v1.1.2) (2020-05-01)
 
 
