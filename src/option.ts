@@ -92,69 +92,71 @@ export const registerOptionPreset = (
   })
 }
 
-const optionPresetSchema = yup.object({
-  presetId: yup.string().required(),
-  useSeconds: yup.boolean().required(),
-  useYears: yup.boolean().required(),
-  useBlankDay: yup.boolean().required(),
-  allowOnlyOneBlankDayField: yup.boolean().required(),
-  seconds: yup
-    .object({
-      minValue: yup.number().min(0).required(),
-      maxValue: yup.number().min(0).required(),
-      lowerLimit: yup.number().min(0),
-      upperLimit: yup.number().min(0),
-    })
-    .required(),
-  minutes: yup
-    .object({
-      minValue: yup.number().min(0).required(),
-      maxValue: yup.number().min(0).required(),
-      lowerLimit: yup.number().min(0),
-      upperLimit: yup.number().min(0),
-    })
-    .required(),
-  hours: yup
-    .object({
-      minValue: yup.number().min(0).required(),
-      maxValue: yup.number().min(0).required(),
-      lowerLimit: yup.number().min(0),
-      upperLimit: yup.number().min(0),
-    })
-    .required(),
-  daysOfMonth: yup
-    .object({
-      minValue: yup.number().min(0).required(),
-      maxValue: yup.number().min(0).required(),
-      lowerLimit: yup.number().min(0),
-      upperLimit: yup.number().min(0),
-    })
-    .required(),
-  months: yup
-    .object({
-      minValue: yup.number().min(0).required(),
-      maxValue: yup.number().min(0).required(),
-      lowerLimit: yup.number().min(0),
-      upperLimit: yup.number().min(0),
-    })
-    .required(),
-  daysOfWeek: yup
-    .object({
-      minValue: yup.number().min(0).required(),
-      maxValue: yup.number().min(0).required(),
-      lowerLimit: yup.number().min(0),
-      upperLimit: yup.number().min(0),
-    })
-    .required(),
-  years: yup
-    .object({
-      minValue: yup.number().min(0).required(),
-      maxValue: yup.number().min(0).required(),
-      lowerLimit: yup.number().min(0),
-      upperLimit: yup.number().min(0),
-    })
-    .required(),
-})
+const optionPresetSchema = yup
+  .object({
+    presetId: yup.string().required(),
+    useSeconds: yup.boolean().required(),
+    useYears: yup.boolean().required(),
+    useBlankDay: yup.boolean().required(),
+    allowOnlyOneBlankDayField: yup.boolean().required(),
+    seconds: yup
+      .object({
+        minValue: yup.number().min(0).required(),
+        maxValue: yup.number().min(0).required(),
+        lowerLimit: yup.number().min(0),
+        upperLimit: yup.number().min(0),
+      })
+      .required(),
+    minutes: yup
+      .object({
+        minValue: yup.number().min(0).required(),
+        maxValue: yup.number().min(0).required(),
+        lowerLimit: yup.number().min(0),
+        upperLimit: yup.number().min(0),
+      })
+      .required(),
+    hours: yup
+      .object({
+        minValue: yup.number().min(0).required(),
+        maxValue: yup.number().min(0).required(),
+        lowerLimit: yup.number().min(0),
+        upperLimit: yup.number().min(0),
+      })
+      .required(),
+    daysOfMonth: yup
+      .object({
+        minValue: yup.number().min(0).required(),
+        maxValue: yup.number().min(0).required(),
+        lowerLimit: yup.number().min(0),
+        upperLimit: yup.number().min(0),
+      })
+      .required(),
+    months: yup
+      .object({
+        minValue: yup.number().min(0).required(),
+        maxValue: yup.number().min(0).required(),
+        lowerLimit: yup.number().min(0),
+        upperLimit: yup.number().min(0),
+      })
+      .required(),
+    daysOfWeek: yup
+      .object({
+        minValue: yup.number().min(0).required(),
+        maxValue: yup.number().min(0).required(),
+        lowerLimit: yup.number().min(0),
+        upperLimit: yup.number().min(0),
+      })
+      .required(),
+    years: yup
+      .object({
+        minValue: yup.number().min(0).required(),
+        maxValue: yup.number().min(0).required(),
+        lowerLimit: yup.number().min(0),
+        upperLimit: yup.number().min(0),
+      })
+      .required(),
+  })
+  .required()
 
 export interface Options {
   presetId: string
@@ -272,84 +274,100 @@ export const validateOptions = (inputOptions: InputOptions) => {
       ...inputOptions.override,
     }
 
-    const optionsSchema = yup.object({
-      presetId: yup.string().required(),
-      preset: optionPresetSchema.required(),
-      useSeconds: yup.boolean(),
-      useYears: yup.boolean(),
-      useBlankDay: yup.boolean(),
-      allowOnlyOneBlankDayField: yup.boolean(),
-      seconds: yup.object({
-        lowerLimit: yup
-          .number()
-          .min(preset.seconds.minValue)
-          .max(preset.seconds.maxValue),
-        upperLimit: yup
-          .number()
-          .min(preset.seconds.minValue)
-          .max(preset.seconds.maxValue),
-      }),
-      minutes: yup.object({
-        lowerLimit: yup
-          .number()
-          .min(preset.minutes.minValue)
-          .max(preset.minutes.maxValue),
-        upperLimit: yup
-          .number()
-          .min(preset.minutes.minValue)
-          .max(preset.minutes.maxValue),
-      }),
-      hours: yup.object({
-        lowerLimit: yup
-          .number()
-          .min(preset.hours.minValue)
-          .max(preset.hours.maxValue),
-        upperLimit: yup
-          .number()
-          .min(preset.hours.minValue)
-          .max(preset.hours.maxValue),
-      }),
-      daysOfMonth: yup.object({
-        lowerLimit: yup
-          .number()
-          .min(preset.daysOfMonth.minValue)
-          .max(preset.daysOfMonth.maxValue),
-        upperLimit: yup
-          .number()
-          .min(preset.daysOfMonth.minValue)
-          .max(preset.daysOfMonth.maxValue),
-      }),
-      months: yup.object({
-        lowerLimit: yup
-          .number()
-          .min(preset.months.minValue)
-          .max(preset.months.maxValue),
-        upperLimit: yup
-          .number()
-          .min(preset.months.minValue)
-          .max(preset.months.maxValue),
-      }),
-      daysOfWeek: yup.object({
-        lowerLimit: yup
-          .number()
-          .min(preset.daysOfWeek.minValue)
-          .max(preset.daysOfWeek.maxValue),
-        upperLimit: yup
-          .number()
-          .min(preset.daysOfWeek.minValue)
-          .max(preset.daysOfWeek.maxValue),
-      }),
-      years: yup.object({
-        lowerLimit: yup
-          .number()
-          .min(preset.years.minValue)
-          .max(preset.years.maxValue),
-        upperLimit: yup
-          .number()
-          .min(preset.years.minValue)
-          .max(preset.years.maxValue),
-      }),
-    })
+    const optionsSchema = yup
+      .object({
+        presetId: yup.string().required(),
+        preset: optionPresetSchema.required(),
+        useSeconds: yup.boolean().required(),
+        useYears: yup.boolean().required(),
+        useBlankDay: yup.boolean().required(),
+        allowOnlyOneBlankDayField: yup.boolean().required(),
+        seconds: yup
+          .object({
+            lowerLimit: yup
+              .number()
+              .min(preset.seconds.minValue)
+              .max(preset.seconds.maxValue),
+            upperLimit: yup
+              .number()
+              .min(preset.seconds.minValue)
+              .max(preset.seconds.maxValue),
+          })
+          .required(),
+        minutes: yup
+          .object({
+            lowerLimit: yup
+              .number()
+              .min(preset.minutes.minValue)
+              .max(preset.minutes.maxValue),
+            upperLimit: yup
+              .number()
+              .min(preset.minutes.minValue)
+              .max(preset.minutes.maxValue),
+          })
+          .required(),
+        hours: yup
+          .object({
+            lowerLimit: yup
+              .number()
+              .min(preset.hours.minValue)
+              .max(preset.hours.maxValue),
+            upperLimit: yup
+              .number()
+              .min(preset.hours.minValue)
+              .max(preset.hours.maxValue),
+          })
+          .required(),
+        daysOfMonth: yup
+          .object({
+            lowerLimit: yup
+              .number()
+              .min(preset.daysOfMonth.minValue)
+              .max(preset.daysOfMonth.maxValue),
+            upperLimit: yup
+              .number()
+              .min(preset.daysOfMonth.minValue)
+              .max(preset.daysOfMonth.maxValue),
+          })
+          .required(),
+        months: yup
+          .object({
+            lowerLimit: yup
+              .number()
+              .min(preset.months.minValue)
+              .max(preset.months.maxValue),
+            upperLimit: yup
+              .number()
+              .min(preset.months.minValue)
+              .max(preset.months.maxValue),
+          })
+          .required(),
+        daysOfWeek: yup
+          .object({
+            lowerLimit: yup
+              .number()
+              .min(preset.daysOfWeek.minValue)
+              .max(preset.daysOfWeek.maxValue),
+            upperLimit: yup
+              .number()
+              .min(preset.daysOfWeek.minValue)
+              .max(preset.daysOfWeek.maxValue),
+          })
+          .required(),
+        years: yup
+          .object({
+            lowerLimit: yup
+              .number()
+              .min(preset.years.minValue)
+              .max(preset.years.maxValue),
+            upperLimit: yup
+              .number()
+              .min(preset.years.minValue)
+              .max(preset.years.maxValue),
+          })
+          .required(),
+      })
+      .required()
 
     const validatedConfig: Options = optionsSchema.validateSync(
       unvalidatedConfig,
