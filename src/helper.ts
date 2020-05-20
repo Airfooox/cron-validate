@@ -213,9 +213,9 @@ const checkField = (
         return valid(true)
       }
 
-      return err(
-        [`useBlankDay is not enabled, but is used in ${cronFieldType} field`]
-      )
+      return err([
+        `useBlankDay is not enabled, but is used in ${cronFieldType} field`,
+      ])
     }
 
     return err([`blank notation is not allowed in ${cronFieldType} field`])
