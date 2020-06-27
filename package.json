@@ -89,7 +89,7 @@
     "eslint": "7.1.0",
     "eslint-config-airbnb-base": "14.1.0",
     "eslint-config-prettier": "6.11.0",
-    "eslint-plugin-import": "2.20.2",
+    "eslint-plugin-import": "2.22.0",
     "jest": "26.0.1",
     "nodemon": "2.0.4",
     "prettier": "2.0.5",
