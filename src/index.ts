@@ -119,3 +119,4 @@ const cron = (cronString: string, inputOptions: InputOptions = {}) => {
 }
 
 export default cron
+module.exports = cron
