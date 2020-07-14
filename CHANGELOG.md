@@ -1,3 +1,10 @@
+## [1.1.5](https://github.com/Airfooox/cron-validate/compare/v1.1.4...v1.1.5) (2020-07-14)
+
+
+### Bug Fixes
+
+* fix require().default for non-es modules ([2b0eb95](https://github.com/Airfooox/cron-validate/commit/2b0eb9523d66c168e7de00a298a87541796bda0c)), closes [#69](https://github.com/Airfooox/cron-validate/issues/69)
+
 ## [1.1.4](https://github.com/Airfooox/cron-validate/compare/v1.1.3...v1.1.4) (2020-05-31)
 
 
