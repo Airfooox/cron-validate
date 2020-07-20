@@ -31,6 +31,8 @@ type ExtendWildcards = {
 
   // Optional for backward compatibility. Undefined implies false.
   mustHaveBlankDayField?: boolean
+  useLastDayOfMonth?: boolean
+  useLastDayOfWeek?: boolean
   // useAliases: boolean
   // useNonStandardCharacters: boolean
 }

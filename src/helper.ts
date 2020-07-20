@@ -11,6 +11,33 @@ const checkWildcardLimit = (cronFieldType: CronFieldType, options: Options) => {
   )
 }
 
+const checkSingleElementWithinLimits = (
+  element: string,
+  cronFieldType: CronFieldType,
+  options: Options
+) => {
+  const number = Number(element)
+  if (isNaN(number)) {
+    return err(`Element '${element} of ${cronFieldType} field is invalid.`)
+  }
+
+  const { lowerLimit } = options[cronFieldType]
+  const { upperLimit } = options[cronFieldType]
+  if (lowerLimit && number < lowerLimit) {
+    return err(
+      `Number ${number} of ${cronFieldType} field is smaller than lower limit '${lowerLimit}'`
+    )
+  }
+
+  if (upperLimit && number > upperLimit) {
+    return err(
+      `Number ${number} of ${cronFieldType} field is bigger than upper limit '${upperLimit}'`
+    )
+  }
+
+  return valid(true)
+}
+
 const checkSingleElement = (
   element: string,
   cronFieldType: CronFieldType,
@@ -33,26 +60,23 @@ const checkSingleElement = (
     return err(`One of the elements is empty in ${cronFieldType} field.`)
   }
 
-  const number = Number(element)
-  if (isNaN(number)) {
-    return err(`Element '${element} of ${cronFieldType} field is invalid.`)
+  // We must do that check here because L can be used in a list (e.g.: 15,L)
+  if (cronFieldType === 'daysOfMonth' && options.useLastDayOfMonth && element === 'L') {
+    return valid(true)
   }
 
-  const { lowerLimit } = options[cronFieldType]
-  const { upperLimit } = options[cronFieldType]
-  if (lowerLimit && number < lowerLimit) {
-    return err(
-      `Number ${number} of ${cronFieldType} field is smaller than lower limit '${lowerLimit}'`
-    )
+  // We must do that check here because L is used with a number and can be used in a list. (e.g: 1,5L)
+  // We use `endsWith` here because anywhere else is not valid so it will be caught later on.
+  if (cronFieldType === 'daysOfWeek' && options.useLastDayOfWeek && element.endsWith('L')) {
+      const day = element.slice(0, -1)
+      if (day === '') {
+        return err(`The 'L' must be preceded by a day of the week in ${cronFieldType} field.`)
+      }
+
+      return checkSingleElementWithinLimits(day, cronFieldType, options)
   }
 
-  if (upperLimit && number > upperLimit) {
-    return err(
-      `Number ${number} of ${cronFieldType} field is bigger than upper limit '${upperLimit}'`
-    )
-  }
-
-  return valid(true)
+  return checkSingleElementWithinLimits(element, cronFieldType, options)
 }
 
 const checkRangeElement = (
@@ -179,7 +203,7 @@ const checkListElement = (
 
     if (Number(secondStepElement) === 0) {
       return err(
-        `Second step element '${secondStepElement}' of '${listElement}' is cannot be zero.`
+        `Second step element '${secondStepElement}' of '${listElement}' cannot be zero.`
       )
     }
   }

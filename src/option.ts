@@ -13,6 +13,8 @@ const optionPresets: { [presetId: string]: OptionPreset } = {
     useBlankDay: false,
     allowOnlyOneBlankDayField: false,
     mustHaveBlankDayField: false,
+    useLastDayOfMonth: false,
+    useLastDayOfWeek: false,
     seconds: {
       minValue: 0,
       maxValue: 59,
@@ -52,6 +54,8 @@ const optionPresetSchema = yup
     useBlankDay: yup.boolean().required(),
     allowOnlyOneBlankDayField: yup.boolean().required(),
     mustHaveBlankDayField: yup.boolean(),
+    useLastDayOfMonth: yup.boolean(),
+    useLastDayOfWeek: yup.boolean(),
     seconds: yup
       .object({
         minValue: yup.number().min(0).required(),
@@ -163,7 +167,9 @@ export const validateOptions = (inputOptions: InputOptions): Result<Options, str
         useYears: preset.useYears,
         useBlankDay: preset.useBlankDay,
         allowOnlyOneBlankDayField: preset.allowOnlyOneBlankDayField,
-        mustHaveBlankDayField: preset.mustHaveBlankDayField,
+        mustHaveBlankDayField: preset.mustHaveBlankDayField ?? false,
+        useLastDayOfMonth: preset.useLastDayOfMonth ?? false,
+        useLastDayOfWeek: preset.useLastDayOfWeek ?? false,
         seconds: {
           lowerLimit: preset.seconds.lowerLimit,
           upperLimit: preset.seconds.upperLimit,
@@ -205,6 +211,8 @@ export const validateOptions = (inputOptions: InputOptions): Result<Options, str
         useBlankDay: yup.boolean().required(),
         allowOnlyOneBlankDayField: yup.boolean().required(),
         mustHaveBlankDayField: yup.boolean(),
+        useLastDayOfMonth: yup.boolean(),
+        useLastDayOfWeek: yup.boolean(),
         seconds: yup
           .object({
             lowerLimit: yup

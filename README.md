@@ -113,6 +113,9 @@ registerOptionPreset('YOUR-PRESET-ID', {
   useYears: false,
   useBlankDay: false,
   allowOnlyOneBlankDayField: false,
+  mustHaveBlankDayField: false, // optional, default to false
+  useLastDayOfMonth: false, // optional, default to false
+  useLastDayOfWeek: false, // optional, default to false
   seconds: {
     minValue: 0,
     maxValue: 59,
@@ -173,6 +176,12 @@ The preset properties explained:
 - `mustHaveBlankDayField: boolean`
   - requires a day field to be blank (so not both day fields are specified)
   - when mixed with `allowOnlyOneBlankDayField`, it means that there will always be either day or day of week as `?`
+- `useLastDayOfMonth: boolean`
+  - enables the 'L' character to specify the last day of the month.
+  - e.g.: `15,L` would me the 15th and the last of a month.
+- `useLastDayOfWeek: boolean`
+  - enables the 'L' character to specify the last occurrence of a weekday in a month.
+  - e.g.: `5L` would mean the last friday of the month.
 
 * in cron fields (like seconds, minutes etc.):
   - `minValue: number`
@@ -279,4 +288,8 @@ console.log(
 - [x] Years field support.
 - [x] Option presets (classic cron, node-cron, etc.)
 - [x] Blank '?' daysOfMonth/daysOfWeek support
+- [x] Last day of month.
+- [x] Last specific weekday of month. (e.g. last Tuesday)
+- [ ] Closest weekday to a specific day of the month.
+- [ ] Nth specific weekday of month. (e.g. 2nd Tuesday)
 - [ ] Cron alias support.
