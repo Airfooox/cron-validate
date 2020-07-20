@@ -169,7 +169,10 @@ The preset properties explained:
 - `useBlankDay: boolean`
   - enables blank day notation '?' in daysOfMonth and daysOfWeek field
 - `allowOnlyOneBlankDayField: boolean`
-  - required at least day field to not be blank (so not both day fields can be blank)
+  - requires a day field to not be blank (so not both day fields can be blank)
+- `mustHaveBlankDayField: boolean`
+  - requires a day field to be blank (so not both day fields are specified)
+  - when mixed with `allowOnlyOneBlankDayField`, it means that there will always be either day or day of week as `?`
 
 * in cron fields (like seconds, minutes etc.):
   - `minValue: number`

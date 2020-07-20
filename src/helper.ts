@@ -1,6 +1,6 @@
 import type { CronFieldType } from './index'
 import { Err, err, Result, Valid, valid } from './result'
-import type { Options } from './option'
+import type { Options } from './types'
 
 const checkWildcardLimit = (cronFieldType: CronFieldType, options: Options) => {
   return (

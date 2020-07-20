@@ -8,6 +8,7 @@ export default (): void => {
     useYears: false,
     useBlankDay: false,
     allowOnlyOneBlankDayField: false,
+    mustHaveBlankDayField: false,
     seconds: {
       minValue: 0,
       maxValue: 59,
@@ -45,6 +46,7 @@ export default (): void => {
     useYears: true,
     useBlankDay: true,
     allowOnlyOneBlankDayField: true,
+    mustHaveBlankDayField: true,
     seconds: {
       minValue: 0,
       maxValue: 59,

@@ -1,7 +1,7 @@
 import type { CronData } from '../index'
 import { err, Result } from '../result'
 import checkField from '../helper'
-import type { Options } from '../option'
+import type { Options } from '../types'
 
 const checkYears = (cronData: CronData, options: Options): Result<boolean, string[]> => {
   if (!cronData.years) {
