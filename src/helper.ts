@@ -1,5 +1,5 @@
 import type { CronFieldType } from './index'
-import { Err, err, Valid, valid } from './result'
+import { Err, err, Result, Valid, valid } from './result'
 import type { Options } from './option'
 
 const checkWildcardLimit = (cronFieldType: CronFieldType, options: Options) => {
@@ -15,7 +15,7 @@ const checkSingleElement = (
   element: string,
   cronFieldType: CronFieldType,
   options: Options
-) => {
+): Result<boolean, string> => {
   if (element === '*') {
     if (!checkWildcardLimit(cronFieldType, options)) {
       // console.log(
@@ -59,7 +59,7 @@ const checkRangeElement = (
   element: string,
   cronFieldType: CronFieldType,
   options: Options
-) => {
+): Result<boolean, string> => {
   if (element === '*') {
     return err(`'*' can't be part of a range in ${cronFieldType} field.`)
   }
@@ -94,7 +94,7 @@ const checkFirstStepElement = (
   firstStepElement: string,
   cronFieldType: CronFieldType,
   options: Options
-) => {
+): Result<boolean, string> => {
   const rangeArray = firstStepElement.split('-')
   if (rangeArray.length > 2) {
     return err(
@@ -143,7 +143,7 @@ const checkListElement = (
   listElement: string,
   cronFieldType: CronFieldType,
   options: Options
-) => {
+): Result<boolean, string> => {
   // Checks list element for steps like */2, 10-20/2
   const stepArray = listElement.split('/')
   if (stepArray.length > 2) {
@@ -191,7 +191,7 @@ const checkField = (
   cronField: string,
   cronFieldType: CronFieldType,
   options: Options
-) => {
+): Result<boolean, string[]> => {
   if (
     ![
       'seconds',

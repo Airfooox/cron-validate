@@ -1,9 +1,9 @@
 import type { CronData } from '../index'
-import { err } from '../result'
+import { err, Result } from '../result'
 import checkField from '../helper'
 import type { Options } from '../option'
 
-const checkDaysOfMonth = (cronData: CronData, options: Options) => {
+const checkDaysOfMonth = (cronData: CronData, options: Options): Result<boolean, string[]> => {
   if (!cronData.daysOfMonth) {
     return err(['daysOfMonth field is undefined.'])
   }
