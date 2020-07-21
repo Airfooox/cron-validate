@@ -1,6 +1,6 @@
 import * as yup from 'yup'
 import type { ValidationError } from 'yup'
-import { err, valid } from './result'
+import { err, valid, Result } from './result'
 import presets from './presets'
 
 interface OptionPreset {
@@ -68,7 +68,7 @@ const optionPresets: { [presetId: string]: OptionPreset } = {
   },
 }
 
-export const getOptionPreset = (presetId: string) => {
+export const getOptionPreset = (presetId: string): Result<OptionPreset, string> => {
   if (optionPresets[presetId]) {
     return valid(optionPresets[presetId])
   }
@@ -76,14 +76,14 @@ export const getOptionPreset = (presetId: string) => {
   return err(`Option preset '${presetId}' not found.`)
 }
 
-export const getOptionPresets = () => {
+export const getOptionPresets = (): typeof optionPresets => {
   return optionPresets
 }
 
 export const registerOptionPreset = (
   presetName: string,
   preset: OptionPreset
-) => {
+): void => {
   optionPresets[presetName] = optionPresetSchema.validateSync(preset, {
     strict: false,
     abortEarly: false,
@@ -214,7 +214,7 @@ export interface InputOptions {
   // useNonStandardCharacters: boolean
 }
 
-export const validateOptions = (inputOptions: InputOptions) => {
+export const validateOptions = (inputOptions: InputOptions): Result<Options, string[]> => {
   try {
     // load default presets
     presets()

@@ -1,3 +1,25 @@
+## [1.1.5](https://github.com/Airfooox/cron-validate/compare/v1.1.4...v1.1.5) (2020-07-14)
+
+
+### Bug Fixes
+
+* fix require().default for non-es modules ([2b0eb95](https://github.com/Airfooox/cron-validate/commit/2b0eb9523d66c168e7de00a298a87541796bda0c)), closes [#69](https://github.com/Airfooox/cron-validate/issues/69)
+
+## [1.1.4](https://github.com/Airfooox/cron-validate/compare/v1.1.3...v1.1.4) (2020-05-31)
+
+
+### Bug Fixes
+
+* **deps:** update dependency yup to v0.29.1 ([58eab14](https://github.com/Airfooox/cron-validate/commit/58eab14b1e66553af3f4a5e1183ccffe75e677f2))
+
+## [1.1.3](https://github.com/Airfooox/cron-validate/compare/v1.1.2...v1.1.3) (2020-05-20)
+
+
+### Bug Fixes
+
+* fixed missing required fields in yup schema ([6ba1270](https://github.com/Airfooox/cron-validate/commit/6ba1270a6c9bd40936f6886df82757bf098ae004))
+* **deps:** update dependency yup to v0.29.0 ([1bfcbc6](https://github.com/Airfooox/cron-validate/commit/1bfcbc692c193b0cd614dae3eb165f510fff6aab))
+
 ## [1.1.2](https://github.com/Airfooox/cron-validate/compare/v1.1.1...v1.1.2) (2020-05-01)
 
 

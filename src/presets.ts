@@ -1,6 +1,6 @@
 import { registerOptionPreset } from './option'
 
-export default () => {
+export default (): void => {
   registerOptionPreset('npm-node-cron', {
     // https://github.com/kelektiv/node-cron
     presetId: 'npm-node-cron',
