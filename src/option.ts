@@ -15,6 +15,7 @@ const optionPresets: { [presetId: string]: OptionPreset } = {
     mustHaveBlankDayField: false,
     useLastDayOfMonth: false,
     useLastDayOfWeek: false,
+    useNearestWeekday: false,
     seconds: {
       minValue: 0,
       maxValue: 59,
@@ -56,6 +57,7 @@ const optionPresetSchema = yup
     mustHaveBlankDayField: yup.boolean(),
     useLastDayOfMonth: yup.boolean(),
     useLastDayOfWeek: yup.boolean(),
+    useNearestWeekday: yup.boolean(),
     seconds: yup
       .object({
         minValue: yup.number().min(0).required(),
@@ -170,6 +172,7 @@ export const validateOptions = (inputOptions: InputOptions): Result<Options, str
         mustHaveBlankDayField: preset.mustHaveBlankDayField ?? false,
         useLastDayOfMonth: preset.useLastDayOfMonth ?? false,
         useLastDayOfWeek: preset.useLastDayOfWeek ?? false,
+        useNearestWeekday: preset.useNearestWeekday ?? false,
         seconds: {
           lowerLimit: preset.seconds.lowerLimit,
           upperLimit: preset.seconds.upperLimit,
@@ -213,6 +216,7 @@ export const validateOptions = (inputOptions: InputOptions): Result<Options, str
         mustHaveBlankDayField: yup.boolean(),
         useLastDayOfMonth: yup.boolean(),
         useLastDayOfWeek: yup.boolean(),
+        useNearestWeekday: yup.boolean(),
         seconds: yup
           .object({
             lowerLimit: yup

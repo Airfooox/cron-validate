@@ -183,6 +183,9 @@ The preset properties explained:
 - `useLastDayOfWeek: boolean`
   - enables the 'L' character to specify the last occurrence of a weekday in a month.
   - e.g.: `5L` would mean the last friday of the month.
+- `useNearestWeekday: boolean`
+  - enables the 'W' character to specify the use of the closest weekday.
+  - e.g.: `15W` would mean the weekday (mon-fri) closest to the 15th when the 15th is on sat-sun.
 
 * in cron fields (like seconds, minutes etc.):
   - `minValue: number`

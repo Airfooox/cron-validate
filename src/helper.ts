@@ -45,9 +45,6 @@ const checkSingleElement = (
 ): Result<boolean, string> => {
   if (element === '*') {
     if (!checkWildcardLimit(cronFieldType, options)) {
-      // console.log(
-      //   `Field ${cronFieldType} uses wildcard '*', but is limited to ${options[cronFieldType].lowerLimit}-${options[cronFieldType].upperLimit}`
-      // )
       return err(
         `Field ${cronFieldType} uses wildcard '*', but is limited to ${options[cronFieldType].lowerLimit}-${options[cronFieldType].upperLimit}`
       )
@@ -75,6 +72,23 @@ const checkSingleElement = (
       }
 
       return checkSingleElementWithinLimits(day, cronFieldType, options)
+  }
+
+  // We must do that check here because W is used with a number to specify the day of the month for which
+  // we must run over a weekday instead.
+  // We use `endsWith` here because anywhere else is not valid so it will be caught later on.
+  if (cronFieldType === 'daysOfMonth' && options.useNearestWeekday && element.endsWith('W')) {
+    const day = element.slice(0, -1)
+    if (day === '') {
+      return err(`The 'W' must be preceded by a day`)
+    }
+
+    // Edge case where the L can be used with W to form last weekday of month
+    if (options.useLastDayOfMonth && day === 'L') {
+      return valid(true)
+    }
+
+    return checkSingleElementWithinLimits(day, cronFieldType, options)
   }
 
   return checkSingleElementWithinLimits(element, cronFieldType, options)

@@ -126,6 +126,51 @@ describe('test', () => {
     unuseds: [
       { value: '1-3,5-7', description: 'no impact when option is on but no L specified' },
     ],
+  }, {
+    describe: 'useNearestWeekday',
+    options: {
+      override: {
+        useNearestWeekday: true,
+        daysOfMonth: { lowerLimit: 1, upperLimit: 31 },
+      }
+    },
+    validIndexes: [2],
+    valids: [
+      { value: '15W', description: 'nearest weekday to the 15th' },
+    ],
+    invalids: [
+      { value: 'W', description: 'means nothing alone' },
+      { value: '1,15W', description: 'cannot be in a list' },
+      { value: '1-15W', description: 'cannot be in a range' },
+      { value: '15/W', description: 'cannot be in a step' },
+      { value: 'W/15', description: 'cannot be in a step' },
+    ],
+    unuseds: [
+      { value: '1-15,20-25', description: 'no impact when option is on but no W specified' },
+    ],
+  }, {
+    describe: 'useNearestWeekday with useLastDayOfMonth',
+    options: {
+      override: {
+        useLastDayOfMonth: true,
+        useNearestWeekday: true,
+        daysOfMonth: { lowerLimit: 1, upperLimit: 31 },
+      }
+    },
+    validIndexes: [2],
+    valids: [
+      { value: 'LW', description: 'last weekday of month' },
+    ],
+    invalids: [
+      { value: '15,LW', description: 'cannot be in a list' },
+      { value: 'WL', description: 'cannot be reversed' },
+      { value: '1-15LW', description: 'cannot be in a range' },
+      { value: '15/LW', description: 'cannot be in a step' },
+      { value: 'LW/15', description: 'cannot be in a step' },
+    ],
+    unuseds: [
+      { value: '1-15,20-25', description: 'no impact when option is on but no W or L specified' },
+    ],
   }]
 
   for (const matrix of matrixes) {

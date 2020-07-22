@@ -33,6 +33,7 @@ type ExtendWildcards = {
   mustHaveBlankDayField?: boolean
   useLastDayOfMonth?: boolean
   useLastDayOfWeek?: boolean
+  useNearestWeekday?: boolean
   // useAliases: boolean
   // useNonStandardCharacters: boolean
 }

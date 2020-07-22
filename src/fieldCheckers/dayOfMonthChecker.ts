@@ -53,6 +53,26 @@ const checkDaysOfMonth = (cronData: CronData, options: Options): Result<boolean,
     ])
   }
 
+  if (
+    options.useNearestWeekday &&
+    cronData.daysOfMonth.indexOf('W') !== -1 &&
+    cronData.daysOfMonth.indexOf(',') !== -1
+  ) {
+    return err([
+      `Cannot specify nearest weekday while also having other days specified.`
+    ])
+  }
+
+  if (
+    options.useNearestWeekday &&
+    cronData.daysOfMonth.indexOf('W') !== -1 &&
+    cronData.daysOfMonth.indexOf('/') !== -1
+  ) {
+    return err([
+      `Cannot specify nearest weekday in a step.`
+    ])
+  }
+
   return checkField(daysOfMonth, 'daysOfMonth', options)
 }
 

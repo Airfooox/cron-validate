@@ -11,6 +11,7 @@ export default (): void => {
     mustHaveBlankDayField: false,
     useLastDayOfMonth: false,
     useLastDayOfWeek: false,
+    useNearestWeekday: false,
     seconds: {
       minValue: 0,
       maxValue: 59,
@@ -51,6 +52,7 @@ export default (): void => {
     mustHaveBlankDayField: true,
     useLastDayOfMonth: true,
     useLastDayOfWeek: true,
+    useNearestWeekday: true,
     seconds: {
       minValue: 0,
       maxValue: 59,
