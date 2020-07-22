@@ -35,20 +35,20 @@ const checkDaysOfWeek = (cronData: CronData, options: Options): Result<boolean, 
   if (
     options.useLastDayOfWeek &&
     cronData.daysOfWeek.indexOf('L') !== -1 &&
-    cronData.daysOfWeek.indexOf(',') !== -1
+    cronData.daysOfWeek.match(/[,/-]/)
   ) {
     return err([
-      `Cannot specify last day of week while also having other week days specified.`
+      `Cannot specify last day of week with lists, steps or ranges (symbols ,-/).`
     ])
   }
 
   if (
-    options.useLastDayOfWeek &&
-    cronData.daysOfWeek.indexOf('L') !== -1 &&
-    cronData.daysOfWeek.indexOf('/') !== -1
+    options.useNthWeekdayOfMonth &&
+    cronData.daysOfWeek.indexOf('#') !== -1 &&
+    cronData.daysOfWeek.match(/[,/-]/)
   ) {
     return err([
-      `Cannot specify last day of week in a step.`
+      `Cannot specify Nth weekday of month with lists, steps or ranges (symbols ,-/).`
     ])
   }
 

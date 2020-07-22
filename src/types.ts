@@ -34,6 +34,7 @@ type ExtendWildcards = {
   useLastDayOfMonth?: boolean
   useLastDayOfWeek?: boolean
   useNearestWeekday?: boolean
+  useNthWeekdayOfMonth?: boolean
   // useAliases: boolean
   // useNonStandardCharacters: boolean
 }

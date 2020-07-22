@@ -98,7 +98,8 @@ describe('test', () => {
       { value: '2-L', description: 'cannot be the end of a range' },
       { value: '2/L', description: 'cannot be in a step' },
       { value: 'L/2', description: 'cannot be in a step' },
-      { value: 'L-32', description: 'cannot have offset out of limit range' }
+      { value: 'L-32', description: 'cannot have offset out of limit range' },
+      { value: 'LL', description: 'cannot have multiple occurrence' },
     ],
     unuseds: [
       { value: '1-15,20-22', description: 'no impact when option is on but no L specified' },
@@ -122,6 +123,7 @@ describe('test', () => {
       { value: '5/L', description: 'cannot be in a step' },
       { value: 'L/5', description: 'cannot be in a step' },
       { value: '8L', description: 'cannot have a weekday value out of limit' },
+      { value: 'LL', description: 'cannot have multiple occurrence' },
     ],
     unuseds: [
       { value: '1-3,5-7', description: 'no impact when option is on but no L specified' },
@@ -132,7 +134,7 @@ describe('test', () => {
       override: {
         useNearestWeekday: true,
         daysOfMonth: { lowerLimit: 1, upperLimit: 31 },
-      }
+      },
     },
     validIndexes: [2],
     valids: [
@@ -144,6 +146,7 @@ describe('test', () => {
       { value: '1-15W', description: 'cannot be in a range' },
       { value: '15/W', description: 'cannot be in a step' },
       { value: 'W/15', description: 'cannot be in a step' },
+      { value: '1W6W', description: 'cannot have multiple occurrence' },
     ],
     unuseds: [
       { value: '1-15,20-25', description: 'no impact when option is on but no W specified' },
@@ -155,7 +158,7 @@ describe('test', () => {
         useLastDayOfMonth: true,
         useNearestWeekday: true,
         daysOfMonth: { lowerLimit: 1, upperLimit: 31 },
-      }
+      },
     },
     validIndexes: [2],
     valids: [
@@ -170,6 +173,31 @@ describe('test', () => {
     ],
     unuseds: [
       { value: '1-15,20-25', description: 'no impact when option is on but no W or L specified' },
+    ],
+  }, {
+    describe: 'useNthWeekdayOfMonth',
+    options: {
+      override: {
+        useNthWeekdayOfMonth: true,
+        daysOfWeek: { lowerLimit: 1, upperLimit: 7 },
+      },
+    },
+    validIndexes: [4],
+    valids: [
+      { value: '6#3', description: '3rd friday of the month' },
+    ],
+    invalids: [
+      { value: '6#', description: 'must have a number after' },
+      { value: '#3', description: 'must have a number before' },
+      { value: '2,6#3', description: 'cannot be in a list' },
+      { value: '2-6#3', description: 'cannot be in a range' },
+      { value: '2/6#3', description: 'cannot be in a step' },
+      { value: '6#3/2', description: 'cannot be in a step' },
+      { value: '8#3', description: 'must respect limits' },
+      { value: '6##3', description: 'cannot have multiple occurrence' },
+    ],
+    unuseds: [
+      { value: '1-3,5-7', description: 'no impact when option is on but no # specified' },
     ],
   }]
 

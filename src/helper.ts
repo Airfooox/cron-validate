@@ -91,6 +91,20 @@ const checkSingleElement = (
     return checkSingleElementWithinLimits(day, cronFieldType, options)
   }
 
+  if (cronFieldType === 'daysOfWeek' && options.useNthWeekdayOfMonth && element.indexOf('#') !== -1) {
+    const [day, occurrence, ...leftOvers] = element.split('#')
+    if (leftOvers.length !== 0) {
+      return err(`Unexpected number of '#' in ${element}, can only be used once.`)
+    }
+
+    const occurrenceNum = Number(occurrence)
+    if (!occurrence || isNaN(occurrenceNum)) {
+      return err(`Unexpected value following the '#' symbol, a positive number was expected but found ${occurrence}.`)
+    }
+
+    return checkSingleElementWithinLimits(day, cronFieldType, options)
+  }
+
   return checkSingleElementWithinLimits(element, cronFieldType, options)
 }
 

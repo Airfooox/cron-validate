@@ -186,6 +186,9 @@ The preset properties explained:
 - `useNearestWeekday: boolean`
   - enables the 'W' character to specify the use of the closest weekday.
   - e.g.: `15W` would mean the weekday (mon-fri) closest to the 15th when the 15th is on sat-sun.
+- `useNthWeekdayOfMonth: boolean`
+  - enables the '#' character to specify the Nth weekday of the month.
+  - e.g.: `6#3` would mean the 3rd friday of the month (assuming 6 = friday).
 
 * in cron fields (like seconds, minutes etc.):
   - `minValue: number`

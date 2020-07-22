@@ -36,40 +36,20 @@ const checkDaysOfMonth = (cronData: CronData, options: Options): Result<boolean,
   if (
     options.useLastDayOfMonth &&
     cronData.daysOfMonth.indexOf('L') !== -1 &&
-    cronData.daysOfMonth.indexOf(',') !== -1
+    cronData.daysOfMonth.match(/[,/]/)
   ) {
     return err([
-      `Cannot specify last day of month while also having other days specified.`
-    ])
-  }
-
-  if (
-    options.useLastDayOfMonth &&
-    cronData.daysOfMonth.indexOf('L') !== -1 &&
-    cronData.daysOfMonth.indexOf('/') !== -1
-  ) {
-    return err([
-      `Cannot specify last day of month in a step.`
+      `Cannot specify last day of month with lists, or ranges (symbols ,/).`
     ])
   }
 
   if (
     options.useNearestWeekday &&
     cronData.daysOfMonth.indexOf('W') !== -1 &&
-    cronData.daysOfMonth.indexOf(',') !== -1
+    cronData.daysOfMonth.match(/[,/-]/)
   ) {
     return err([
-      `Cannot specify nearest weekday while also having other days specified.`
-    ])
-  }
-
-  if (
-    options.useNearestWeekday &&
-    cronData.daysOfMonth.indexOf('W') !== -1 &&
-    cronData.daysOfMonth.indexOf('/') !== -1
-  ) {
-    return err([
-      `Cannot specify nearest weekday in a step.`
+      `Cannot specify nearest weekday with lists, steps or ranges (symbols ,-/).`
     ])
   }
 

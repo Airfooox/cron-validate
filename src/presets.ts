@@ -12,6 +12,7 @@ export default (): void => {
     useLastDayOfMonth: false,
     useLastDayOfWeek: false,
     useNearestWeekday: false,
+    useNthWeekdayOfMonth: false,
     seconds: {
       minValue: 0,
       maxValue: 59,
@@ -53,6 +54,7 @@ export default (): void => {
     useLastDayOfMonth: true,
     useLastDayOfWeek: true,
     useNearestWeekday: true,
+    useNthWeekdayOfMonth: true,
     seconds: {
       minValue: 0,
       maxValue: 59,
