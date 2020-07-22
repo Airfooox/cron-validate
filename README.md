@@ -297,6 +297,6 @@ console.log(
 - [x] Blank '?' daysOfMonth/daysOfWeek support
 - [x] Last day of month.
 - [x] Last specific weekday of month. (e.g. last Tuesday)
-- [ ] Closest weekday to a specific day of the month.
-- [ ] Nth specific weekday of month. (e.g. 2nd Tuesday)
+- [x] Closest weekday to a specific day of the month.
+- [x] Nth specific weekday of month. (e.g. 2nd Tuesday)
 - [ ] Cron alias support.
