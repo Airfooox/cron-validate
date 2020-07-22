@@ -178,7 +178,8 @@ The preset properties explained:
   - when mixed with `allowOnlyOneBlankDayField`, it means that there will always be either day or day of week as `?`
 - `useLastDayOfMonth: boolean`
   - enables the 'L' character to specify the last day of the month.
-  - e.g.: `15,L` would me the 15th and the last of a month.
+  - accept negative offset after the 'L' for nth last day of the month.
+  - e.g.: `L-2` would me the 2nd to last day of the month.
 - `useLastDayOfWeek: boolean`
   - enables the 'L' character to specify the last occurrence of a weekday in a month.
   - e.g.: `5L` would mean the last friday of the month.

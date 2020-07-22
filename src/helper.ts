@@ -15,7 +15,7 @@ const checkSingleElementWithinLimits = (
   element: string,
   cronFieldType: CronFieldType,
   options: Options
-) => {
+): Result<boolean, string> => {
   const number = Number(element)
   if (isNaN(number)) {
     return err(`Element '${element} of ${cronFieldType} field is invalid.`)
@@ -60,17 +60,18 @@ const checkSingleElement = (
     return err(`One of the elements is empty in ${cronFieldType} field.`)
   }
 
-  // We must do that check here because L can be used in a list (e.g.: 15,L)
   if (cronFieldType === 'daysOfMonth' && options.useLastDayOfMonth && element === 'L') {
     return valid(true)
   }
 
-  // We must do that check here because L is used with a number and can be used in a list. (e.g: 1,5L)
+  // We must do that check here because L is used with a number to specify the day of the week for which
+  // we look for the last occurrence in the month.
   // We use `endsWith` here because anywhere else is not valid so it will be caught later on.
   if (cronFieldType === 'daysOfWeek' && options.useLastDayOfWeek && element.endsWith('L')) {
       const day = element.slice(0, -1)
       if (day === '') {
-        return err(`The 'L' must be preceded by a day of the week in ${cronFieldType} field.`)
+        // This means that element is only `L` which is the equivalent of saturdayL
+        return valid(true)
       }
 
       return checkSingleElementWithinLimits(day, cronFieldType, options)
@@ -82,7 +83,8 @@ const checkSingleElement = (
 const checkRangeElement = (
   element: string,
   cronFieldType: CronFieldType,
-  options: Options
+  options: Options,
+  position: 0 | 1
 ): Result<boolean, string> => {
   if (element === '*') {
     return err(`'*' can't be part of a range in ${cronFieldType} field.`)
@@ -92,26 +94,17 @@ const checkRangeElement = (
     return err(`One of the range elements is empty in ${cronFieldType} field.`)
   }
 
-  const number = Number(element)
-  if (isNaN(number)) {
-    return err(`Element '${element} of ${cronFieldType} field is invalid.`)
+  // We can have `L` as the first element of a range to specify an offset.
+  if (
+    options.useLastDayOfMonth &&
+    cronFieldType === 'daysOfMonth' &&
+    element === 'L' &&
+    position === 0
+  ) {
+    return valid(true)
   }
 
-  const { lowerLimit } = options[cronFieldType]
-  const { upperLimit } = options[cronFieldType]
-  if (lowerLimit && number < lowerLimit) {
-    return err(
-      `Number ${number} of ${cronFieldType} field is smaller than lower limit '${lowerLimit}'`
-    )
-  }
-
-  if (upperLimit && number > upperLimit) {
-    return err(
-      `Number ${number} of ${cronFieldType} field is bigger than upper limit '${upperLimit}'`
-    )
-  }
-
-  return valid(true)
+  return checkSingleElementWithinLimits(element, cronFieldType, options)
 }
 
 const checkFirstStepElement = (
@@ -129,16 +122,19 @@ const checkFirstStepElement = (
   if (rangeArray.length === 1) {
     return checkSingleElement(rangeArray[0], cronFieldType, options)
   }
+
   if (rangeArray.length === 2) {
     const firstRangeElementResult = checkRangeElement(
       rangeArray[0],
       cronFieldType,
-      options
+      options,
+      0
     )
     const secondRangeElementResult = checkRangeElement(
       rangeArray[1],
       cronFieldType,
-      options
+      options,
+      1
     )
 
     if (firstRangeElementResult.isError()) {

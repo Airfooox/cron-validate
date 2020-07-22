@@ -31,6 +31,28 @@ const checkDaysOfMonth = (cronData: CronData, options: Options): Result<boolean,
     ])
   }
 
+  // Based on this implementation logic:
+  // https://github.com/quartz-scheduler/quartz/blob/1e0ed76c5c141597eccd76e44583557729b5a7cb/quartz-core/src/main/java/org/quartz/CronExpression.java#L473
+  if (
+    options.useLastDayOfMonth &&
+    cronData.daysOfMonth.indexOf('L') !== -1 &&
+    cronData.daysOfMonth.indexOf(',') !== -1
+  ) {
+    return err([
+      `Cannot specify last day of month while also having other days specified.`
+    ])
+  }
+
+  if (
+    options.useLastDayOfMonth &&
+    cronData.daysOfMonth.indexOf('L') !== -1 &&
+    cronData.daysOfMonth.indexOf('/') !== -1
+  ) {
+    return err([
+      `Cannot specify last day of month in a step.`
+    ])
+  }
+
   return checkField(daysOfMonth, 'daysOfMonth', options)
 }
 
