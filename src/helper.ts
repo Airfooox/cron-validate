@@ -2,6 +2,12 @@ import type { CronFieldType } from './index'
 import { Err, err, Result, Valid, valid } from './result'
 import type { Options } from './types'
 
+// Instead of translating the alias to a number, we just validate that it's an accepted alias.
+// This is to avoid managing the limits with the translation to numbers.
+// e.g.: For AWS, sun = 1, while for normal cron, sun = 0. Translating to numbers would break that.
+const monthAliases = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+const daysOfWeekAliases = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']
+
 const checkWildcardLimit = (cronFieldType: CronFieldType, options: Options) => {
   return (
     options[cronFieldType].lowerLimit ===
@@ -16,6 +22,14 @@ const checkSingleElementWithinLimits = (
   cronFieldType: CronFieldType,
   options: Options
 ): Result<boolean, string> => {
+  if (cronFieldType === 'months' && options.useAliases && monthAliases.indexOf(element.toLowerCase()) !== -1) {
+    return valid(true)
+  }
+
+  if (cronFieldType === 'daysOfWeek' && options.useAliases && daysOfWeekAliases.indexOf(element.toLowerCase()) !== -1) {
+    return valid(true)
+  }
+
   const number = Number(element)
   if (isNaN(number)) {
     return err(`Element '${element} of ${cronFieldType} field is invalid.`)

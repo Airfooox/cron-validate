@@ -111,11 +111,14 @@ registerOptionPreset('YOUR-PRESET-ID', {
   presetId: 'YOUR-PRESET-ID',
   useSeconds: false,
   useYears: false,
+  useAliases: false, // optional, default to false
   useBlankDay: false,
   allowOnlyOneBlankDayField: false,
   mustHaveBlankDayField: false, // optional, default to false
   useLastDayOfMonth: false, // optional, default to false
   useLastDayOfWeek: false, // optional, default to false
+  useNearestWeekday: false, // optional, default to false
+  useNthWeekdayOfMonth: false, // optional, default to false
   seconds: {
     minValue: 0,
     maxValue: 59,
@@ -169,6 +172,8 @@ The preset properties explained:
   - enables seconds field in cron expression
 - `useYears: boolean`
   - enables years field in cron expression
+- `useAliases: boolean`
+  - enables aliases for month and daysOfWeek fields
 - `useBlankDay: boolean`
   - enables blank day notation '?' in daysOfMonth and daysOfWeek field
 - `allowOnlyOneBlankDayField: boolean`
