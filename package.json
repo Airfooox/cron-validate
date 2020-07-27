@@ -13,7 +13,7 @@
     "release-next": "npm run build && env-cmd npx semantic-release --branches next --no-ci",
     "release-next-major": "npm run build && env-cmd npx semantic-release --branches next-major --no-ci",
     "test": "jest --coverage",
-    "test:watch": "jest --coverage --watchAll"
+    "test:watch": "jest --watchAll --verbose"
   },
   "repository": {
     "type": "git",
