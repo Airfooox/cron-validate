@@ -113,6 +113,9 @@ registerOptionPreset('YOUR-PRESET-ID', {
   useYears: false,
   useBlankDay: false,
   allowOnlyOneBlankDayField: false,
+  mustHaveBlankDayField: false, // optional, default to false
+  useLastDayOfMonth: false, // optional, default to false
+  useLastDayOfWeek: false, // optional, default to false
   seconds: {
     minValue: 0,
     maxValue: 59,
@@ -169,7 +172,23 @@ The preset properties explained:
 - `useBlankDay: boolean`
   - enables blank day notation '?' in daysOfMonth and daysOfWeek field
 - `allowOnlyOneBlankDayField: boolean`
-  - required at least day field to not be blank (so not both day fields can be blank)
+  - requires a day field to not be blank (so not both day fields can be blank)
+- `mustHaveBlankDayField: boolean`
+  - requires a day field to be blank (so not both day fields are specified)
+  - when mixed with `allowOnlyOneBlankDayField`, it means that there will always be either day or day of week as `?`
+- `useLastDayOfMonth: boolean`
+  - enables the 'L' character to specify the last day of the month.
+  - accept negative offset after the 'L' for nth last day of the month.
+  - e.g.: `L-2` would me the 2nd to last day of the month.
+- `useLastDayOfWeek: boolean`
+  - enables the 'L' character to specify the last occurrence of a weekday in a month.
+  - e.g.: `5L` would mean the last friday of the month.
+- `useNearestWeekday: boolean`
+  - enables the 'W' character to specify the use of the closest weekday.
+  - e.g.: `15W` would mean the weekday (mon-fri) closest to the 15th when the 15th is on sat-sun.
+- `useNthWeekdayOfMonth: boolean`
+  - enables the '#' character to specify the Nth weekday of the month.
+  - e.g.: `6#3` would mean the 3rd friday of the month (assuming 6 = friday).
 
 * in cron fields (like seconds, minutes etc.):
   - `minValue: number`
@@ -276,4 +295,8 @@ console.log(
 - [x] Years field support.
 - [x] Option presets (classic cron, node-cron, etc.)
 - [x] Blank '?' daysOfMonth/daysOfWeek support
+- [x] Last day of month.
+- [x] Last specific weekday of month. (e.g. last Tuesday)
+- [x] Closest weekday to a specific day of the month.
+- [x] Nth specific weekday of month. (e.g. 2nd Tuesday)
 - [ ] Cron alias support.
