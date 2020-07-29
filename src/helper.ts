@@ -1,6 +1,6 @@
 import type { CronFieldType } from './index'
-import { Err, err, Valid, valid } from './result'
-import type { Options } from './option'
+import { Err, err, Result, Valid, valid } from './result'
+import type { Options } from './types'
 
 const checkWildcardLimit = (cronFieldType: CronFieldType, options: Options) => {
   return (
@@ -11,16 +11,40 @@ const checkWildcardLimit = (cronFieldType: CronFieldType, options: Options) => {
   )
 }
 
+const checkSingleElementWithinLimits = (
+  element: string,
+  cronFieldType: CronFieldType,
+  options: Options
+): Result<boolean, string> => {
+  const number = Number(element)
+  if (isNaN(number)) {
+    return err(`Element '${element} of ${cronFieldType} field is invalid.`)
+  }
+
+  const { lowerLimit } = options[cronFieldType]
+  const { upperLimit } = options[cronFieldType]
+  if (lowerLimit && number < lowerLimit) {
+    return err(
+      `Number ${number} of ${cronFieldType} field is smaller than lower limit '${lowerLimit}'`
+    )
+  }
+
+  if (upperLimit && number > upperLimit) {
+    return err(
+      `Number ${number} of ${cronFieldType} field is bigger than upper limit '${upperLimit}'`
+    )
+  }
+
+  return valid(true)
+}
+
 const checkSingleElement = (
   element: string,
   cronFieldType: CronFieldType,
   options: Options
-) => {
+): Result<boolean, string> => {
   if (element === '*') {
     if (!checkWildcardLimit(cronFieldType, options)) {
-      // console.log(
-      //   `Field ${cronFieldType} uses wildcard '*', but is limited to ${options[cronFieldType].lowerLimit}-${options[cronFieldType].upperLimit}`
-      // )
       return err(
         `Field ${cronFieldType} uses wildcard '*', but is limited to ${options[cronFieldType].lowerLimit}-${options[cronFieldType].upperLimit}`
       )
@@ -33,33 +57,63 @@ const checkSingleElement = (
     return err(`One of the elements is empty in ${cronFieldType} field.`)
   }
 
-  const number = Number(element)
-  if (isNaN(number)) {
-    return err(`Element '${element} of ${cronFieldType} field is invalid.`)
+  if (cronFieldType === 'daysOfMonth' && options.useLastDayOfMonth && element === 'L') {
+    return valid(true)
   }
 
-  const { lowerLimit } = options[cronFieldType]
-  const { upperLimit } = options[cronFieldType]
-  if (lowerLimit && number < lowerLimit) {
-    return err(
-      `Number ${number} of ${cronFieldType} field is smaller than lower limit '${lowerLimit}'`
-    )
+  // We must do that check here because L is used with a number to specify the day of the week for which
+  // we look for the last occurrence in the month.
+  // We use `endsWith` here because anywhere else is not valid so it will be caught later on.
+  if (cronFieldType === 'daysOfWeek' && options.useLastDayOfWeek && element.endsWith('L')) {
+      const day = element.slice(0, -1)
+      if (day === '') {
+        // This means that element is only `L` which is the equivalent of saturdayL
+        return valid(true)
+      }
+
+      return checkSingleElementWithinLimits(day, cronFieldType, options)
   }
 
-  if (upperLimit && number > upperLimit) {
-    return err(
-      `Number ${number} of ${cronFieldType} field is bigger than upper limit '${upperLimit}'`
-    )
+  // We must do that check here because W is used with a number to specify the day of the month for which
+  // we must run over a weekday instead.
+  // We use `endsWith` here because anywhere else is not valid so it will be caught later on.
+  if (cronFieldType === 'daysOfMonth' && options.useNearestWeekday && element.endsWith('W')) {
+    const day = element.slice(0, -1)
+    if (day === '') {
+      return err(`The 'W' must be preceded by a day`)
+    }
+
+    // Edge case where the L can be used with W to form last weekday of month
+    if (options.useLastDayOfMonth && day === 'L') {
+      return valid(true)
+    }
+
+    return checkSingleElementWithinLimits(day, cronFieldType, options)
   }
 
-  return valid(true)
+  if (cronFieldType === 'daysOfWeek' && options.useNthWeekdayOfMonth && element.indexOf('#') !== -1) {
+    const [day, occurrence, ...leftOvers] = element.split('#')
+    if (leftOvers.length !== 0) {
+      return err(`Unexpected number of '#' in ${element}, can only be used once.`)
+    }
+
+    const occurrenceNum = Number(occurrence)
+    if (!occurrence || isNaN(occurrenceNum)) {
+      return err(`Unexpected value following the '#' symbol, a positive number was expected but found ${occurrence}.`)
+    }
+
+    return checkSingleElementWithinLimits(day, cronFieldType, options)
+  }
+
+  return checkSingleElementWithinLimits(element, cronFieldType, options)
 }
 
 const checkRangeElement = (
   element: string,
   cronFieldType: CronFieldType,
-  options: Options
-) => {
+  options: Options,
+  position: 0 | 1
+): Result<boolean, string> => {
   if (element === '*') {
     return err(`'*' can't be part of a range in ${cronFieldType} field.`)
   }
@@ -68,33 +122,24 @@ const checkRangeElement = (
     return err(`One of the range elements is empty in ${cronFieldType} field.`)
   }
 
-  const number = Number(element)
-  if (isNaN(number)) {
-    return err(`Element '${element} of ${cronFieldType} field is invalid.`)
+  // We can have `L` as the first element of a range to specify an offset.
+  if (
+    options.useLastDayOfMonth &&
+    cronFieldType === 'daysOfMonth' &&
+    element === 'L' &&
+    position === 0
+  ) {
+    return valid(true)
   }
 
-  const { lowerLimit } = options[cronFieldType]
-  const { upperLimit } = options[cronFieldType]
-  if (lowerLimit && number < lowerLimit) {
-    return err(
-      `Number ${number} of ${cronFieldType} field is smaller than lower limit '${lowerLimit}'`
-    )
-  }
-
-  if (upperLimit && number > upperLimit) {
-    return err(
-      `Number ${number} of ${cronFieldType} field is bigger than upper limit '${upperLimit}'`
-    )
-  }
-
-  return valid(true)
+  return checkSingleElementWithinLimits(element, cronFieldType, options)
 }
 
 const checkFirstStepElement = (
   firstStepElement: string,
   cronFieldType: CronFieldType,
   options: Options
-) => {
+): Result<boolean, string> => {
   const rangeArray = firstStepElement.split('-')
   if (rangeArray.length > 2) {
     return err(
@@ -105,16 +150,19 @@ const checkFirstStepElement = (
   if (rangeArray.length === 1) {
     return checkSingleElement(rangeArray[0], cronFieldType, options)
   }
+
   if (rangeArray.length === 2) {
     const firstRangeElementResult = checkRangeElement(
       rangeArray[0],
       cronFieldType,
-      options
+      options,
+      0
     )
     const secondRangeElementResult = checkRangeElement(
       rangeArray[1],
       cronFieldType,
-      options
+      options,
+      1
     )
 
     if (firstRangeElementResult.isError()) {
@@ -143,7 +191,7 @@ const checkListElement = (
   listElement: string,
   cronFieldType: CronFieldType,
   options: Options
-) => {
+): Result<boolean, string> => {
   // Checks list element for steps like */2, 10-20/2
   const stepArray = listElement.split('/')
   if (stepArray.length > 2) {
@@ -179,7 +227,7 @@ const checkListElement = (
 
     if (Number(secondStepElement) === 0) {
       return err(
-        `Second step element '${secondStepElement}' of '${listElement}' is cannot be zero.`
+        `Second step element '${secondStepElement}' of '${listElement}' cannot be zero.`
       )
     }
   }
@@ -191,7 +239,7 @@ const checkField = (
   cronField: string,
   cronFieldType: CronFieldType,
   options: Options
-) => {
+): Result<boolean, string[]> => {
   if (
     ![
       'seconds',

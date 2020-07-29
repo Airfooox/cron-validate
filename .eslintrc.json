@@ -16,7 +16,6 @@
     "project": "./tsconfig.json"
   },
   "rules": {
-
     "no-nested-ternary": "off",
     "no-param-reassign": [
       "error",
@@ -40,9 +39,7 @@
       "args": "none",
       "ignoreRestSiblings": false
     }],
-    "@typescript-eslint/camelcase": ["error", { "properties": "never" }],
     "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/interface-name-prefix": ["error", "always"],
     "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/no-parameter-properties": "off",
     "@typescript-eslint/explicit-function-return-type": "off",

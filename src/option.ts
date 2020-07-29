@@ -1,33 +1,8 @@
 import * as yup from 'yup'
 import type { ValidationError } from 'yup'
-import { err, valid } from './result'
+import { err, valid, Result } from './result'
 import presets from './presets'
-
-interface OptionPreset {
-  presetId: string
-
-  useSeconds: boolean
-  useYears: boolean
-  useBlankDay: boolean
-  allowOnlyOneBlankDayField: boolean
-  // useAliases: boolean
-  // useNonStandardCharacters: boolean
-
-  seconds: OptionPresetFieldOptions
-  minutes: OptionPresetFieldOptions
-  hours: OptionPresetFieldOptions
-  daysOfMonth: OptionPresetFieldOptions
-  months: OptionPresetFieldOptions
-  daysOfWeek: OptionPresetFieldOptions
-  years: OptionPresetFieldOptions
-}
-
-interface OptionPresetFieldOptions {
-  minValue: number
-  maxValue: number
-  lowerLimit?: number
-  upperLimit?: number
-}
+import type { Options, OptionPreset, InputOptions } from './types'
 
 const optionPresets: { [presetId: string]: OptionPreset } = {
   // http://crontab.org/
@@ -37,6 +12,11 @@ const optionPresets: { [presetId: string]: OptionPreset } = {
     useYears: false,
     useBlankDay: false,
     allowOnlyOneBlankDayField: false,
+    mustHaveBlankDayField: false,
+    useLastDayOfMonth: false,
+    useLastDayOfWeek: false,
+    useNearestWeekday: false,
+    useNthWeekdayOfMonth: false,
     seconds: {
       minValue: 0,
       maxValue: 59,
@@ -68,30 +48,6 @@ const optionPresets: { [presetId: string]: OptionPreset } = {
   },
 }
 
-export const getOptionPreset = (presetId: string) => {
-  if (optionPresets[presetId]) {
-    return valid(optionPresets[presetId])
-  }
-
-  return err(`Option preset '${presetId}' not found.`)
-}
-
-export const getOptionPresets = () => {
-  return optionPresets
-}
-
-export const registerOptionPreset = (
-  presetName: string,
-  preset: OptionPreset
-) => {
-  optionPresets[presetName] = optionPresetSchema.validateSync(preset, {
-    strict: false,
-    abortEarly: false,
-    stripUnknown: true,
-    recursive: true,
-  })
-}
-
 const optionPresetSchema = yup
   .object({
     presetId: yup.string().required(),
@@ -99,6 +55,11 @@ const optionPresetSchema = yup
     useYears: yup.boolean().required(),
     useBlankDay: yup.boolean().required(),
     allowOnlyOneBlankDayField: yup.boolean().required(),
+    mustHaveBlankDayField: yup.boolean(),
+    useLastDayOfMonth: yup.boolean(),
+    useLastDayOfWeek: yup.boolean(),
+    useNearestWeekday: yup.boolean(),
+    useNthWeekdayOfMonth: yup.boolean(),
     seconds: yup
       .object({
         minValue: yup.number().min(0).required(),
@@ -158,63 +119,31 @@ const optionPresetSchema = yup
   })
   .required()
 
-export interface Options {
-  presetId: string
-  preset: OptionPreset
-
-  useSeconds: boolean
-  useYears: boolean
-  useBlankDay: boolean
-  allowOnlyOneBlankDayField: boolean
-  // useAliases: boolean
-  // useNonStandardCharacters: boolean
-
-  seconds: FieldOption
-  minutes: FieldOption
-  hours: FieldOption
-  daysOfMonth: FieldOption
-  months: FieldOption
-  daysOfWeek: FieldOption
-  years: FieldOption
-}
-
-interface FieldOption {
-  lowerLimit?: number
-  upperLimit?: number
-}
-
-export interface InputOptions {
-  preset?: string | OptionPreset
-  override?: {
-    useSeconds?: boolean
-    useYears?: boolean
-    useBlankDay?: boolean
-    allowOnlyOneBlankDayField?: boolean
-    // useAliases?: boolean
-    // useNonStandardCharacters?: boolean
-
-    seconds?: FieldOption
-    minutes?: FieldOption
-    hours?: FieldOption
-    daysOfMonth?: FieldOption
-    months?: FieldOption
-    daysOfWeek?: FieldOption
-    years?: FieldOption
+export const getOptionPreset = (presetId: string): Result<OptionPreset, string> => {
+  if (optionPresets[presetId]) {
+    return valid(optionPresets[presetId])
   }
-  useSeconds?: boolean
-  useYears?: boolean
-  seconds?: FieldOption
-  minutes?: FieldOption
-  hours?: FieldOption
-  daysOfMonth?: FieldOption
-  months?: FieldOption
-  daysOfWeek?: FieldOption
-  years?: FieldOption
-  // useAliases: boolean
-  // useNonStandardCharacters: boolean
+
+  return err(`Option preset '${presetId}' not found.`)
 }
 
-export const validateOptions = (inputOptions: InputOptions) => {
+export const getOptionPresets = (): typeof optionPresets => {
+  return optionPresets
+}
+
+export const registerOptionPreset = (
+  presetName: string,
+  preset: OptionPreset
+): void => {
+  optionPresets[presetName] = optionPresetSchema.validateSync(preset, {
+    strict: false,
+    abortEarly: false,
+    stripUnknown: true,
+    recursive: true,
+  })
+}
+
+export const validateOptions = (inputOptions: InputOptions): Result<Options, string[]> => {
   try {
     // load default presets
     presets()
@@ -242,6 +171,11 @@ export const validateOptions = (inputOptions: InputOptions) => {
         useYears: preset.useYears,
         useBlankDay: preset.useBlankDay,
         allowOnlyOneBlankDayField: preset.allowOnlyOneBlankDayField,
+        mustHaveBlankDayField: preset.mustHaveBlankDayField ?? false,
+        useLastDayOfMonth: preset.useLastDayOfMonth ?? false,
+        useLastDayOfWeek: preset.useLastDayOfWeek ?? false,
+        useNearestWeekday: preset.useNearestWeekday ?? false,
+        useNthWeekdayOfMonth: preset.useNthWeekdayOfMonth ?? false,
         seconds: {
           lowerLimit: preset.seconds.lowerLimit,
           upperLimit: preset.seconds.upperLimit,
@@ -282,6 +216,11 @@ export const validateOptions = (inputOptions: InputOptions) => {
         useYears: yup.boolean().required(),
         useBlankDay: yup.boolean().required(),
         allowOnlyOneBlankDayField: yup.boolean().required(),
+        mustHaveBlankDayField: yup.boolean(),
+        useLastDayOfMonth: yup.boolean(),
+        useLastDayOfWeek: yup.boolean(),
+        useNearestWeekday: yup.boolean(),
+        useNthWeekdayOfMonth: yup.boolean(),
         seconds: yup
           .object({
             lowerLimit: yup

@@ -13,7 +13,7 @@
     "release-next": "npm run build && env-cmd npx semantic-release --branches next --no-ci",
     "release-next-major": "npm run build && env-cmd npx semantic-release --branches next-major --no-ci",
     "test": "jest --coverage",
-    "test:watch": "jest --coverage --watchAll"
+    "test:watch": "jest --watchAll --verbose"
   },
   "repository": {
     "type": "git",
@@ -80,13 +80,13 @@
   "devDependencies": {
     "@semantic-release/changelog": "5.0.1",
     "@semantic-release/git": "9.0.0",
-    "@types/jest": "26.0.4",
-    "@types/node": "13.13.14",
+    "@types/jest": "26.0.7",
+    "@types/node": "13.13.15",
     "@types/yup": "0.29.3",
-    "@typescript-eslint/eslint-plugin": "3.6.1",
-    "@typescript-eslint/parser": "3.6.1",
+    "@typescript-eslint/eslint-plugin": "3.7.1",
+    "@typescript-eslint/parser": "3.7.1",
     "env-cmd": "10.1.0",
-    "eslint": "7.4.0",
+    "eslint": "7.5.0",
     "eslint-config-airbnb-base": "14.2.0",
     "eslint-config-prettier": "6.11.0",
     "eslint-plugin-import": "2.22.0",
@@ -94,11 +94,11 @@
     "nodemon": "2.0.4",
     "prettier": "2.0.5",
     "semantic-release": "17.1.1",
-    "ts-jest": "26.1.2",
+    "ts-jest": "26.1.4",
     "ts-node": "8.10.2",
-    "typescript": "3.9.6"
+    "typescript": "3.9.7"
   },
   "dependencies": {
-    "yup": "0.29.1"
+    "yup": "0.29.2"
   }
 }

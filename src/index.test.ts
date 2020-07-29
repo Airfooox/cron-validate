@@ -536,5 +536,58 @@ describe('Test cron validation', () => {
         },
       }).isValid()
     ).toBeFalsy()
+
+    // minimum one blank required
+    expect(
+      cron('* * * * *', {
+        override: { useBlankDay: true, allowOnlyOneBlankDayField: true, mustHaveBlankDayField: true },
+      }).isValid()
+    ).toBeFalsy()
+
+    expect(
+      cron('* * * * ?', {
+        override: { useBlankDay: true, allowOnlyOneBlankDayField: true, mustHaveBlankDayField: true },
+      }).isValid()
+    ).toBeTruthy()
+
+    expect(
+      cron('* * ? * *', {
+        override: { useBlankDay: true, allowOnlyOneBlankDayField: true, mustHaveBlankDayField: true },
+      }).isValid()
+    ).toBeTruthy()
+
+    expect(
+      cron('* * * * * *', {
+        override: {
+          useSeconds: true,
+          useBlankDay: true,
+          allowOnlyOneBlankDayField: true,
+          mustHaveBlankDayField: true,
+        },
+      }).isValid()
+    ).toBeFalsy()
+
+    expect(
+      cron('* * * * * *', {
+        override: {
+          useYears: true,
+          useBlankDay: true,
+          allowOnlyOneBlankDayField: true,
+          mustHaveBlankDayField: true,
+        },
+      }).isValid()
+    ).toBeFalsy()
+
+    expect(
+      cron('* * * * * * *', {
+        override: {
+          useSeconds: true,
+          useYears: true,
+          useBlankDay: true,
+          allowOnlyOneBlankDayField: true,
+          mustHaveBlankDayField: true,
+        },
+      }).isValid()
+    ).toBeFalsy()
   })
 })
