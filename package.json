@@ -1,6 +1,6 @@
 {
   "name": "cron-validate",
-  "version": "1.1.5",
+  "version": "1.2.0",
   "description": "cron-validate is a cron-expression validator written in TypeScript.",
   "scripts": {
     "dev": "nodemon",
