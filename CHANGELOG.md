@@ -1,3 +1,16 @@
+# [1.2.0](https://github.com/Airfooox/cron-validate/compare/v1.1.5...v1.2.0) (2020-07-29)
+
+
+### Bug Fixes
+
+* **deps:** update dependency yup to v0.29.2 ([#87](https://github.com/Airfooox/cron-validate/issues/87)) ([cb8cdfe](https://github.com/Airfooox/cron-validate/commit/cb8cdfe67e99f652e0afc924a76d55e3b51cb1a3))
+* add explicit return types to avoid Result<unknown, ...> ([#78](https://github.com/Airfooox/cron-validate/issues/78)) ([177e301](https://github.com/Airfooox/cron-validate/commit/177e30140cad37e70fdd05e38080ecffddc9b6f9))
+
+
+### Features
+
+* Extending AWS Preset wildcards and checks. ([#80](https://github.com/Airfooox/cron-validate/issues/80)) ([a7baca0](https://github.com/Airfooox/cron-validate/commit/a7baca034af13624c314351eb89fe38dadf9c950))
+
 ## [1.1.5](https://github.com/Airfooox/cron-validate/compare/v1.1.4...v1.1.5) (2020-07-14)
 
 
