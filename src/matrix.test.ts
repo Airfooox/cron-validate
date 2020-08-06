@@ -199,6 +199,52 @@ describe('test', () => {
     unuseds: [
       { value: '1-3,5-7', description: 'no impact when option is on but no # specified' },
     ],
+  }, {
+    describe: 'useAliases months',
+    options: {
+      override: {
+        useAliases: true,
+      },
+    },
+    validIndexes: [3],
+    valids: [
+      { value: 'jan', description: 'works alone' },
+      { value: 'jan-jun', description: 'works in range' },
+      { value: 'jan-jun/2', description: 'works as a step nominator' },
+      { value: 'jan,feb,mar', description: 'works in list' },
+      { value: 'Jan,FEB,MaR', description: 'is case insensitive' },
+      { value: 'jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dec', description: 'works for every month' },
+    ],
+    invalids: [
+      { value: '1/jan', description: 'cannot be a step denominator' },
+      { value: 'january', description: 'cannot use full names' },
+    ],
+    unuseds: [
+      { value: '1-2,5-7', description: 'no impact when option is on but no alias is used' }
+    ],
+  }, {
+    describe: 'useAliases daysOfWeek',
+    options: {
+      override: {
+        useAliases: true,
+      },
+    },
+    validIndexes: [4],
+    valids: [
+      { value: 'mon', description: 'works alone' },
+      { value: 'mon-wed', description: 'works in range' },
+      { value: 'mon-wed/2', description: 'works as a step nominator' },
+      { value: 'mon,tue,wed', description: 'works in list' },
+      { value: 'Mon,TUE,WeD', description: 'is case insensitive' },
+      { value: 'sun,mon,tue,wed,thu,fri,sat', description: 'works for every weekday' },
+    ],
+    invalids: [
+      { value: '1/mon', description: 'cannot be a step denominator' },
+      { value: 'monday', description: 'cannot use full names' },
+    ],
+    unuseds: [
+      { value: '1-2,5-7', description: 'no impact when option is on but no alias is used' }
+    ],
   }]
 
   for (const matrix of matrixes) {
