@@ -100,11 +100,14 @@ registerOptionPreset('YOUR-PRESET-ID', {
   presetId: 'YOUR-PRESET-ID',
   useSeconds: false,
   useYears: false,
+  useAliases: false, // optional, default to false
   useBlankDay: false,
   allowOnlyOneBlankDayField: false,
   mustHaveBlankDayField: false, // optional, default to false
   useLastDayOfMonth: false, // optional, default to false
   useLastDayOfWeek: false, // optional, default to false
+  useNearestWeekday: false, // optional, default to false
+  useNthWeekdayOfMonth: false, // optional, default to false
   seconds: {
     minValue: 0,
     maxValue: 59,
@@ -158,6 +161,8 @@ The preset properties explained:
   - enables seconds field in cron expression
 - `useYears: boolean`
   - enables years field in cron expression
+- `useAliases: boolean`
+  - enables aliases for month and daysOfWeek fields (ignores limits for month and daysOfWeek, so be aware of that)
 - `useBlankDay: boolean`
   - enables blank day notation '?' in daysOfMonth and daysOfWeek field
 - `allowOnlyOneBlankDayField: boolean`
@@ -288,7 +293,7 @@ console.log(
 - [x] Last specific weekday of month. (e.g. last Tuesday)
 - [x] Closest weekday to a specific day of the month.
 - [x] Nth specific weekday of month. (e.g. 2nd Tuesday)
-- [ ] Cron alias support.
+- [x] Cron alias support.
 
 <hr />
 

@@ -30,13 +30,12 @@ type ExtendWildcards = {
   allowOnlyOneBlankDayField: boolean
 
   // Optional for backward compatibility. Undefined implies false.
+  useAliases?: boolean
   mustHaveBlankDayField?: boolean
   useLastDayOfMonth?: boolean
   useLastDayOfWeek?: boolean
   useNearestWeekday?: boolean
   useNthWeekdayOfMonth?: boolean
-  // useAliases: boolean
-  // useNonStandardCharacters: boolean
 }
 
 export type OptionPreset = {

@@ -120,4 +120,6 @@ const cron = (cronString: string, inputOptions: InputOptions = {}): Err<Options 
 }
 
 export default cron
+
 module.exports = cron
+module.exports.default = cron
