@@ -1,3 +1,16 @@
+# [1.3.0](https://github.com/Airfooox/cron-validate/compare/v1.2.0...v1.3.0) (2020-08-14)
+
+
+### Bug Fixes
+
+* try to fix default export ([3a66f3f](https://github.com/Airfooox/cron-validate/commit/3a66f3f8998f58537341bb8233ceb2086c86a9d5))
+* **deps:** update dependency yup to v0.29.3 ([#94](https://github.com/Airfooox/cron-validate/issues/94)) ([0080c06](https://github.com/Airfooox/cron-validate/commit/0080c06a1baaf68d591763aa76ca6e55e412ef60))
+
+
+### Features
+
+* Add support for alias ([#85](https://github.com/Airfooox/cron-validate/issues/85)) ([5193dd8](https://github.com/Airfooox/cron-validate/commit/5193dd8eb5f2ef30040d2edca2614e9fbc0c5364))
+
 # [1.2.0](https://github.com/Airfooox/cron-validate/compare/v1.1.5...v1.2.0) (2020-07-29)
 
 
