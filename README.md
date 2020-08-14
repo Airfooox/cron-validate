@@ -162,7 +162,7 @@ The preset properties explained:
 - `useYears: boolean`
   - enables years field in cron expression
 - `useAliases: boolean`
-  - enables aliases for month and daysOfWeek fields
+  - enables aliases for month and daysOfWeek fields (ignores limits for month and daysOfWeek, so be aware of that)
 - `useBlankDay: boolean`
   - enables blank day notation '?' in daysOfMonth and daysOfWeek field
 - `allowOnlyOneBlankDayField: boolean`
@@ -293,7 +293,7 @@ console.log(
 - [x] Last specific weekday of month. (e.g. last Tuesday)
 - [x] Closest weekday to a specific day of the month.
 - [x] Nth specific weekday of month. (e.g. 2nd Tuesday)
-- [ ] Cron alias support.
+- [x] Cron alias support.
 
 <hr />
 
