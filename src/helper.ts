@@ -11,9 +11,9 @@ const daysOfWeekAliases = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']
 const checkWildcardLimit = (cronFieldType: CronFieldType, options: Options) => {
   return (
     options[cronFieldType].lowerLimit ===
-      options.preset[cronFieldType].lowerLimit &&
+      options.preset[cronFieldType].minValue &&
     options[cronFieldType].upperLimit ===
-      options.preset[cronFieldType].upperLimit
+      options.preset[cronFieldType].maxValue
   )
 }
 
