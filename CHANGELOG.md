@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/Airfooox/cron-validate/compare/v1.3.0...v1.3.1) (2020-08-21)
+
+
+### Bug Fixes
+
+* fix wrong wildcard ('*') check with lower-/upperLimit ([df8b6f2](https://github.com/Airfooox/cron-validate/commit/df8b6f2be19a803d8927e6b25dd71875b5bc262a))
+
 # [1.3.0](https://github.com/Airfooox/cron-validate/compare/v1.2.0...v1.3.0) (2020-08-14)
 
 
