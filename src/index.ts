@@ -6,7 +6,11 @@ import checkDaysOfMonth from './fieldCheckers/dayOfMonthChecker'
 import checkMonths from './fieldCheckers/monthChecker'
 import checkDaysOfWeek from './fieldCheckers/dayOfWeekChecker'
 import checkYears from './fieldCheckers/yearChecker'
-import { validateOptions } from './option'
+import {
+  getOptionPreset,
+  registerOptionPreset,
+  validateOptions,
+} from './option'
 import type { InputOptions, Options } from './types'
 
 export interface CronData {
@@ -28,7 +32,10 @@ export type CronFieldType =
   | 'daysOfWeek'
   | 'years'
 
-const splitCronString = (cronString: string, options: Options): Result<CronData, string> => {
+const splitCronString = (
+  cronString: string,
+  options: Options
+): Result<CronData, string> => {
   const splittedCronString = cronString.trim().split(' ')
 
   if (
@@ -68,7 +75,10 @@ const splitCronString = (cronString: string, options: Options): Result<CronData,
   return valid(cronData)
 }
 
-const cron = (cronString: string, inputOptions: InputOptions = {}): Err<Options | CronData, string[]> | Valid<CronData, string[]> => {
+const cron = (
+  cronString: string,
+  inputOptions: InputOptions = {}
+): Err<Options | CronData, string[]> | Valid<CronData, string[]> => {
   // Validate option
   const optionsResult = validateOptions(inputOptions)
   if (optionsResult.isError()) {

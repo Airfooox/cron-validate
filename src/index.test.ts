@@ -290,6 +290,42 @@ describe('Test cron validation', () => {
       minutes: {
         minValue: 0,
         maxValue: 59,
+      },
+      hours: {
+        minValue: 0,
+        maxValue: 23,
+      },
+      daysOfMonth: {
+        minValue: 0,
+        maxValue: 31,
+      },
+      months: {
+        minValue: 0,
+        maxValue: 12,
+      },
+      daysOfWeek: {
+        minValue: 0,
+        maxValue: 7,
+      },
+      years: {
+        minValue: 1970,
+        maxValue: 2099,
+      },
+    })
+
+    registerOptionPreset('testPreset2', {
+      presetId: 'testPreset2',
+      useSeconds: true,
+      useYears: false,
+      useBlankDay: false,
+      allowOnlyOneBlankDayField: false,
+      seconds: {
+        minValue: 0,
+        maxValue: 59,
+      },
+      minutes: {
+        minValue: 0,
+        maxValue: 59,
         lowerLimit: 10,
         upperLimit: 30,
       },
@@ -315,7 +351,47 @@ describe('Test cron validation', () => {
       },
     })
 
+    registerOptionPreset('testPreset3', {
+      presetId: 'testPreset3',
+      useSeconds: true,
+      useYears: false,
+      useBlankDay: false,
+      allowOnlyOneBlankDayField: false,
+      seconds: {
+        minValue: 1,
+        maxValue: 60,
+      },
+      minutes: {
+        minValue: 1,
+        maxValue: 60,
+      },
+      hours: {
+        minValue: 1,
+        maxValue: 24,
+      },
+      daysOfMonth: {
+        minValue: 1,
+        maxValue: 31,
+      },
+      months: {
+        minValue: 1,
+        maxValue: 12,
+      },
+      daysOfWeek: {
+        minValue: 1,
+        maxValue: 7,
+      },
+      years: {
+        minValue: 1970,
+        maxValue: 2099,
+      },
+    })
+
     expect(getOptionPreset('testPreset')).toBeTruthy()
+    expect(getOptionPreset('testPreset2')).toBeTruthy()
+    expect(getOptionPreset('testPreset3')).toBeTruthy()
+
+    // testPreset1
 
     expect(
       cron('* * * * *', {
@@ -353,12 +429,6 @@ describe('Test cron validation', () => {
     expect(
       cron('* 9 * * * *', {
         preset: 'testPreset',
-      }).isValid()
-    ).toBeFalsy()
-
-    expect(
-      cron('* 9 * * * *', {
-        preset: 'testPreset',
         override: {
           minutes: { lowerLimit: 9 },
         },
@@ -370,6 +440,146 @@ describe('Test cron validation', () => {
         preset: 'testPreset',
       }).isValid()
     ).toBeTruthy()
+
+    // testPreset 2
+
+    expect(
+      cron('* * * * *', {
+        preset: 'testPreset2',
+      }).isValid()
+    ).toBeFalsy()
+
+    expect(
+      cron('* * * * * *', {
+        preset: 'testPreset2',
+      }).isValid()
+    ).toBeFalsy()
+
+    expect(
+      cron('* 10-30 * * * *', {
+        preset: 'testPreset2',
+      }).isValid()
+    ).toBeTruthy()
+
+    expect(
+      cron('* 9-30 * * * *', {
+        preset: 'testPreset2',
+      }).isValid()
+    ).toBeFalsy()
+
+    expect(
+      cron('* * * * * * *', {
+        preset: 'testPreset2',
+      }).isValid()
+    ).toBeFalsy()
+
+    expect(
+      cron('* * * * * * *', {
+        preset: 'testPreset2',
+        override: {
+          useYears: true,
+        },
+      }).isValid()
+    ).toBeFalsy()
+
+    expect(
+      cron('* 20 * * * * *', {
+        preset: 'testPreset2',
+        override: {
+          useYears: true,
+        },
+      }).isValid()
+    ).toBeTruthy()
+
+    expect(
+      cron('* 9 * * * *', {
+        preset: 'testPreset2',
+      }).isValid()
+    ).toBeFalsy()
+
+    expect(
+      cron('* 9 * * * *', {
+        preset: 'testPreset2',
+        override: {
+          minutes: { lowerLimit: 9 },
+        },
+      }).isValid()
+    ).toBeTruthy()
+
+    expect(
+      cron('* * * * * *', {
+        preset: 'testPreset2',
+        override: {
+          minutes: { lowerLimit: 0, upperLimit: 59 },
+        },
+      }).isValid()
+    ).toBeTruthy()
+
+    expect(
+      cron('* 10-30 */2 * * *', {
+        preset: 'testPreset2',
+      }).isValid()
+    ).toBeTruthy()
+
+    expect(
+      cron('* 9-30 */2 * * *', {
+        preset: 'testPreset2',
+      }).isValid()
+    ).toBeFalsy()
+
+    // testPreset3
+
+    expect(
+      cron('* * * * *', {
+        preset: 'testPreset3',
+      }).isValid()
+    ).toBeFalsy()
+
+    expect(
+      cron('* * * * * *', {
+        preset: 'testPreset3',
+      }).isValid()
+    ).toBeTruthy()
+
+    expect(
+      cron('* * * * * * *', {
+        preset: 'testPreset3',
+      }).isValid()
+    ).toBeFalsy()
+
+    expect(
+      cron('* * * * * * *', {
+        preset: 'testPreset3',
+        override: {
+          useYears: true,
+        },
+      }).isValid()
+    ).toBeTruthy()
+
+    expect(
+      cron('* 10-30 * * * *', {
+        preset: 'testPreset3',
+      }).isValid()
+    ).toBeTruthy()
+
+    expect(
+      cron('* 9 * * * *', {
+        preset: 'testPreset3',
+      }).isValid()
+    ).toBeTruthy()
+
+    expect(
+      cron('* 0 * * * *', {
+        preset: 'testPreset3',
+      }).isValid()
+    ).toBeFalsy()
+
+    //
+
+    expect(cron('* * ? * 8 *', {
+      preset: 'aws-cloud-watch'
+    }).isValid())
+      .toBeFalsy()
   })
 
   it('Test invalid ranges', () => {
