@@ -74,20 +74,13 @@ The following presets are already defined by cron-validate:
 - default (see: http://crontab.org/)
 - npm-node-cron (see: https://github.com/kelektiv/node-cron)
 - aws-cloud-watch (see: https://docs.aws.amazon.com/de_de/AmazonCloudWatch/latest/events/ScheduledEvents.html)
+- npm-cron-schedule (see: https://github.com/P4sca1/cron-schedule)
 
 To select a preset for your validation, you can simply do this:
 
 ```typescript
 cron('* * * * *', {
-  preset: 'npm-node-cron',
-})
-```
-
-or
-
-```typescript
-cron('* * * * *', {
-  preset: 'aws-cloud-watch',
+  preset: 'npm-cron-schedule',
 })
 ```
 
