@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/Airfooox/cron-validate/compare/v1.3.1...v1.4.0) (2020-10-25)
+
+
+### Features
+
+* add npm-cron-schedule preset ([#124](https://github.com/Airfooox/cron-validate/issues/124)) ([888bfa9](https://github.com/Airfooox/cron-validate/commit/888bfa925eeaf0ebaf1dd350e1acdd81827f18e6))
+
 ## [1.3.1](https://github.com/Airfooox/cron-validate/compare/v1.3.0...v1.3.1) (2020-08-21)
 
 
