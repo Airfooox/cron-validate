@@ -82,7 +82,7 @@
     "@semantic-release/git": "9.0.0",
     "@types/jest": "26.0.15",
     "@types/node": "13.13.30",
-    "@types/yup": "0.29.8",
+    "@types/yup": "0.29.9",
     "@typescript-eslint/eslint-plugin": "4.7.0",
     "@typescript-eslint/parser": "4.7.0",
     "env-cmd": "10.1.0",
