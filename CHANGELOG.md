@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/Airfooox/cron-validate/compare/v1.4.0...v1.4.1) (2020-11-21)
+
+
+### Bug Fixes
+
+* **deps:** update dependency yup to v0.30.0 ([#140](https://github.com/Airfooox/cron-validate/issues/140)) ([5679b0f](https://github.com/Airfooox/cron-validate/commit/5679b0f0310487e98c028444d9f2ca91d87c57fa))
+
 # [1.4.0](https://github.com/Airfooox/cron-validate/compare/v1.3.1...v1.4.0) (2020-10-25)
 
 
