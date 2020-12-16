@@ -82,7 +82,7 @@
     "@semantic-release/git": "9.0.0",
     "@types/jest": "26.0.15",
     "@types/node": "13.13.32",
-    "@types/yup": "0.29.9",
+    "@types/yup": "0.29.11",
     "@typescript-eslint/eslint-plugin": "4.8.1",
     "@typescript-eslint/parser": "4.8.1",
     "env-cmd": "10.1.0",
@@ -99,6 +99,6 @@
     "typescript": "4.1.2"
   },
   "dependencies": {
-    "yup": "0.30.0"
+    "yup": "0.32.8"
   }
 }
