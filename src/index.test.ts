@@ -576,10 +576,11 @@ describe('Test cron validation', () => {
 
     //
 
-    expect(cron('* * ? * 8 *', {
-      preset: 'aws-cloud-watch'
-    }).isValid())
-      .toBeFalsy()
+    expect(
+      cron('* * ? * 8 *', {
+        preset: 'aws-cloud-watch',
+      }).isValid()
+    ).toBeFalsy()
   })
 
   it('Test invalid ranges', () => {
@@ -750,19 +751,31 @@ describe('Test cron validation', () => {
     // minimum one blank required
     expect(
       cron('* * * * *', {
-        override: { useBlankDay: true, allowOnlyOneBlankDayField: true, mustHaveBlankDayField: true },
+        override: {
+          useBlankDay: true,
+          allowOnlyOneBlankDayField: true,
+          mustHaveBlankDayField: true,
+        },
       }).isValid()
     ).toBeFalsy()
 
     expect(
       cron('* * * * ?', {
-        override: { useBlankDay: true, allowOnlyOneBlankDayField: true, mustHaveBlankDayField: true },
+        override: {
+          useBlankDay: true,
+          allowOnlyOneBlankDayField: true,
+          mustHaveBlankDayField: true,
+        },
       }).isValid()
     ).toBeTruthy()
 
     expect(
       cron('* * ? * *', {
-        override: { useBlankDay: true, allowOnlyOneBlankDayField: true, mustHaveBlankDayField: true },
+        override: {
+          useBlankDay: true,
+          allowOnlyOneBlankDayField: true,
+          mustHaveBlankDayField: true,
+        },
       }).isValid()
     ).toBeTruthy()
 
