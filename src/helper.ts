@@ -5,28 +5,46 @@ import type { Options } from './types'
 // Instead of translating the alias to a number, we just validate that it's an accepted alias.
 // This is to avoid managing the limits with the translation to numbers.
 // e.g.: For AWS, sun = 1, while for normal cron, sun = 0. Translating to numbers would break that.
-const monthAliases = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+const monthAliases = [
+  'jan',
+  'feb',
+  'mar',
+  'apr',
+  'may',
+  'jun',
+  'jul',
+  'aug',
+  'sep',
+  'oct',
+  'nov',
+  'dec',
+]
 const daysOfWeekAliases = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']
 
-const checkWildcardLimit = (cronFieldType: CronFieldType, options: Options) => {
-  return (
+const checkWildcardLimit = (cronFieldType: CronFieldType, options: Options) => (
     options[cronFieldType].lowerLimit ===
       options.preset[cronFieldType].minValue &&
-    options[cronFieldType].upperLimit ===
-      options.preset[cronFieldType].maxValue
+    options[cronFieldType].upperLimit === options.preset[cronFieldType].maxValue
   )
-}
 
 const checkSingleElementWithinLimits = (
   element: string,
   cronFieldType: CronFieldType,
   options: Options
 ): Result<boolean, string> => {
-  if (cronFieldType === 'months' && options.useAliases && monthAliases.indexOf(element.toLowerCase()) !== -1) {
+  if (
+    cronFieldType === 'months' &&
+    options.useAliases &&
+    monthAliases.indexOf(element.toLowerCase()) !== -1
+  ) {
     return valid(true)
   }
 
-  if (cronFieldType === 'daysOfWeek' && options.useAliases && daysOfWeekAliases.indexOf(element.toLowerCase()) !== -1) {
+  if (
+    cronFieldType === 'daysOfWeek' &&
+    options.useAliases &&
+    daysOfWeekAliases.indexOf(element.toLowerCase()) !== -1
+  ) {
     return valid(true)
   }
 
@@ -71,27 +89,39 @@ const checkSingleElement = (
     return err(`One of the elements is empty in ${cronFieldType} field.`)
   }
 
-  if (cronFieldType === 'daysOfMonth' && options.useLastDayOfMonth && element === 'L') {
+  if (
+    cronFieldType === 'daysOfMonth' &&
+    options.useLastDayOfMonth &&
+    element === 'L'
+  ) {
     return valid(true)
   }
 
   // We must do that check here because L is used with a number to specify the day of the week for which
   // we look for the last occurrence in the month.
   // We use `endsWith` here because anywhere else is not valid so it will be caught later on.
-  if (cronFieldType === 'daysOfWeek' && options.useLastDayOfWeek && element.endsWith('L')) {
-      const day = element.slice(0, -1)
-      if (day === '') {
-        // This means that element is only `L` which is the equivalent of saturdayL
-        return valid(true)
-      }
+  if (
+    cronFieldType === 'daysOfWeek' &&
+    options.useLastDayOfWeek &&
+    element.endsWith('L')
+  ) {
+    const day = element.slice(0, -1)
+    if (day === '') {
+      // This means that element is only `L` which is the equivalent of saturdayL
+      return valid(true)
+    }
 
-      return checkSingleElementWithinLimits(day, cronFieldType, options)
+    return checkSingleElementWithinLimits(day, cronFieldType, options)
   }
 
   // We must do that check here because W is used with a number to specify the day of the month for which
   // we must run over a weekday instead.
   // We use `endsWith` here because anywhere else is not valid so it will be caught later on.
-  if (cronFieldType === 'daysOfMonth' && options.useNearestWeekday && element.endsWith('W')) {
+  if (
+    cronFieldType === 'daysOfMonth' &&
+    options.useNearestWeekday &&
+    element.endsWith('W')
+  ) {
     const day = element.slice(0, -1)
     if (day === '') {
       return err(`The 'W' must be preceded by a day`)
@@ -105,15 +135,23 @@ const checkSingleElement = (
     return checkSingleElementWithinLimits(day, cronFieldType, options)
   }
 
-  if (cronFieldType === 'daysOfWeek' && options.useNthWeekdayOfMonth && element.indexOf('#') !== -1) {
+  if (
+    cronFieldType === 'daysOfWeek' &&
+    options.useNthWeekdayOfMonth &&
+    element.indexOf('#') !== -1
+  ) {
     const [day, occurrence, ...leftOvers] = element.split('#')
     if (leftOvers.length !== 0) {
-      return err(`Unexpected number of '#' in ${element}, can only be used once.`)
+      return err(
+        `Unexpected number of '#' in ${element}, can only be used once.`
+      )
     }
 
     const occurrenceNum = Number(occurrence)
     if (!occurrence || isNaN(occurrenceNum)) {
-      return err(`Unexpected value following the '#' symbol, a positive number was expected but found ${occurrence}.`)
+      return err(
+        `Unexpected value following the '#' symbol, a positive number was expected but found ${occurrence}.`
+      )
     }
 
     return checkSingleElementWithinLimits(day, cronFieldType, options)

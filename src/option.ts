@@ -121,7 +121,9 @@ const optionPresetSchema = yup
   })
   .required()
 
-export const getOptionPreset = (presetId: string): Result<OptionPreset, string> => {
+export const getOptionPreset = (
+  presetId: string
+): Result<OptionPreset, string> => {
   if (optionPresets[presetId]) {
     return valid(optionPresets[presetId])
   }
@@ -129,9 +131,7 @@ export const getOptionPreset = (presetId: string): Result<OptionPreset, string> 
   return err(`Option preset '${presetId}' not found.`)
 }
 
-export const getOptionPresets = (): typeof optionPresets => {
-  return optionPresets
-}
+export const getOptionPresets = (): typeof optionPresets => optionPresets
 
 export const registerOptionPreset = (
   presetName: string,
@@ -145,7 +145,9 @@ export const registerOptionPreset = (
   })
 }
 
-export const validateOptions = (inputOptions: InputOptions): Result<Options, string[]> => {
+export const validateOptions = (
+  inputOptions: InputOptions
+): Result<Options, string[]> => {
   try {
     // load default presets
     presets()
@@ -192,16 +194,20 @@ export const validateOptions = (inputOptions: InputOptions): Result<Options, str
           upperLimit: preset.hours.upperLimit ?? preset.hours.maxValue,
         },
         daysOfMonth: {
-          lowerLimit: preset.daysOfMonth.lowerLimit ?? preset.daysOfMonth.minValue,
-          upperLimit: preset.daysOfMonth.upperLimit ?? preset.daysOfMonth.maxValue,
+          lowerLimit:
+            preset.daysOfMonth.lowerLimit ?? preset.daysOfMonth.minValue,
+          upperLimit:
+            preset.daysOfMonth.upperLimit ?? preset.daysOfMonth.maxValue,
         },
         months: {
           lowerLimit: preset.months.lowerLimit ?? preset.months.minValue,
           upperLimit: preset.months.upperLimit ?? preset.months.maxValue,
         },
         daysOfWeek: {
-          lowerLimit: preset.daysOfWeek.lowerLimit ?? preset.daysOfWeek.minValue,
-          upperLimit: preset.daysOfWeek.upperLimit ?? preset.daysOfWeek.maxValue,
+          lowerLimit:
+            preset.daysOfWeek.lowerLimit ?? preset.daysOfWeek.minValue,
+          upperLimit:
+            preset.daysOfWeek.upperLimit ?? preset.daysOfWeek.maxValue,
         },
         years: {
           lowerLimit: preset.years.lowerLimit ?? preset.years.minValue,

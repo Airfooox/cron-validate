@@ -21,8 +21,8 @@ type Fields<T> = {
 }
 
 type ExtendFields = {
-    useSeconds: boolean
-    useYears: boolean
+  useSeconds: boolean
+  useYears: boolean
 }
 
 type ExtendWildcards = {
@@ -40,14 +40,21 @@ type ExtendWildcards = {
 
 export type OptionPreset = {
   presetId: string
-} & Fields<OptionPresetFieldOptions> & ExtendFields & ExtendWildcards
+} & Fields<OptionPresetFieldOptions> &
+  ExtendFields &
+  ExtendWildcards
 
 export type Options = {
   presetId: string
   preset: OptionPreset
-} & Fields<FieldOption> & ExtendFields & ExtendWildcards
+} & Fields<FieldOption> &
+  ExtendFields &
+  ExtendWildcards
 
 export type InputOptions = {
   preset?: string | OptionPreset
-  override?: Partial<Fields<FieldOption>> & Partial<ExtendFields> & Partial<ExtendWildcards>
-} & Partial<Fields<FieldOption>> & Partial<ExtendFields>
+  override?: Partial<Fields<FieldOption>> &
+    Partial<ExtendFields> &
+    Partial<ExtendWildcards>
+} & Partial<Fields<FieldOption>> &
+  Partial<ExtendFields>

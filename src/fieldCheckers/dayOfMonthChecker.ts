@@ -3,7 +3,10 @@ import { err, Result } from '../result'
 import checkField from '../helper'
 import type { Options } from '../types'
 
-const checkDaysOfMonth = (cronData: CronData, options: Options): Result<boolean, string[]> => {
+const checkDaysOfMonth = (
+  cronData: CronData,
+  options: Options
+): Result<boolean, string[]> => {
   if (!cronData.daysOfMonth) {
     return err(['daysOfMonth field is undefined.'])
   }
@@ -39,7 +42,7 @@ const checkDaysOfMonth = (cronData: CronData, options: Options): Result<boolean,
     cronData.daysOfMonth.match(/[,/]/)
   ) {
     return err([
-      `Cannot specify last day of month with lists, or ranges (symbols ,/).`
+      `Cannot specify last day of month with lists, or ranges (symbols ,/).`,
     ])
   }
 
@@ -49,7 +52,7 @@ const checkDaysOfMonth = (cronData: CronData, options: Options): Result<boolean,
     cronData.daysOfMonth.match(/[,/-]/)
   ) {
     return err([
-      `Cannot specify nearest weekday with lists, steps or ranges (symbols ,-/).`
+      `Cannot specify nearest weekday with lists, steps or ranges (symbols ,-/).`,
     ])
   }
 
