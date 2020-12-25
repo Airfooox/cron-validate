@@ -131,9 +131,7 @@ export const getOptionPreset = (
   return err(`Option preset '${presetId}' not found.`)
 }
 
-export const getOptionPresets = (): typeof optionPresets => {
-  return optionPresets
-}
+export const getOptionPresets = (): typeof optionPresets => optionPresets
 
 export const registerOptionPreset = (
   presetName: string,
