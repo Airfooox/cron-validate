@@ -1,5 +1,5 @@
 import cron from './index'
-import type { InputOptions } from './types'
+import { InputOptions } from './types'
 
 type TestCase = {
   value: string

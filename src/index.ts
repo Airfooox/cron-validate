@@ -11,7 +11,7 @@ import {
   registerOptionPreset,
   validateOptions,
 } from './option'
-import type { InputOptions, Options } from './types'
+import { InputOptions, Options } from './types'
 
 export interface CronData {
   seconds?: string
