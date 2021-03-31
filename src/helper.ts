@@ -1,6 +1,6 @@
-import type { CronFieldType } from './index'
+import { CronFieldType } from './index'
 import { Err, err, Result, Valid, valid } from './result'
-import type { Options } from './types'
+import { Options } from './types'
 
 // Instead of translating the alias to a number, we just validate that it's an accepted alias.
 // This is to avoid managing the limits with the translation to numbers.

@@ -1,8 +1,8 @@
 import * as yup from 'yup'
-import type { ValidationError } from 'yup'
+import { ValidationError } from 'yup'
 import { err, valid, Result } from './result'
 import presets from './presets'
-import type { Options, OptionPreset, InputOptions } from './types'
+import { Options, OptionPreset, InputOptions } from './types'
 
 const optionPresets: { [presetId: string]: OptionPreset } = {
   // http://crontab.org/
