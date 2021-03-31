@@ -1,6 +1,6 @@
 {
   "name": "cron-validate",
-  "version": "1.2.0",
+  "version": "1.4.2",
   "description": "cron-validate is a cron-expression validator written in TypeScript.",
   "scripts": {
     "dev": "nodemon",
@@ -79,7 +79,10 @@
   },
   "devDependencies": {
     "@semantic-release/changelog": "5.0.1",
+    "@semantic-release/commit-analyzer": "^8.0.1",
     "@semantic-release/git": "9.0.0",
+    "@semantic-release/github": "^7.2.0",
+    "@semantic-release/release-notes-generator": "^9.0.2",
     "@types/jest": "26.0.22",
     "@types/node": "13.13.46",
     "@types/yup": "0.29.11",
