@@ -1,3 +1,11 @@
+## [1.4.3](https://github.com/Airfooox/cron-validate/compare/v1.4.2...v1.4.3) (2021-03-31)
+
+
+### Bug Fixes
+
+* remove import type for backwards compatibility ([3e4d8ab](https://github.com/Airfooox/cron-validate/commit/3e4d8ab37869b2ed2290a9ca6a58a5b3bcc0beaa))
+* **deps:** update dependency yup to v0.32.9 ([#166](https://github.com/Airfooox/cron-validate/issues/166)) ([0193a3f](https://github.com/Airfooox/cron-validate/commit/0193a3f5e767be95c34d80f965c631dab1cf5331))
+
 ## [1.4.2](https://github.com/Airfooox/cron-validate/compare/v1.4.1...v1.4.2) (2020-12-25)
 
 
