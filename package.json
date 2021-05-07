@@ -84,7 +84,7 @@
     "@semantic-release/github": "7.2.0",
     "@semantic-release/release-notes-generator": "9.0.2",
     "@types/jest": "26.0.22",
-    "@types/node": "13.13.46",
+    "@types/node": "13.13.51",
     "@types/yup": "0.29.11",
     "@typescript-eslint/eslint-plugin": "4.17.0",
     "@typescript-eslint/parser": "4.17.0",
