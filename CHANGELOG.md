@@ -1,3 +1,10 @@
+## [1.4.4](https://github.com/Airfooox/cron-validate/compare/v1.4.3...v1.4.4) (2022-10-12)
+
+
+### Bug Fixes
+
+* update AWS cloudwatch preset ([f583267](https://github.com/Airfooox/cron-validate/commit/f583267a6c6c18792086160470a98baf5b0e2db7))
+
 ## [1.4.3](https://github.com/Airfooox/cron-validate/compare/v1.4.2...v1.4.3) (2021-03-31)
 
 
