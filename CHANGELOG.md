@@ -1,3 +1,59 @@
+## [1.4.4](https://github.com/Airfooox/cron-validate/compare/v1.4.3...v1.4.4) (2022-10-12)
+
+
+### Bug Fixes
+
+* update AWS cloudwatch preset ([f583267](https://github.com/Airfooox/cron-validate/commit/f583267a6c6c18792086160470a98baf5b0e2db7))
+
+## [1.4.3](https://github.com/Airfooox/cron-validate/compare/v1.4.2...v1.4.3) (2021-03-31)
+
+
+### Bug Fixes
+
+* remove import type for backwards compatibility ([3e4d8ab](https://github.com/Airfooox/cron-validate/commit/3e4d8ab37869b2ed2290a9ca6a58a5b3bcc0beaa))
+* **deps:** update dependency yup to v0.32.9 ([#166](https://github.com/Airfooox/cron-validate/issues/166)) ([0193a3f](https://github.com/Airfooox/cron-validate/commit/0193a3f5e767be95c34d80f965c631dab1cf5331))
+
+## [1.4.2](https://github.com/Airfooox/cron-validate/compare/v1.4.1...v1.4.2) (2020-12-25)
+
+
+### Bug Fixes
+
+* **deps:** update dependency yup to v0.32.8 ([#146](https://github.com/Airfooox/cron-validate/issues/146)) ([fc2783d](https://github.com/Airfooox/cron-validate/commit/fc2783dfbdf6488cded93d3e639519c9779b1fec))
+
+## [1.4.1](https://github.com/Airfooox/cron-validate/compare/v1.4.0...v1.4.1) (2020-11-21)
+
+
+### Bug Fixes
+
+* **deps:** update dependency yup to v0.30.0 ([#140](https://github.com/Airfooox/cron-validate/issues/140)) ([5679b0f](https://github.com/Airfooox/cron-validate/commit/5679b0f0310487e98c028444d9f2ca91d87c57fa))
+
+# [1.4.0](https://github.com/Airfooox/cron-validate/compare/v1.3.1...v1.4.0) (2020-10-25)
+
+
+### Features
+
+* add npm-cron-schedule preset ([#124](https://github.com/Airfooox/cron-validate/issues/124)) ([888bfa9](https://github.com/Airfooox/cron-validate/commit/888bfa925eeaf0ebaf1dd350e1acdd81827f18e6))
+
+## [1.3.1](https://github.com/Airfooox/cron-validate/compare/v1.3.0...v1.3.1) (2020-08-21)
+
+
+### Bug Fixes
+
+* fix wrong wildcard ('*') check with lower-/upperLimit ([df8b6f2](https://github.com/Airfooox/cron-validate/commit/df8b6f2be19a803d8927e6b25dd71875b5bc262a))
+
+# [1.3.0](https://github.com/Airfooox/cron-validate/compare/v1.2.0...v1.3.0) (2020-08-14)
+
+
+### Bug Fixes
+
+* try to fix default export ([3a66f3f](https://github.com/Airfooox/cron-validate/commit/3a66f3f8998f58537341bb8233ceb2086c86a9d5))
+* **deps:** update dependency yup to v0.29.3 ([#94](https://github.com/Airfooox/cron-validate/issues/94)) ([0080c06](https://github.com/Airfooox/cron-validate/commit/0080c06a1baaf68d591763aa76ca6e55e412ef60))
+
+
+### Features
+
+* Add support for alias ([#85](https://github.com/Airfooox/cron-validate/issues/85)) ([5193dd8](https://github.com/Airfooox/cron-validate/commit/5193dd8eb5f2ef30040d2edca2614e9fbc0c5364))
+
 # [1.2.0](https://github.com/Airfooox/cron-validate/compare/v1.1.5...v1.2.0) (2020-07-29)
 
 
