@@ -21,11 +21,10 @@ const monthAliases = [
 ]
 const daysOfWeekAliases = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']
 
-const checkWildcardLimit = (cronFieldType: CronFieldType, options: Options) => (
-    options[cronFieldType].lowerLimit ===
-      options.preset[cronFieldType].minValue &&
-    options[cronFieldType].upperLimit === options.preset[cronFieldType].maxValue
-  )
+const checkWildcardLimit = (cronFieldType: CronFieldType, options: Options) =>
+  options[cronFieldType].lowerLimit ===
+    options.preset[cronFieldType].minValue &&
+  options[cronFieldType].upperLimit === options.preset[cronFieldType].maxValue
 
 const checkSingleElementWithinLimits = (
   element: string,
@@ -152,6 +151,10 @@ const checkSingleElement = (
       return err(
         `Unexpected value following the '#' symbol, a positive number was expected but found ${occurrence}.`
       )
+    }
+
+    if (occurrenceNum > 5) {
+      return err(`Number of occurrence of the day of the week cannot be greater than 5.`)
     }
 
     return checkSingleElementWithinLimits(day, cronFieldType, options)

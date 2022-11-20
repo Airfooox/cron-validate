@@ -3,8 +3,12 @@ import { getOptionPreset, registerOptionPreset } from './option'
 
 describe('Test cron validation', () => {
   it('test issue', () => {
-    expect(cron('*/5 * ? * *', {preset: 'aws-cloud-watch'}).isValid()).toBeFalsy()
-    expect(cron('*/5 * * * *', {preset: 'aws-cloud-watch'}).isValid()).toBeFalsy()
+    expect(
+      cron('*/5 * ? * *', { preset: 'aws-cloud-watch' }).isValid()
+    ).toBeFalsy()
+    expect(
+      cron('*/5 * * * *', { preset: 'aws-cloud-watch' }).isValid()
+    ).toBeFalsy()
   })
 
   it('Test cron length (5 chars allowed)', () => {
