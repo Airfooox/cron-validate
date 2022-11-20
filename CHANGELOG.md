@@ -1,3 +1,10 @@
+## [1.4.5](https://github.com/Airfooox/cron-validate/compare/v1.4.4...v1.4.5) (2022-11-20)
+
+
+### Bug Fixes
+
+* day of week occurence number cannot be bigger than 5 ([#263](https://github.com/Airfooox/cron-validate/issues/263)) ([62cbb9b](https://github.com/Airfooox/cron-validate/commit/62cbb9ba6ba191eaa49bb51c073de78f3f28eaac))
+
 ## [1.4.4](https://github.com/Airfooox/cron-validate/compare/v1.4.3...v1.4.4) (2022-10-12)
 
 
