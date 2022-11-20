@@ -2,6 +2,15 @@ import cron from './index'
 import { getOptionPreset, registerOptionPreset } from './option'
 
 describe('Test cron validation', () => {
+  it('test issue', () => {
+    expect(
+      cron('*/5 * ? * *', { preset: 'aws-cloud-watch' }).isValid()
+    ).toBeFalsy()
+    expect(
+      cron('*/5 * * * *', { preset: 'aws-cloud-watch' }).isValid()
+    ).toBeFalsy()
+  })
+
   it('Test cron length (5 chars allowed)', () => {
     const emptyStringCron = cron('')
     expect(emptyStringCron.isValid()).toBeFalsy()

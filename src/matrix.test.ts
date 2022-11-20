@@ -214,7 +214,10 @@ describe('test', () => {
         },
       },
       validIndexes: [4],
-      valids: [{ value: '6#3', description: '3rd friday of the month' }],
+      valids: [
+        { value: '6#3', description: '3rd friday of the month' },
+        { value: '5#5', description: '5rd thursday of the month' }
+      ],
       invalids: [
         { value: '6#', description: 'must have a number after' },
         { value: '#3', description: 'must have a number before' },
@@ -222,7 +225,9 @@ describe('test', () => {
         { value: '2-6#3', description: 'cannot be in a range' },
         { value: '2/6#3', description: 'cannot be in a step' },
         { value: '6#3/2', description: 'cannot be in a step' },
-        { value: '8#3', description: 'must respect limits' },
+        { value: '8#3', description: 'must respect limits (days)' },
+        { value: '3#6', description: 'must respect limits (occurences of day)' },
+        { value: '6#6', description: 'must respect limits (occurences of day)' },
         { value: '6##3', description: 'cannot have multiple occurrence' },
       ],
       unuseds: [
