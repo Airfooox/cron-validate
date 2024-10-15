@@ -12,7 +12,7 @@ The validation options are customizable and cron fields like seconds and years a
 
 ## Installation
 
-Pacakge is available on npm:
+Package is available on npm:
 
 `npm install -S cron-validate`
 
