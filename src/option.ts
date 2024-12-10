@@ -152,6 +152,13 @@ function loadPresets() {
 }
 loadPresets();
 
+type OptionsCacheKey = string;
+const optionsCache: Map<OptionsCacheKey, Options> = new Map();
+
+function toOptionsCacheKey(presetId: string, override?: InputOptions["override"]) {
+  return presetId + (JSON.stringify(override) ?? "");
+}
+
 function presetToOptionsSchema(preset: OptionPreset) {
   return yup
     .object({
@@ -340,7 +347,13 @@ export const validateOptions = (
       preset = optionPresets.default
     }
 
+    const cacheKey = toOptionsCacheKey(preset.presetId, inputOptions.override);
+
+    const cachedOptions = optionsCache.get(cacheKey);
+    if (cachedOptions) return valid(cachedOptions);
+
     const options = presetToOptions(preset, inputOptions.override);
+    optionsCache.set(cacheKey, options);
     return valid(options);
   } catch (validationError) {
     return err((validationError as ValidationError).errors)
