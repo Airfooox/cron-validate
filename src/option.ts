@@ -150,6 +150,13 @@ export const registerOptionPreset = (
     recursive: true,
   })
 }
+function loadPresets() {
+  for (let index = 0; index < presets.length; index += 1) {
+    const { name, preset } = presets[index];
+    registerOptionPreset(name, preset)
+  }
+}
+loadPresets();
 
 function presetToOptionsSchema(preset: OptionPreset) {
   return yup
@@ -327,9 +334,6 @@ export const validateOptions = (
   inputOptions: InputOptions
 ): Result<Options, string[]> => {
   try {
-    // load default presets
-    presets()
-
     let preset: OptionPreset
     if (inputOptions.preset) {
       if (typeof inputOptions.preset === 'string') {
