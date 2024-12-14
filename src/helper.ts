@@ -255,6 +255,10 @@ const checkListElement = (
     )
   }
 
+  if (!options.allowStepping) {
+    return err('Stepping (\'/\') is now allowed.')
+  }
+
   const firstElementResult = checkFirstStepElement(
     stepArray[0],
     cronFieldType,

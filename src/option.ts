@@ -13,11 +13,16 @@ const optionPresets: { [presetId: string]: OptionPreset } = {
     useAliases: false,
     useBlankDay: false,
     allowOnlyOneBlankDayField: false,
+    // Optional for backward compatibility.
+    // Undefined implies true.
+    allowStepping: true,
+    // Undefined implies false.
     mustHaveBlankDayField: false,
     useLastDayOfMonth: false,
     useLastDayOfWeek: false,
     useNearestWeekday: false,
     useNthWeekdayOfMonth: false,
+    //
     seconds: {
       minValue: 0,
       maxValue: 59,
@@ -57,6 +62,7 @@ const optionPresetSchema = yup
     useAliases: yup.boolean(),
     useBlankDay: yup.boolean().required(),
     allowOnlyOneBlankDayField: yup.boolean().required(),
+    allowStepping: yup.boolean(),
     mustHaveBlankDayField: yup.boolean(),
     useLastDayOfMonth: yup.boolean(),
     useLastDayOfWeek: yup.boolean(),
@@ -176,6 +182,7 @@ export const validateOptions = (
         useAliases: preset.useAliases ?? false,
         useBlankDay: preset.useBlankDay,
         allowOnlyOneBlankDayField: preset.allowOnlyOneBlankDayField,
+        allowStepping: preset.allowStepping ?? true,
         mustHaveBlankDayField: preset.mustHaveBlankDayField ?? false,
         useLastDayOfMonth: preset.useLastDayOfMonth ?? false,
         useLastDayOfWeek: preset.useLastDayOfWeek ?? false,
@@ -226,6 +233,7 @@ export const validateOptions = (
         useAliases: yup.boolean(),
         useBlankDay: yup.boolean().required(),
         allowOnlyOneBlankDayField: yup.boolean().required(),
+        allowStepping: yup.boolean(),
         mustHaveBlankDayField: yup.boolean(),
         useLastDayOfMonth: yup.boolean(),
         useLastDayOfWeek: yup.boolean(),

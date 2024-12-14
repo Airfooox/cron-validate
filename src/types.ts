@@ -29,7 +29,11 @@ type ExtendWildcards = {
   useBlankDay: boolean
   allowOnlyOneBlankDayField: boolean
 
-  // Optional for backward compatibility. Undefined implies false.
+
+  // Optional for backward compatibility.
+  // Undefined implies true.
+  allowStepping?: boolean
+  // Undefined implies false.
   useAliases?: boolean
   mustHaveBlankDayField?: boolean
   useLastDayOfMonth?: boolean
