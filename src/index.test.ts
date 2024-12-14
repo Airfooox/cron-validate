@@ -114,6 +114,13 @@ describe('Test cron validation', () => {
     expect(cron('1,2,3 4,5,6 1 1 1').isValid()).toBeTruthy()
 
     expect(cron('01,02,03 04,05,06 01 01 01').isValid()).toBeTruthy()
+
+    expect(cron('1 1 1 1 1').isValid()).toBeTruthy()
+    expect(cron('0.1 1 1 1 1').isValid()).toBeFalsy()
+    expect(cron('1 0.1 1 1 1').isValid()).toBeFalsy()
+    expect(cron('1 1 0.1 1 1').isValid()).toBeFalsy()
+    expect(cron('1 1 1 0.1 1').isValid()).toBeFalsy()
+    expect(cron('1 1 1 1 0.1').isValid()).toBeFalsy()
   })
 
   it('Test cron field assignment', () => {

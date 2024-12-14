@@ -52,6 +52,11 @@ const checkSingleElementWithinLimits = (
     return err(`Element '${element} of ${cronFieldType} field is invalid.`)
   }
 
+  // check if integer and not a decimal
+  if (number % 1 !== 0) {
+    return err(`Element '${element} of ${cronFieldType} field is not an integer.`)
+  }
+
   const { lowerLimit } = options[cronFieldType]
   const { upperLimit } = options[cronFieldType]
   if (lowerLimit && number < lowerLimit) {
