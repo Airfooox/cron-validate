@@ -121,6 +121,8 @@ describe('Test cron validation', () => {
     expect(cron('1 1 0.1 1 1').isValid()).toBeFalsy()
     expect(cron('1 1 1 0.1 1').isValid()).toBeFalsy()
     expect(cron('1 1 1 1 0.1').isValid()).toBeFalsy()
+
+    expect(cron('1,1.5,2,2.5 1 1 1 1').isValid()).toBeFalsy()
   })
 
   it('Test cron field assignment', () => {
@@ -214,6 +216,8 @@ describe('Test cron validation', () => {
         override: { useYears: true },
       }).isValid(),
     ).toBeFalsy()
+
+    expect(cron('*/1.5 * * * *').isValid()).toBeFalsy()
   })
 
   it('Test range limits', () => {
@@ -627,6 +631,15 @@ describe('Test cron validation', () => {
     expect(cron('1/* * * * *').isValid()).toBeFalsy()
 
     expect(cron('1/0 * * * *').isValid()).toBeFalsy()
+
+    expect(cron('*/90 * * * *').isValid()).toBeFalsy()
+    expect(cron('*/60 * * * *').isValid()).toBeFalsy()
+
+    expect(cron('10-20/11 * * * *').isValid()).toBeFalsy()
+
+    expect(cron('* 6-18/15 * * *').isValid()).toBeFalsy()
+
+    expect(cron('* */25 * * *').isValid()).toBeFalsy()
   })
 
   it('Test incomplete statements', () => {
@@ -640,7 +653,7 @@ describe('Test cron validation', () => {
   it('Test massive cron-expression', () => {
     expect(
       cron(
-        '*/2,11,12,13-17,30-40/4 1,2,3,*/5,10-20 0-3,4-6,8-20/3,23 1,2,3,4,*/2,20-25/2,26-27 1-2,3-7/2,*/2,8-9/2 1,*/2,4-6',
+        '*/2,11,12,13-17,30-40/4 1,2,3,*/5,10-20 0-3,4-6,8-20/3,23 1,2,3,4,*/2,20-25/2,26-27 1-2,3-7/2,*/2,8-10/2 1,*/2,4-6',
         {
           override: { useSeconds: true },
         },

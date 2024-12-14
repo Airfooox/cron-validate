@@ -130,6 +130,3 @@ const cron = (
 }
 
 export default cron
-
-module.exports = cron
-module.exports.default = cron
