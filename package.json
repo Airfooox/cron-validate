@@ -102,6 +102,6 @@
     "typescript": "4.8.4"
   },
   "dependencies": {
-    "yup": "0.32.9"
+    "yup": "1.6.1"
   }
 }
