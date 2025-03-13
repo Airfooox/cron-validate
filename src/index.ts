@@ -6,11 +6,7 @@ import checkDaysOfMonth from './fieldCheckers/dayOfMonthChecker'
 import checkMonths from './fieldCheckers/monthChecker'
 import checkDaysOfWeek from './fieldCheckers/dayOfWeekChecker'
 import checkYears from './fieldCheckers/yearChecker'
-import {
-  getOptionPreset,
-  registerOptionPreset,
-  validateOptions,
-} from './option'
+import { validateOptions } from './option'
 import { InputOptions, Options } from './types'
 
 export interface CronData {
@@ -130,6 +126,3 @@ const cron = (
 }
 
 export default cron
-
-module.exports = cron
-module.exports.default = cron

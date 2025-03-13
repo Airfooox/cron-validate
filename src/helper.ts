@@ -23,13 +23,13 @@ const daysOfWeekAliases = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']
 
 const checkWildcardLimit = (cronFieldType: CronFieldType, options: Options) =>
   options[cronFieldType].lowerLimit ===
-    options.preset[cronFieldType].minValue &&
+  options.preset[cronFieldType].minValue &&
   options[cronFieldType].upperLimit === options.preset[cronFieldType].maxValue
 
 const checkSingleElementWithinLimits = (
   element: string,
   cronFieldType: CronFieldType,
-  options: Options
+  options: Options,
 ): Result<boolean, string> => {
   if (
     cronFieldType === 'months' &&
@@ -52,17 +52,22 @@ const checkSingleElementWithinLimits = (
     return err(`Element '${element} of ${cronFieldType} field is invalid.`)
   }
 
+  // check if integer and not a decimal
+  if (number % 1 !== 0) {
+    return err(`Element '${element} of ${cronFieldType} field is not an integer.`)
+  }
+
   const { lowerLimit } = options[cronFieldType]
   const { upperLimit } = options[cronFieldType]
   if (lowerLimit && number < lowerLimit) {
     return err(
-      `Number ${number} of ${cronFieldType} field is smaller than lower limit '${lowerLimit}'`
+      `Number ${number} of ${cronFieldType} field is smaller than lower limit '${lowerLimit}'`,
     )
   }
 
   if (upperLimit && number > upperLimit) {
     return err(
-      `Number ${number} of ${cronFieldType} field is bigger than upper limit '${upperLimit}'`
+      `Number ${number} of ${cronFieldType} field is bigger than upper limit '${upperLimit}'`,
     )
   }
 
@@ -72,12 +77,12 @@ const checkSingleElementWithinLimits = (
 const checkSingleElement = (
   element: string,
   cronFieldType: CronFieldType,
-  options: Options
+  options: Options,
 ): Result<boolean, string> => {
   if (element === '*') {
     if (!checkWildcardLimit(cronFieldType, options)) {
       return err(
-        `Field ${cronFieldType} uses wildcard '*', but is limited to ${options[cronFieldType].lowerLimit}-${options[cronFieldType].upperLimit}`
+        `Field ${cronFieldType} uses wildcard '*', but is limited to ${options[cronFieldType].lowerLimit}-${options[cronFieldType].upperLimit}`,
       )
     }
 
@@ -142,14 +147,14 @@ const checkSingleElement = (
     const [day, occurrence, ...leftOvers] = element.split('#')
     if (leftOvers.length !== 0) {
       return err(
-        `Unexpected number of '#' in ${element}, can only be used once.`
+        `Unexpected number of '#' in ${element}, can only be used once.`,
       )
     }
 
     const occurrenceNum = Number(occurrence)
     if (!occurrence || isNaN(occurrenceNum)) {
       return err(
-        `Unexpected value following the '#' symbol, a positive number was expected but found ${occurrence}.`
+        `Unexpected value following the '#' symbol, a positive number was expected but found ${occurrence}.`,
       )
     }
 
@@ -167,7 +172,7 @@ const checkRangeElement = (
   element: string,
   cronFieldType: CronFieldType,
   options: Options,
-  position: 0 | 1
+  position: 0 | 1,
 ): Result<boolean, string> => {
   if (element === '*') {
     return err(`'*' can't be part of a range in ${cronFieldType} field.`)
@@ -193,12 +198,12 @@ const checkRangeElement = (
 const checkFirstStepElement = (
   firstStepElement: string,
   cronFieldType: CronFieldType,
-  options: Options
+  options: Options,
 ): Result<boolean, string> => {
   const rangeArray = firstStepElement.split('-')
   if (rangeArray.length > 2) {
     return err(
-      `List element '${firstStepElement}' is not valid. (More than one '-')`
+      `List element '${firstStepElement}' is not valid. (More than one '-')`,
     )
   }
 
@@ -211,13 +216,13 @@ const checkFirstStepElement = (
       rangeArray[0],
       cronFieldType,
       options,
-      0
+      0,
     )
     const secondRangeElementResult = checkRangeElement(
       rangeArray[1],
       cronFieldType,
       options,
-      1
+      1,
     )
 
     if (firstRangeElementResult.isError()) {
@@ -230,7 +235,7 @@ const checkFirstStepElement = (
 
     if (Number(rangeArray[0]) > Number(rangeArray[1])) {
       return err(
-        `Lower range end '${rangeArray[0]}' is bigger than upper range end '${rangeArray[1]}' of ${cronFieldType} field.`
+        `Lower range end '${rangeArray[0]}' is bigger than upper range end '${rangeArray[1]}' of ${cronFieldType} field.`,
       )
     }
 
@@ -238,27 +243,31 @@ const checkFirstStepElement = (
   }
 
   return err(
-    'Some other error in checkFirstStepElement (rangeArray less than 1)'
+    'Some other error in checkFirstStepElement (rangeArray less than 1)',
   )
 }
 
 const checkListElement = (
   listElement: string,
   cronFieldType: CronFieldType,
-  options: Options
+  options: Options,
 ): Result<boolean, string> => {
   // Checks list element for steps like */2, 10-20/2
   const stepArray = listElement.split('/')
   if (stepArray.length > 2) {
     return err(
-      `List element '${listElement}' is not valid. (More than one '/')`
+      `List element '${listElement}' is not valid. (More than one '/')`,
     )
+  }
+
+  if (!options.allowStepping) {
+    return err('Stepping (\'/\') is now allowed.')
   }
 
   const firstElementResult = checkFirstStepElement(
     stepArray[0],
     cronFieldType,
-    options
+    options,
   )
 
   if (firstElementResult.isError()) {
@@ -270,20 +279,57 @@ const checkListElement = (
 
     if (!secondStepElement) {
       return err(
-        `Second step element '${secondStepElement}' of '${listElement}' is not valid (doesnt exist).`
+        `Second step element '${secondStepElement}' of '${listElement}' is not valid (doesnt exist).`,
       )
     }
 
     if (isNaN(Number(secondStepElement))) {
       return err(
-        `Second step element '${secondStepElement}' of '${listElement}' is not valid (not a number).`
+        `Second step element '${secondStepElement}' of '${listElement}' is not valid (not a number).`,
       )
     }
 
-    if (Number(secondStepElement) === 0) {
+    const secondStepNumber = Number(secondStepElement)
+    if (secondStepNumber === 0) {
       return err(
-        `Second step element '${secondStepElement}' of '${listElement}' cannot be zero.`
+        `Second step element '${secondStepElement}' of '${listElement}' cannot be zero.`,
       )
+    }
+
+    const { lowerLimit, upperLimit } = options[cronFieldType]
+
+    // check if step number is an integer
+    if (secondStepNumber % 1 !== 0) {
+      return err(
+        `Second step element '${secondStepElement}' of '${listElement}' is not an integer.`,
+      )
+    }
+
+    // check if step number is less than the max number
+    if (upperLimit && secondStepNumber > upperLimit) {
+      return err(
+        `Second step element '${secondStepElement}' of '${listElement}' is bigger than the upper limit '${upperLimit}'.`,
+      )
+    }
+
+    // check if the step is inside the allowed range, so 10-20/5 is allowed (10, 15, 20), but
+    // 10-20/11 is not allowed, because the first value (after the initial) would be 21 but this is bigger than 20
+    const rangeArray = stepArray[0].split('-')
+    if (rangeArray.length === 2) {
+      const rangeStart = Number(rangeArray[0])
+      const rangeEnd = Number(rangeArray[1])
+      if (!isNaN(rangeStart) && !isNaN(rangeEnd)) {
+        if (secondStepNumber <= 0) {
+          return err(`Step value '${secondStepElement}' must be greater than 0.`)
+        }
+
+        const customRange = rangeEnd - rangeStart + 1
+        if (secondStepNumber >= customRange) {
+          return err(
+            `Step value '${secondStepElement}' is too large for the range '${rangeStart}-${rangeEnd}'.`,
+          )
+        }
+      }
     }
   }
 
@@ -293,7 +339,7 @@ const checkListElement = (
 const checkField = (
   cronField: string,
   cronFieldType: CronFieldType,
-  options: Options
+  options: Options,
 ): Result<boolean, string[]> => {
   if (
     ![

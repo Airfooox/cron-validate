@@ -4,10 +4,10 @@ import { getOptionPreset, registerOptionPreset } from './option'
 describe('Test cron validation', () => {
   it('test issue', () => {
     expect(
-      cron('*/5 * ? * *', { preset: 'aws-cloud-watch' }).isValid()
+      cron('*/5 * ? * *', { preset: 'aws-cloud-watch' }).isValid(),
     ).toBeFalsy()
     expect(
-      cron('*/5 * * * *', { preset: 'aws-cloud-watch' }).isValid()
+      cron('*/5 * * * *', { preset: 'aws-cloud-watch' }).isValid(),
     ).toBeFalsy()
   })
 
@@ -114,6 +114,15 @@ describe('Test cron validation', () => {
     expect(cron('1,2,3 4,5,6 1 1 1').isValid()).toBeTruthy()
 
     expect(cron('01,02,03 04,05,06 01 01 01').isValid()).toBeTruthy()
+
+    expect(cron('1 1 1 1 1').isValid()).toBeTruthy()
+    expect(cron('0.1 1 1 1 1').isValid()).toBeFalsy()
+    expect(cron('1 0.1 1 1 1').isValid()).toBeFalsy()
+    expect(cron('1 1 0.1 1 1').isValid()).toBeFalsy()
+    expect(cron('1 1 1 0.1 1').isValid()).toBeFalsy()
+    expect(cron('1 1 1 1 0.1').isValid()).toBeFalsy()
+
+    expect(cron('1,1.5,2,2.5 1 1 1 1').isValid()).toBeFalsy()
   })
 
   it('Test cron field assignment', () => {
@@ -191,7 +200,7 @@ describe('Test cron validation', () => {
 
   it('Test list, range and steps', () => {
     expect(
-      cron('5-7 2-4/2 1,2-4,5-8,10-20/3,20-30/4 * *').isValid()
+      cron('5-7 2-4/2 1,2-4,5-8,10-20/3,20-30/4 * *').isValid(),
     ).toBeTruthy()
 
     expect(cron('5-7,8-9,10-20,21-23 * * * *').isValid()).toBeTruthy()
@@ -199,14 +208,16 @@ describe('Test cron validation', () => {
     expect(cron('7-5 * * *').isValid()).toBeFalsy()
 
     expect(
-      cron('7-5 * * * *', { override: { useSeconds: true } }).isValid()
+      cron('7-5 * * * *', { override: { useSeconds: true } }).isValid(),
     ).toBeFalsy()
 
     expect(
       cron('* * * * 2020-2019', {
         override: { useYears: true },
-      }).isValid()
+      }).isValid(),
     ).toBeFalsy()
+
+    expect(cron('*/1.5 * * * *').isValid()).toBeFalsy()
   })
 
   it('Test range limits', () => {
@@ -217,7 +228,7 @@ describe('Test cron validation', () => {
         override: {
           minutes: { lowerLimit: 10, upperLimit: 20 },
         },
-      }).isValid()
+      }).isValid(),
     ).toBeFalsy()
 
     expect(
@@ -225,7 +236,7 @@ describe('Test cron validation', () => {
         override: {
           minutes: { lowerLimit: 10, upperLimit: 20 },
         },
-      }).isValid()
+      }).isValid(),
     ).toBeTruthy()
 
     expect(
@@ -233,7 +244,7 @@ describe('Test cron validation', () => {
         override: {
           minutes: { lowerLimit: 10, upperLimit: 20 },
         },
-      }).isValid()
+      }).isValid(),
     ).toBeTruthy()
 
     expect(
@@ -241,7 +252,7 @@ describe('Test cron validation', () => {
         override: {
           minutes: { lowerLimit: 10, upperLimit: 20 },
         },
-      }).isValid()
+      }).isValid(),
     ).toBeTruthy()
 
     expect(
@@ -249,7 +260,7 @@ describe('Test cron validation', () => {
         override: {
           minutes: { lowerLimit: 10, upperLimit: 20 },
         },
-      }).isValid()
+      }).isValid(),
     ).toBeTruthy()
 
     expect(
@@ -257,7 +268,7 @@ describe('Test cron validation', () => {
         override: {
           minutes: { lowerLimit: 10, upperLimit: 20 },
         },
-      }).isValid()
+      }).isValid(),
     ).toBeTruthy()
 
     expect(
@@ -265,7 +276,7 @@ describe('Test cron validation', () => {
         override: {
           minutes: { lowerLimit: 10, upperLimit: 20 },
         },
-      }).isValid()
+      }).isValid(),
     ).toBeFalsy()
 
     expect(
@@ -273,7 +284,7 @@ describe('Test cron validation', () => {
         override: {
           minutes: { lowerLimit: 10, upperLimit: 20 },
         },
-      }).isValid()
+      }).isValid(),
     ).toBeFalsy()
 
     expect(
@@ -281,7 +292,7 @@ describe('Test cron validation', () => {
         override: {
           minutes: { lowerLimit: 10, upperLimit: 20 },
         },
-      }).isValid()
+      }).isValid(),
     ).toBeFalsy()
   })
 
@@ -405,19 +416,19 @@ describe('Test cron validation', () => {
     expect(
       cron('* * * * *', {
         preset: 'testPreset',
-      }).isValid()
+      }).isValid(),
     ).toBeFalsy()
 
     expect(
       cron('* * * * * *', {
         preset: 'testPreset',
-      }).isValid()
+      }).isValid(),
     ).toBeTruthy()
 
     expect(
       cron('* * * * * * *', {
         preset: 'testPreset',
-      }).isValid()
+      }).isValid(),
     ).toBeFalsy()
 
     expect(
@@ -426,13 +437,13 @@ describe('Test cron validation', () => {
         override: {
           useYears: true,
         },
-      }).isValid()
+      }).isValid(),
     ).toBeTruthy()
 
     expect(
       cron('* 10-30 * * * *', {
         preset: 'testPreset',
-      }).isValid()
+      }).isValid(),
     ).toBeTruthy()
 
     expect(
@@ -441,13 +452,13 @@ describe('Test cron validation', () => {
         override: {
           minutes: { lowerLimit: 9 },
         },
-      }).isValid()
+      }).isValid(),
     ).toBeTruthy()
 
     expect(
       cron('* 10-30 */2 * * *', {
         preset: 'testPreset',
-      }).isValid()
+      }).isValid(),
     ).toBeTruthy()
 
     // testPreset 2
@@ -455,31 +466,31 @@ describe('Test cron validation', () => {
     expect(
       cron('* * * * *', {
         preset: 'testPreset2',
-      }).isValid()
+      }).isValid(),
     ).toBeFalsy()
 
     expect(
       cron('* * * * * *', {
         preset: 'testPreset2',
-      }).isValid()
+      }).isValid(),
     ).toBeFalsy()
 
     expect(
       cron('* 10-30 * * * *', {
         preset: 'testPreset2',
-      }).isValid()
+      }).isValid(),
     ).toBeTruthy()
 
     expect(
       cron('* 9-30 * * * *', {
         preset: 'testPreset2',
-      }).isValid()
+      }).isValid(),
     ).toBeFalsy()
 
     expect(
       cron('* * * * * * *', {
         preset: 'testPreset2',
-      }).isValid()
+      }).isValid(),
     ).toBeFalsy()
 
     expect(
@@ -488,7 +499,7 @@ describe('Test cron validation', () => {
         override: {
           useYears: true,
         },
-      }).isValid()
+      }).isValid(),
     ).toBeFalsy()
 
     expect(
@@ -497,13 +508,13 @@ describe('Test cron validation', () => {
         override: {
           useYears: true,
         },
-      }).isValid()
+      }).isValid(),
     ).toBeTruthy()
 
     expect(
       cron('* 9 * * * *', {
         preset: 'testPreset2',
-      }).isValid()
+      }).isValid(),
     ).toBeFalsy()
 
     expect(
@@ -512,7 +523,7 @@ describe('Test cron validation', () => {
         override: {
           minutes: { lowerLimit: 9 },
         },
-      }).isValid()
+      }).isValid(),
     ).toBeTruthy()
 
     expect(
@@ -521,19 +532,19 @@ describe('Test cron validation', () => {
         override: {
           minutes: { lowerLimit: 0, upperLimit: 59 },
         },
-      }).isValid()
+      }).isValid(),
     ).toBeTruthy()
 
     expect(
       cron('* 10-30 */2 * * *', {
         preset: 'testPreset2',
-      }).isValid()
+      }).isValid(),
     ).toBeTruthy()
 
     expect(
       cron('* 9-30 */2 * * *', {
         preset: 'testPreset2',
-      }).isValid()
+      }).isValid(),
     ).toBeFalsy()
 
     // testPreset3
@@ -541,19 +552,19 @@ describe('Test cron validation', () => {
     expect(
       cron('* * * * *', {
         preset: 'testPreset3',
-      }).isValid()
+      }).isValid(),
     ).toBeFalsy()
 
     expect(
       cron('* * * * * *', {
         preset: 'testPreset3',
-      }).isValid()
+      }).isValid(),
     ).toBeTruthy()
 
     expect(
       cron('* * * * * * *', {
         preset: 'testPreset3',
-      }).isValid()
+      }).isValid(),
     ).toBeFalsy()
 
     expect(
@@ -562,25 +573,25 @@ describe('Test cron validation', () => {
         override: {
           useYears: true,
         },
-      }).isValid()
+      }).isValid(),
     ).toBeTruthy()
 
     expect(
       cron('* 10-30 * * * *', {
         preset: 'testPreset3',
-      }).isValid()
+      }).isValid(),
     ).toBeTruthy()
 
     expect(
       cron('* 9 * * * *', {
         preset: 'testPreset3',
-      }).isValid()
+      }).isValid(),
     ).toBeTruthy()
 
     expect(
       cron('* 0 * * * *', {
         preset: 'testPreset3',
-      }).isValid()
+      }).isValid(),
     ).toBeFalsy()
 
     //
@@ -588,7 +599,7 @@ describe('Test cron validation', () => {
     expect(
       cron('* * ? * 8 *', {
         preset: 'aws-cloud-watch',
-      }).isValid()
+      }).isValid(),
     ).toBeFalsy()
   })
 
@@ -596,7 +607,7 @@ describe('Test cron validation', () => {
     expect(
       cron('1-2-3 * * * * *', {
         override: { useSeconds: true },
-      }).isValid()
+      }).isValid(),
     ).toBeFalsy()
 
     expect(cron('* 1-2-3 * * * ').isValid()).toBeFalsy()
@@ -610,7 +621,7 @@ describe('Test cron validation', () => {
     expect(
       cron('1/2/3 * * * * *', {
         override: { useSeconds: true },
-      }).isValid()
+      }).isValid(),
     ).toBeFalsy()
 
     expect(cron('1/2/3 * * * *').isValid()).toBeFalsy()
@@ -620,6 +631,15 @@ describe('Test cron validation', () => {
     expect(cron('1/* * * * *').isValid()).toBeFalsy()
 
     expect(cron('1/0 * * * *').isValid()).toBeFalsy()
+
+    expect(cron('*/90 * * * *').isValid()).toBeFalsy()
+    expect(cron('*/60 * * * *').isValid()).toBeFalsy()
+
+    expect(cron('10-20/11 * * * *').isValid()).toBeFalsy()
+
+    expect(cron('* 6-18/15 * * *').isValid()).toBeFalsy()
+
+    expect(cron('* */25 * * *').isValid()).toBeFalsy()
   })
 
   it('Test incomplete statements', () => {
@@ -633,11 +653,11 @@ describe('Test cron validation', () => {
   it('Test massive cron-expression', () => {
     expect(
       cron(
-        '*/2,11,12,13-17,30-40/4 1,2,3,*/5,10-20 0-3,4-6,8-20/3,23 1,2,3,4,*/2,20-25/2,26-27 1-2,3-7/2,*/2,8-9/2 1,*/2,4-6',
+        '*/2,11,12,13-17,30-40/4 1,2,3,*/5,10-20 0-3,4-6,8-20/3,23 1,2,3,4,*/2,20-25/2,26-27 1-2,3-7/2,*/2,8-10/2 1,*/2,4-6',
         {
           override: { useSeconds: true },
-        }
-      ).isValid()
+        },
+      ).isValid(),
     ).toBeTruthy()
   })
 
@@ -648,82 +668,82 @@ describe('Test cron validation', () => {
     expect(cron('* * * * ?').isValid()).toBeFalsy()
 
     expect(
-      cron('* * * ? * *', { override: { useSeconds: true } }).isValid()
+      cron('* * * ? * *', { override: { useSeconds: true } }).isValid(),
     ).toBeFalsy()
 
     expect(
-      cron('* * * * * ?', { override: { useSeconds: true } }).isValid()
+      cron('* * * * * ?', { override: { useSeconds: true } }).isValid(),
     ).toBeFalsy()
 
     expect(
-      cron('* * ? * * *', { override: { useYears: true } }).isValid()
+      cron('* * ? * * *', { override: { useYears: true } }).isValid(),
     ).toBeFalsy()
 
     expect(
-      cron('* * * * * ? *', { override: { useYears: true } }).isValid()
+      cron('* * * * * ? *', { override: { useYears: true } }).isValid(),
     ).toBeFalsy()
 
     // useBlankDays true
     expect(
-      cron('* * ? * *', { override: { useBlankDay: true } }).isValid()
+      cron('* * ? * *', { override: { useBlankDay: true } }).isValid(),
     ).toBeTruthy()
 
     expect(
-      cron('* * * * ?', { override: { useBlankDay: true } }).isValid()
+      cron('* * * * ?', { override: { useBlankDay: true } }).isValid(),
     ).toBeTruthy()
 
     expect(
       cron('* * * ? * *', {
         override: { useSeconds: true, useBlankDay: true },
-      }).isValid()
+      }).isValid(),
     ).toBeTruthy()
 
     expect(
       cron('* * * * * ?', {
         override: { useSeconds: true, useBlankDay: true },
-      }).isValid()
+      }).isValid(),
     ).toBeTruthy()
 
     expect(
       cron('* * ? * * *', {
         override: { useYears: true, useBlankDay: true },
-      }).isValid()
+      }).isValid(),
     ).toBeTruthy()
 
     expect(
       cron('* * * * ? *', {
         override: { useYears: true, useBlankDay: true },
-      }).isValid()
+      }).isValid(),
     ).toBeTruthy()
 
     // both fields blank allowed
     expect(
-      cron('* * ? * ?', { override: { useBlankDay: true } }).isValid()
+      cron('* * ? * ?', { override: { useBlankDay: true } }).isValid(),
     ).toBeTruthy()
 
     expect(
       cron('* * * ? * ?', {
         override: { useSeconds: true, useBlankDay: true },
-      }).isValid()
+      }).isValid(),
     ).toBeTruthy()
 
     expect(
       cron('* * ? * ? *', {
         override: { useYears: true, useBlankDay: true },
-      }).isValid()
+      }).isValid(),
     ).toBeTruthy()
 
     expect(
       cron('* * * ? * ? *', {
         override: { useSeconds: true, useYears: true, useBlankDay: true },
-      }).isValid()
+      }).isValid(),
     ).toBeTruthy()
 
     // both fields blank not allowed
     expect(
       cron('* * ? * ?', {
         override: { useBlankDay: true, allowOnlyOneBlankDayField: true },
-      }).isValid()
+      }).isValid(),
     ).toBeFalsy()
 
     expect(
@@ -733,7 +753,7 @@ describe('Test cron validation', () => {
           useBlankDay: true,
           allowOnlyOneBlankDayField: true,
         },
-      }).isValid()
+      }).isValid(),
     ).toBeFalsy()
 
     expect(
@@ -743,7 +763,7 @@ describe('Test cron validation', () => {
           useBlankDay: true,
           allowOnlyOneBlankDayField: true,
         },
-      }).isValid()
+      }).isValid(),
     ).toBeFalsy()
 
     expect(
@@ -754,7 +774,7 @@ describe('Test cron validation', () => {
           useBlankDay: true,
           allowOnlyOneBlankDayField: true,
         },
-      }).isValid()
+      }).isValid(),
     ).toBeFalsy()
 
     // minimum one blank required
@@ -765,7 +785,7 @@ describe('Test cron validation', () => {
           allowOnlyOneBlankDayField: true,
           mustHaveBlankDayField: true,
         },
-      }).isValid()
+      }).isValid(),
     ).toBeFalsy()
 
     expect(
@@ -775,7 +795,7 @@ describe('Test cron validation', () => {
           allowOnlyOneBlankDayField: true,
           mustHaveBlankDayField: true,
         },
-      }).isValid()
+      }).isValid(),
     ).toBeTruthy()
 
     expect(
@@ -785,7 +805,7 @@ describe('Test cron validation', () => {
           allowOnlyOneBlankDayField: true,
           mustHaveBlankDayField: true,
         },
-      }).isValid()
+      }).isValid(),
     ).toBeTruthy()
 
     expect(
@@ -796,7 +816,7 @@ describe('Test cron validation', () => {
           allowOnlyOneBlankDayField: true,
           mustHaveBlankDayField: true,
         },
-      }).isValid()
+      }).isValid(),
     ).toBeFalsy()
 
     expect(
@@ -807,7 +827,7 @@ describe('Test cron validation', () => {
           allowOnlyOneBlankDayField: true,
           mustHaveBlankDayField: true,
         },
-      }).isValid()
+      }).isValid(),
     ).toBeFalsy()
 
     expect(
@@ -819,7 +839,21 @@ describe('Test cron validation', () => {
           allowOnlyOneBlankDayField: true,
           mustHaveBlankDayField: true,
         },
-      }).isValid()
+      }).isValid(),
     ).toBeFalsy()
+  })
+
+  it('Test allowStepping option', () => {
+    expect(
+      cron('5-7 2-4/2 1,2-4,5-8,10-20/3,20-30/4 * *').isValid(),
+    ).toBeTruthy()
+
+    expect(cron('5-7,8-9,10-20,21-23 * * * *').isValid()).toBeTruthy()
+
+    expect(
+      cron('5-7 2-4/2 1,2-4,5-8,10-20/3,20-30/4 * *', { override: { allowStepping: false } }).isValid(),
+    ).toBeFalsy()
+
+    expect(cron('5-7,8-9,10-20,21-23 * * * *', { override: { allowStepping: false } }).isValid()).toBeFalsy()
   })
 })

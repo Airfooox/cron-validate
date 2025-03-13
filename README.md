@@ -97,6 +97,7 @@ registerOptionPreset('YOUR-PRESET-ID', {
   useAliases: false, // optional, default to false
   useBlankDay: false,
   allowOnlyOneBlankDayField: false,
+  allowStepping: true, // optional, defaults to true
   mustHaveBlankDayField: false, // optional, default to false
   useLastDayOfMonth: false, // optional, default to false
   useLastDayOfWeek: false, // optional, default to false
@@ -161,6 +162,9 @@ The preset properties explained:
   - enables blank day notation '?' in daysOfMonth and daysOfWeek field
 - `allowOnlyOneBlankDayField: boolean`
   - requires a day field to not be blank (so not both day fields can be blank)
+- `allowStepping: boolean`
+  - optional, will default to true
+  - when set to false, disallows the use of the '/' operation for valid expressions
 - `mustHaveBlankDayField: boolean`
   - requires a day field to be blank (so not both day fields are specified)
   - when mixed with `allowOnlyOneBlankDayField`, it means that there will always be either day or day of week as `?`
@@ -200,14 +204,14 @@ If you want to override a option for single cron validations, you can use the `o
 
 ```typescript
 console.log(cron('* * * * * *', {
-  preset: 'default' // second field not supported in default preset
+  preset: 'default', // second field not supported in default preset
   override: {
     useSeconds: true // override preset option
   }
 }))
 
 console.log(cron('* 10-20 * * * *', {
-  preset: 'default'
+  preset: 'default',
   override: {
     minutes: {
       lowerLimit: 10, // override preset option
