@@ -1,6 +1,6 @@
 {
   "name": "cron-validate",
-  "version": "1.4.5",
+  "version": "1.5.0",
   "description": "cron-validate is a cron-expression validator written in TypeScript.",
   "scripts": {
     "dev": "nodemon",
@@ -10,6 +10,7 @@
     "prettier": "prettier --write src/**/*.ts",
     "tsc-check": "tsc --project ./tsconfig.json --noEmit",
     "release": "npm run build && env-cmd npx semantic-release --branches master --no-ci",
+    "release-dry": "npm run build && env-cmd npx semantic-release --branches master --no-ci --dry-run",
     "release-next": "npm run build && env-cmd npx semantic-release --branches next --no-ci",
     "release-next-major": "npm run build && env-cmd npx semantic-release --branches next-major --no-ci",
     "test": "jest --coverage",
