@@ -4,7 +4,7 @@
   "description": "cron-validate is a cron-expression validator written in TypeScript.",
   "scripts": {
     "dev": "nodemon",
-    "build": "tsc",
+    "build": "tsc -p ./tsconfig.build.json",
     "lint": "eslint src/**/*.ts",
     "lint-fix": "eslint src/**/*.ts --fix",
     "prettier": "prettier --write src/**/*.ts",
@@ -77,11 +77,24 @@
           "message": "chore(${branch.name}): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
         }
       ]
+    ],
+    "prepare": [
+      {
+        "path": "@semantic-release/exec",
+        "cmd": "npx tsx scripts/remove-type.ts"
+      }
+    ],
+    "success": [
+      {
+        "path": "@semantic-release/exec",
+        "cmd": "npx tsx scripts/restore-type.ts"
+      }
     ]
   },
   "devDependencies": {
     "@semantic-release/changelog": "6.0.3",
     "@semantic-release/commit-analyzer": "9.0.2",
+    "@semantic-release/exec": "^7.0.3",
     "@semantic-release/git": "10.0.1",
     "@semantic-release/github": "8.1.0",
     "@semantic-release/release-notes-generator": "10.0.3",
