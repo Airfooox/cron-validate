@@ -49,25 +49,25 @@ const checkSingleElementWithinLimits = (
 
   const number = Number(element)
   if (isNaN(number)) {
-    return err(`Element '${element} of ${cronFieldType} field is invalid.`)
+    return err(`Element '${element}' of ${cronFieldType} field is invalid.`)
   }
 
   // check if integer and not a decimal
   if (number % 1 !== 0) {
-    return err(`Element '${element} of ${cronFieldType} field is not an integer.`)
+    return err(`Element '${element}' of ${cronFieldType} field is not an integer.`)
   }
 
   const { lowerLimit } = options[cronFieldType]
   const { upperLimit } = options[cronFieldType]
   if (lowerLimit && number < lowerLimit) {
     return err(
-      `Number ${number} of ${cronFieldType} field is smaller than lower limit '${lowerLimit}'`,
+      `Number '${number}' of ${cronFieldType} field is smaller than lower limit '${lowerLimit}.'`,
     )
   }
 
   if (upperLimit && number > upperLimit) {
     return err(
-      `Number ${number} of ${cronFieldType} field is bigger than upper limit '${upperLimit}'`,
+      `Number '${number}' of ${cronFieldType} field is bigger than upper limit '${upperLimit}.'`,
     )
   }
 
@@ -82,7 +82,7 @@ const checkSingleElement = (
   if (element === '*') {
     if (!checkWildcardLimit(cronFieldType, options)) {
       return err(
-        `Field ${cronFieldType} uses wildcard '*', but is limited to ${options[cronFieldType].lowerLimit}-${options[cronFieldType].upperLimit}`,
+        `Field ${cronFieldType} uses wildcard '*', but is limited to ${options[cronFieldType].lowerLimit}-${options[cronFieldType].upperLimit}.`,
       )
     }
 
@@ -128,7 +128,7 @@ const checkSingleElement = (
   ) {
     const day = element.slice(0, -1)
     if (day === '') {
-      return err(`The 'W' must be preceded by a day`)
+      return err(`The 'W' must be preceded by a day.`)
     }
 
     // Edge case where the L can be used with W to form last weekday of month
@@ -203,7 +203,7 @@ const checkFirstStepElement = (
   const rangeArray = firstStepElement.split('-')
   if (rangeArray.length > 2) {
     return err(
-      `List element '${firstStepElement}' is not valid. (More than one '-')`,
+      `List element '${firstStepElement}' is not valid. (More than one '-').`,
     )
   }
 
@@ -256,7 +256,7 @@ const checkListElement = (
   const stepArray = listElement.split('/')
   if (stepArray.length > 2) {
     return err(
-      `List element '${listElement}' is not valid. (More than one '/')`,
+      `List element '${listElement}' is not valid. (More than one '/').`,
     )
   }
 
@@ -363,11 +363,11 @@ const checkField = (
       }
 
       return err([
-        `useBlankDay is not enabled, but is used in ${cronFieldType} field`,
+        `useBlankDay is not enabled, but is used in ${cronFieldType} field.`,
       ])
     }
 
-    return err([`blank notation is not allowed in ${cronFieldType} field`])
+    return err([`blank notation is not allowed in ${cronFieldType} field.`])
   }
 
   // Check for lists e.g. 4,5,6,8-18,20-40/2
