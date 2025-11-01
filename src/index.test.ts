@@ -218,6 +218,10 @@ describe('Test cron validation', () => {
     ).toBeFalsy()
 
     expect(cron('*/1.5 * * * *').isValid()).toBeFalsy()
+
+    expect(cron('*/-1 * * * *').isValid()).toBeFalsy()
+    expect(cron('*/-5 * * * *').isValid()).toBeFalsy()
+    expect(cron('*/-1.5 * * * *').isValid()).toBeFalsy()
   })
 
   it('Test range limits', () => {

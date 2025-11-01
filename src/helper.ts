@@ -48,7 +48,7 @@ const checkSingleElementWithinLimits = (
   }
 
   const number = Number(element)
-  if (isNaN(number)) {
+  if (Number.isNaN(number)) {
     return err(`Element '${element}' of ${cronFieldType} field is invalid.`)
   }
 
@@ -152,7 +152,7 @@ const checkSingleElement = (
     }
 
     const occurrenceNum = Number(occurrence)
-    if (!occurrence || isNaN(occurrenceNum)) {
+    if (!occurrence || Number.isNaN(occurrenceNum)) {
       return err(
         `Unexpected value following the '#' symbol, a positive number was expected but found ${occurrence}.`,
       )
@@ -261,7 +261,7 @@ const checkListElement = (
   }
 
   if (!options.allowStepping) {
-    return err('Stepping (\'/\') is now allowed.')
+    return err('Stepping (\'/\') is not allowed.')
   }
 
   const firstElementResult = checkFirstStepElement(
@@ -283,7 +283,7 @@ const checkListElement = (
       )
     }
 
-    if (isNaN(Number(secondStepElement))) {
+    if (Number.isNaN(Number(secondStepElement))) {
       return err(
         `Second step element '${secondStepElement}' of '${listElement}' is not valid (not a number).`,
       )
@@ -296,7 +296,11 @@ const checkListElement = (
       )
     }
 
-    const { lowerLimit, upperLimit } = options[cronFieldType]
+    if (secondStepNumber < 0) {
+      return err(
+        `Second step element '${secondStepElement}' of '${listElement}' cannot be negative.`,
+      )
+    }
 
     // check if step number is an integer
     if (secondStepNumber % 1 !== 0) {
@@ -304,6 +308,9 @@ const checkListElement = (
         `Second step element '${secondStepElement}' of '${listElement}' is not an integer.`,
       )
     }
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { lowerLimit, upperLimit } = options[cronFieldType]
 
     // check if step number is less than the max number
     if (upperLimit && secondStepNumber > upperLimit) {
@@ -318,7 +325,7 @@ const checkListElement = (
     if (rangeArray.length === 2) {
       const rangeStart = Number(rangeArray[0])
       const rangeEnd = Number(rangeArray[1])
-      if (!isNaN(rangeStart) && !isNaN(rangeEnd)) {
+      if (!Number.isNaN(rangeStart) && !Number.isNaN(rangeEnd)) {
         if (secondStepNumber <= 0) {
           return err(`Step value '${secondStepElement}' must be greater than 0.`)
         }
