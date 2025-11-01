@@ -61,13 +61,13 @@ const checkSingleElementWithinLimits = (
   const { upperLimit } = options[cronFieldType]
   if (lowerLimit && number < lowerLimit) {
     return err(
-      `Number '${number}' of ${cronFieldType} field is smaller than lower limit '${lowerLimit}.'`,
+      `Number '${number}' of ${cronFieldType} field is smaller than lower limit '${lowerLimit}'.`,
     )
   }
 
   if (upperLimit && number > upperLimit) {
     return err(
-      `Number '${number}' of ${cronFieldType} field is bigger than upper limit '${upperLimit}.'`,
+      `Number '${number}' of ${cronFieldType} field is bigger than upper limit '${upperLimit}'.`,
     )
   }
 
