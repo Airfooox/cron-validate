@@ -260,7 +260,7 @@ const checkListElement = (
     )
   }
 
-  if (!options.allowStepping) {
+  if (stepArray.length === 2 && !options.allowStepping) {
     return err('Stepping (\'/\') is not allowed.')
   }
 

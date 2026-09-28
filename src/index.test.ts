@@ -858,6 +858,14 @@ describe('Test cron validation', () => {
       cron('5-7 2-4/2 1,2-4,5-8,10-20/3,20-30/4 * *', { override: { allowStepping: false } }).isValid(),
     ).toBeFalsy()
 
-    expect(cron('5-7,8-9,10-20,21-23 * * * *', { override: { allowStepping: false } }).isValid()).toBeFalsy()
+    // Lists and ranges contain no step, so they stay valid when stepping is disabled.
+    expect(
+      cron('5-7,8-9,10-20,21-23 * * * *', { override: { allowStepping: false } }).isValid(),
+    ).toBeTruthy()
+
+    // A step in any field is still rejected.
+    expect(
+      cron('5-7,8-9,10-20/2,21-23 * * * *', { override: { allowStepping: false } }).isValid(),
+    ).toBeFalsy()
   })
 })
