@@ -860,4 +860,13 @@ describe('Test cron validation', () => {
 
     expect(cron('5-7,8-9,10-20,21-23 * * * *', { override: { allowStepping: false } }).isValid()).toBeFalsy()
   })
+
+  it('Test malformed options still return a usable error', () => {
+    const result = cron('0 0 * * *', { preset: 42 as unknown as string })
+    expect(result.isError()).toBeTruthy()
+
+    const errors = result.getError()
+    expect(Array.isArray(errors)).toBeTruthy()
+    expect(errors.length).toBeGreaterThan(0)
+  })
 })

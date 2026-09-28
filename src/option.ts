@@ -365,6 +365,15 @@ export const validateOptions = (
     optionsCache.set(cacheKey, options);
     return valid(options);
   } catch (validationError) {
-    return err((validationError as ValidationError).errors)
+    // yup ValidationError always carries an errors array, but a totally
+    // malformed preset can also make validation itself throw something else.
+    // Never return a malformed Err: the public API contract of cron() is that
+    // getError() returns a string[].
+    const errors = (validationError as ValidationError)?.errors
+    return err(
+      Array.isArray(errors) && errors.length > 0
+        ? errors
+        : [`Invalid options: ${String(validationError)}`],
+    )
   }
 }
