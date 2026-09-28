@@ -270,6 +270,20 @@ function presetToOptionsSchema(preset: OptionPreset) {
 }
 
 function presetToOptions(preset: OptionPreset, override?: InputOptions["override"]) {
+  // Merge the override into the preset first, instead of spreading it over the
+  // generated options: overriding one limit must not drop its sibling (e.g.
+  // `{ months: { lowerLimit: 6 } }` has to keep the preset's upperLimit).
+  preset = {
+    ...preset,
+    ...(override ?? {}),
+    seconds: { ...preset.seconds, ...(override?.seconds ?? {}) },
+    minutes: { ...preset.minutes, ...(override?.minutes ?? {}) },
+    hours: { ...preset.hours, ...(override?.hours ?? {}) },
+    daysOfMonth: { ...preset.daysOfMonth, ...(override?.daysOfMonth ?? {}) },
+    months: { ...preset.months, ...(override?.months ?? {}) },
+    daysOfWeek: { ...preset.daysOfWeek, ...(override?.daysOfWeek ?? {}) },
+    years: { ...preset.years, ...(override?.years ?? {}) },
+  }
 
   const unvalidatedConfig = {
     presetId: preset.presetId,
@@ -319,7 +333,6 @@ function presetToOptions(preset: OptionPreset, override?: InputOptions["override
         upperLimit: preset.years.upperLimit ?? preset.years.maxValue,
       },
     },
-    ...override,
   }
 
   const optionsSchema = presetToOptionsSchema(preset);
