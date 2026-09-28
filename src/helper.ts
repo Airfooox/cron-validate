@@ -59,13 +59,13 @@ const checkSingleElementWithinLimits = (
 
   const { lowerLimit } = options[cronFieldType]
   const { upperLimit } = options[cronFieldType]
-  if (lowerLimit && number < lowerLimit) {
+  if (lowerLimit !== undefined && number < lowerLimit) {
     return err(
       `Number '${number}' of ${cronFieldType} field is smaller than lower limit '${lowerLimit}'.`,
     )
   }
 
-  if (upperLimit && number > upperLimit) {
+  if (upperLimit !== undefined && number > upperLimit) {
     return err(
       `Number '${number}' of ${cronFieldType} field is bigger than upper limit '${upperLimit}'.`,
     )
@@ -313,7 +313,7 @@ const checkListElement = (
     const { lowerLimit, upperLimit } = options[cronFieldType]
 
     // check if step number is less than the max number
-    if (upperLimit && secondStepNumber > upperLimit) {
+    if (upperLimit !== undefined && secondStepNumber > upperLimit) {
       return err(
         `Second step element '${secondStepElement}' of '${listElement}' is bigger than the upper limit '${upperLimit}'.`,
       )

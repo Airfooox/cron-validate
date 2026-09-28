@@ -36,11 +36,11 @@ const optionPresets: { [presetId: string]: OptionPreset } = {
       maxValue: 23,
     },
     daysOfMonth: {
-      minValue: 0,
+      minValue: 1,
       maxValue: 31,
     },
     months: {
-      minValue: 0,
+      minValue: 1,
       maxValue: 12,
     },
     daysOfWeek: {
