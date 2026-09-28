@@ -847,6 +847,13 @@ describe('Test cron validation', () => {
     ).toBeFalsy()
   })
 
+  it('Test whitespace between cron fields', () => {
+    expect(cron('0 0 * * *').isValid()).toBeTruthy()
+    expect(cron('0  0 * * *').isValid()).toBeTruthy()
+    expect(cron('0\t0 * * *').isValid()).toBeTruthy()
+    expect(cron('  0 0 * * *  ').isValid()).toBeTruthy()
+  })
+
   it('Test allowStepping option', () => {
     expect(
       cron('5-7 2-4/2 1,2-4,5-8,10-20/3,20-30/4 * *').isValid(),

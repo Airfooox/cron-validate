@@ -32,7 +32,7 @@ const splitCronString = (
   cronString: string,
   options: Options
 ): Result<CronData, string> => {
-  const splittedCronString = cronString.trim().split(' ')
+  const splittedCronString = cronString.trim().split(/\s+/)
 
   if (
     options.useSeconds &&
