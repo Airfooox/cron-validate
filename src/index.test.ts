@@ -860,4 +860,29 @@ describe('Test cron validation', () => {
 
     expect(cron('5-7,8-9,10-20,21-23 * * * *', { override: { allowStepping: false } }).isValid()).toBeFalsy()
   })
+
+  it('Test an override merges with the preset field limits', () => {
+    // A lowerLimit-only override must keep the preset upperLimit.
+    expect(
+      cron('0 0 1 13 *', { override: { months: { lowerLimit: 6 } } }).isValid(),
+    ).toBeFalsy()
+    expect(
+      cron('0 0 1 12 *', { override: { months: { lowerLimit: 6 } } }).isValid(),
+    ).toBeTruthy()
+
+    // An upperLimit-only override must keep the preset lowerLimit (years are
+    // 1970-2099 in the aws-cloud-watch preset).
+    expect(
+      cron('0 0 1 * ? 1969', {
+        preset: 'aws-cloud-watch',
+        override: { years: { upperLimit: 2020 } },
+      }).isValid(),
+    ).toBeFalsy()
+    expect(
+      cron('0 0 1 * ? 2000', {
+        preset: 'aws-cloud-watch',
+        override: { years: { upperLimit: 2020 } },
+      }).isValid(),
+    ).toBeTruthy()
+  })
 })
