@@ -847,6 +847,14 @@ describe('Test cron validation', () => {
     ).toBeFalsy()
   })
 
+  it('Test # occurrence bounds', () => {
+    expect(cron('0 0 ? * SUN#1 *', { preset: 'aws-cloud-watch' }).isValid()).toBeTruthy()
+    expect(cron('0 0 ? * SUN#5 *', { preset: 'aws-cloud-watch' }).isValid()).toBeTruthy()
+    expect(cron('0 0 ? * SUN#6 *', { preset: 'aws-cloud-watch' }).isValid()).toBeFalsy()
+    expect(cron('0 0 ? * SUN#0 *', { preset: 'aws-cloud-watch' }).isValid()).toBeFalsy()
+    expect(cron('0 0 ? * SUN#0.5 *', { preset: 'aws-cloud-watch' }).isValid()).toBeFalsy()
+  })
+
   it('Test allowStepping option', () => {
     expect(
       cron('5-7 2-4/2 1,2-4,5-8,10-20/3,20-30/4 * *').isValid(),
