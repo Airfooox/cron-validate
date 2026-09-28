@@ -860,4 +860,24 @@ describe('Test cron validation', () => {
 
     expect(cron('5-7,8-9,10-20,21-23 * * * *', { override: { allowStepping: false } }).isValid()).toBeFalsy()
   })
+
+  it('Test custom presets that share a presetId stay independent', () => {
+    const base = getOptionPreset('default').getValue()
+    const narrow = {
+      ...base,
+      presetId: 'sharedPresetId',
+      months: { minValue: 1, maxValue: 6 },
+    }
+    const wide = {
+      ...base,
+      presetId: 'sharedPresetId',
+      months: { minValue: 1, maxValue: 12 },
+    }
+
+    // The first call fills the options cache for this presetId.
+    expect(cron('0 0 1 6 *', { preset: narrow }).isValid()).toBeTruthy()
+    expect(cron('0 0 1 7 *', { preset: narrow }).isValid()).toBeFalsy()
+    // Same id, different bounds: the cached preset must not be reused.
+    expect(cron('0 0 1 12 *', { preset: wide }).isValid()).toBeTruthy()
+  })
 })
