@@ -23,15 +23,9 @@ const checkDaysOfWeek = (
     ])
   }
 
-  if (
-    options.mustHaveBlankDayField &&
-    cronData.daysOfMonth !== '?' &&
-    cronData.daysOfWeek !== '?'
-  ) {
-    return err([
-      `Cannot specify both daysOfMonth and daysOfWeek field when mustHaveBlankDayField option is enabled.`,
-    ])
-  }
+  // Note: this rule is also checked in dayOfMonthChecker. It is deliberately
+  // checked in only one of the two checkers, otherwise the same error would be
+  // reported twice for a single cron string.
 
   // Based on this implementation logic:
   // https://github.com/quartz-scheduler/quartz/blob/1e0ed76c5c141597eccd76e44583557729b5a7cb/quartz-core/src/main/java/org/quartz/CronExpression.java#L477
