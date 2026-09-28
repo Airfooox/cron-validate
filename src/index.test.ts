@@ -860,4 +860,15 @@ describe('Test cron validation', () => {
 
     expect(cron('5-7,8-9,10-20,21-23 * * * *', { override: { allowStepping: false } }).isValid()).toBeFalsy()
   })
+
+  it('Test mustHaveBlankDayField reports a single error', () => {
+    const result = cron('0 0 1 * SUN *', { preset: 'aws-cloud-watch' })
+    expect(result.isError()).toBeTruthy()
+
+    const errors = result.getError()
+    expect(
+      errors.filter((error) => error.includes('mustHaveBlankDayField')),
+    ).toHaveLength(1)
+    expect(errors.length).toBe(new Set(errors).size)
+  })
 })
