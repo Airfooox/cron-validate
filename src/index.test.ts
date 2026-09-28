@@ -847,6 +847,15 @@ describe('Test cron validation', () => {
     ).toBeFalsy()
   })
 
+  it('Test default preset month and day-of-month lower bounds', () => {
+    expect(cron('0 0 31 * *').isValid()).toBeTruthy()
+    expect(cron('0 0 1 12 *').isValid()).toBeTruthy()
+    expect(cron('0 0 0 * *').isValid()).toBeFalsy()
+    expect(cron('0 0 1 0 *').isValid()).toBeFalsy()
+    expect(cron('0 0 32 * *').isValid()).toBeFalsy()
+    expect(cron('0 0 1 13 *').isValid()).toBeFalsy()
+  })
+
   it('Test allowStepping option', () => {
     expect(
       cron('5-7 2-4/2 1,2-4,5-8,10-20/3,20-30/4 * *').isValid(),
