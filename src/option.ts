@@ -161,8 +161,14 @@ loadPresets();
 type OptionsCacheKey = string;
 const optionsCache: Map<OptionsCacheKey, Options> = new Map();
 
-function toOptionsCacheKey(presetId: string, override?: InputOptions["override"]) {
-  return presetId + (JSON.stringify(override) ?? "");
+function toOptionsCacheKey(preset: OptionPreset, override?: InputOptions["override"]) {
+  // A custom preset object is identified by its full contents, not just its
+  // presetId: two different presets may share the same id.
+  const presetKey =
+    typeof preset === 'object' && preset.presetId !== undefined
+      ? JSON.stringify([preset.presetId, preset])
+      : String(preset);
+  return presetKey + (JSON.stringify(override) ?? "");
 }
 
 function presetToOptionsSchema(preset: OptionPreset) {
@@ -356,7 +362,7 @@ export const validateOptions = (
       preset = optionPresets.default
     }
 
-    const cacheKey = toOptionsCacheKey(preset.presetId, inputOptions.override);
+    const cacheKey = toOptionsCacheKey(preset, inputOptions.override);
 
     const cachedOptions = optionsCache.get(cacheKey);
     if (cachedOptions) return valid(cachedOptions);
