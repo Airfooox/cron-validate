@@ -152,7 +152,12 @@ const checkSingleElement = (
     }
 
     const occurrenceNum = Number(occurrence)
-    if (!occurrence || Number.isNaN(occurrenceNum)) {
+    if (
+      !occurrence ||
+      Number.isNaN(occurrenceNum) ||
+      !Number.isInteger(occurrenceNum) ||
+      occurrenceNum < 1
+    ) {
       return err(
         `Unexpected value following the '#' symbol, a positive number was expected but found ${occurrence}.`,
       )
